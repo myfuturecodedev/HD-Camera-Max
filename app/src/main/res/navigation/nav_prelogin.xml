@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_prelogin"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.futurecode.hdcameramax.ui.prelogin.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.futurecode.hdcameramax.ui.prelogin.OnboardingFragment"
+        android:label="OnboardingFragment" >
+
+        <action
+            android:id="@+id/action_onboardingFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.futurecode.hdcameramax.ui.prelogin.LanguageFragment"
+        android:label="fragment_language"
+        tools:layout="@layout/fragment_language">
+        <action
+            android:id="@+id/action_languageFragment_to_permissionFragment"
+            app:destination="@id/permissionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/permissionFragment"
+        android:name="com.futurecode.hdcameramax.ui.prelogin.PermissionFragment"
+        android:label="fragment_permission"
+        tools:layout="@layout/fragment_permission" />
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.futurecode.hdcameramax.ui.prelogin.WelcomeFragment"
+        android:label="WelcomeFragment" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_languageFragment"
+            app:destination="@id/languageFragment" />
+    </fragment>
+</navigation>

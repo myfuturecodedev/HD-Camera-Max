@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/onboarding_screen">
+
+    <ImageView
+        android:id="@+id/btnWelcomeBackArrow"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/bg_indicator_dot"
+        android:backgroundTint="#1A00E676"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivWelcomeLogo"
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="@dimen/_110sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnWelcomeBackArrow" />
+
+    <TextView
+        android:id="@+id/tvWelcomeHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:text="@string/welcome_back"
+        android:textColor="#121216"
+        android:textSize="@dimen/_24ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivWelcomeLogo" />
+
+    <TextView
+        android:id="@+id/tvWelcomeSubDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:text="@string/we_re_glad_to_have_you_here_again_nlet_s_pick_up_where_you_left_off_nand_continue_your_journey"
+        android:textColor="#7C7C8A"
+        android:textSize="@dimen/_12ssp"
+        android:paddingBottom="@dimen/_8sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcomeHeader" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clOverlappingCardsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        app:layout_constraintBottom_toTopOf="@id/btnWelcomeContinue"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcomeSubDesc">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/ic_welcome" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnWelcomeContinue"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_46sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:text="@string/btn_continue"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold"
+        app:backgroundTint="#00E676"
+        app:cornerRadius="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

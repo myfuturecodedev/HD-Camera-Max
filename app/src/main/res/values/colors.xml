@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="bg_main_dark">#0F0F13</color>
+    <color name="bg_card_dark">#181820</color>
+    <color name="accent_yellow">#FFD214</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_gray_dim">#7C7C8A</color>
+    <color name="border_gray">#2C2C35</color>
+    <color name="shutter_inner">#EBECEF</color>
+
+    <!-- Permission Screen Colors -->
+    <color name="permission_green">#5EBC8F</color>
+    <color name="permission_green_light">#E8F5EE</color>
+    <color name="text_dark_primary">#1A1C1E</color>
+    <color name="bg_permission">#FFFFFF</color>
+    <color name="card_border_light">#F0F0F0</color>
+
+    <!-- Dashboard Colors -->
+    <color name="dashboard_bg">#F8F9FB</color>
+    <color name="dashboard_primary">#5EBC8F</color>
+    <color name="dashboard_secondary">#4FA97E</color>
+    <color name="dashboard_blue">#5EA2EF</color>
+    <color name="dashboard_pink">#EA6F9A</color>
+    <color name="dashboard_yellow">#F4C152</color>
+    <color name="text_hint_green">#75C59F</color>
+    <color name="dashboard_mint">#13C884</color>
+    <color name="dashboard_mint_dark">#079966</color>
+    <color name="dashboard_mint_light">#56D9A6</color>
+    <color name="dashboard_title">#121A2A</color>
+    <color name="dashboard_body">#98A1B2</color>
+    <color name="dashboard_label">#4C5563</color>
+    <color name="dashboard_card_stroke">#EFF2F5</color>
+    <color name="dashboard_settings_bg">#F7FFFB</color>
+    <color name="dashboard_gallery_glow">#FFF5C7</color>
+</resources>

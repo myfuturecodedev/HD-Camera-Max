@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">HD Camera Max</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Permission Screen -->
+    <string name="permission_access_title">Permission Access</string>
+    <string name="permission_access_subtitle">Required to unlock all camera features.</string>
+    <string name="permission_info_title">HD Camera Max requires these permissions to function properly</string>
+    <string name="permission_info_desc">We only use permissions necessary for camera functionality and never access personal data without your consent.</string>
+    <string name="camera_audio_title">Camera &amp; Audio</string>
+    <string name="camera_audio_desc">Required for capturing photos, recording videos, and audio during video recording.</string>
+    <string name="btn_continue">Continue \u2192</string>
+
+    <!-- Dashboard Screen -->
+    <string name="welcome_back">Welcome Back \ud83d\udc4b</string>
+    <string name="hd_camera_max">HD Camera Max</string>
+    <string name="dashboard_desc">Capture stunning moments with enhanced zoom.</string>
+    <string name="primary_action">Primary Action</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="take_photo_desc">Capture high-quality\nphotos instantly.</string>
+    <string name="open_camera">Open Camera \u2192</string>
+    <string name="quick_tools">Quick Tools</string>
+    <string name="see_all">See all</string>
+    <string name="my_gallery">My Gallery</string>
+    <string name="my_gallery_desc">Browse your saved\nphotos.</string>
+    <string name="camera_features">Camera Features</string>
+    <string name="hd_zoom">HD Zoom</string>
+    <string name="portrait">Portrait</string>
+    <string name="filters">Filters</string>
+    <string name="beauty">Beauty</string>
+    <string name="recent_photos">Recent Photos</string>
+    <string name="view_all">View all</string>
+    <string name="capture">Capture</string>
+
+    <!-- Settings Screen -->
+    <string name="settings">Settings</string>
+    <string name="settings_desc">Customize your camera experience</string>
+    <string name="camera_settings">Camera Settings</string>
+    <string name="camera_settings_desc">Configure image quality and capture preferences</string>
+    <string name="resolution">Resolution</string>
+    <string name="resolution_value">4096 \u00d7 3072</string>
+    <string name="general">General</string>
+    <string name="general_desc">Language and regional preferences</string>
+    <string name="language">Language</string>
+    <string name="language_value">English</string>
+    <string name="more_options">More Options</string>
+    <string name="more_options_desc">Help, support, and app information</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="share_app">Share App</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="feedback">Feedback</string>
+    <string name="zoomify_3">Zoomify 3</string>
+    <string name="app_version">Version 1.0.17</string>
+    <string name="loading_system_libraries">Loading system libraries...</string>
+    <string name="next">Next</string>
+    <string name="my_personal_gallery">My Personal\nGallery</string>
+    <string name="save_view_and_manage_all_your_photos_and_videos_easily">Save, view, and manage all your\nphotos and videos easily.</string>
+    <string name="zoom_with_clarity">Zoom with\nClarity</string>
+    <string name="zoom_in_or_out_to_capture_sharp_detailed_photos_and_videos">Zoom in or out to capture sharp,\ndetailed photos and videos.</string>
+    <string name="perfect_focus_every_time">Perfect Focus\nEvery Time</string>
+    <string name="lock_focus_instantly_and_capture_sharp_subjects_with_professional_precision">Lock focus instantly and capture sharp\nsubjects with professional precision.</string>
+    <string name="creative_photo_filters">Creative Photo\nFilters</string>
+    <string name="apply_stunning_filters_and_effects_to_give_every_photo_a_unique_and_professional_look">Apply stunning filters and effects to\ngive every photo a unique and\nprofessional look.</string>
+    <string name="get_started">Get started →</string>
+    <string name="exit_app">Exit app?</string>
+    <string name="your_camera_session_will_be_closed_nyou_can_reopen_the_app_anytime">Your camera session will be closed.\nYou can reopen the app anytime.</string>
+    <string name="unsaved_edits_may_be_lost">Unsaved edits may be lost</string>
+    <string name="stay">Stay</string>
+    <string name="my_personal_ngallery">My Personal\nGallery</string>
+    <string name="save_view_and_manage_all_your_nphotos_and_videos_easily">Save, view, and manage all your\nphotos and videos easily.</string>
+    <string name="english">English</string>
+    <string name="we_re_glad_to_have_you_here_again_nlet_s_pick_up_where_you_left_off_nand_continue_your_journey">We\'re glad to have you here again.\nLet\'s pick up where you left off\nand continue your journey!</string>
+    <string name="rename_file">Rename File</string>
+    <string name="choose_a_new_name_for_your_photo">Choose a new name for your photo</string>
+    <string name="img_20250617_111520">IMG_20250617_111520</string>
+    <string name="created_today">Created Today</string>
+    <string name="jpg_image">JPG Image</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="select_language">Select Language</string>
+    <string name="choose_your_preferred_language">Choose your preferred language</string>
+    <string name="browse_your_captured_photos_amp_videos"><![CDATA[Browse your captured photos & videos]]></string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="last_week">Last Week</string>
+    <string name="photo_resolution">Photo Resolution</string>
+</resources>

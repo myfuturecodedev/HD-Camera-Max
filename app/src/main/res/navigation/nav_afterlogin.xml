@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_afterlogin"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.futurecode.hdcameramax.ui.afterlogin.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_hdCameraFragment"
+            app:destination="@id/hdCameraFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_photoAndVideoViewFragment"
+            app:destination="@id/photoAndVideoViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.futurecode.hdcameramax.ui.afterlogin.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/hdCameraFragment"
+        android:name="com.futurecode.hdcameramax.ui.afterlogin.HdCameraFragment"
+        android:label="HdCameraFragment" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.futurecode.hdcameramax.ui.afterlogin.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_photoAndVideoViewFragment"
+            app:destination="@id/photoAndVideoViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoAndVideoViewFragment"
+        android:name="com.futurecode.hdcameramax.ui.afterlogin.PhotoAndVideoViewFragment"
+        android:label="fragment_photo_and_video_view"
+        tools:layout="@layout/fragment_photo_and_video_view" />
+</navigation>

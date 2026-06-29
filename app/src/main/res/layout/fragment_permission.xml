@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_permission"
+    tools:context=".ui.prelogin.PermissionFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinue"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_20sdp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="@string/permission_access_title"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_24ssp"
+                android:fontFamily="sans-serif-black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:text="@string/permission_access_subtitle"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+            <ImageView
+                android:id="@+id/ivIllustration"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:contentDescription="@string/permission_access_title"
+                android:src="@drawable/security"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clInfoCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_permission_card"
+                android:padding="@dimen/_16sdp"
+                app:layout_constraintTop_toBottomOf="@id/ivIllustration">
+
+                <TextView
+                    android:id="@+id/tvInfoTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/permission_info_title"
+                    android:textColor="@color/text_dark_primary"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvInfoDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center"
+                    android:text="@string/permission_info_desc"
+                    android:textColor="@color/text_gray_dim"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintTop_toBottomOf="@id/tvInfoTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clPermissionItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/bg_permission_card"
+                android:padding="@dimen/_12sdp"
+                app:layout_constraintTop_toBottomOf="@id/clInfoCard">
+
+                <View
+                    android:id="@+id/viewIconBg"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/bg_icon_container"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivPermissionIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/ic_switch_camera"
+                    android:contentDescription="@string/camera_audio_title"
+                    app:layout_constraintBottom_toBottomOf="@id/viewIconBg"
+                    app:layout_constraintEnd_toEndOf="@id/viewIconBg"
+                    app:layout_constraintStart_toStartOf="@id/viewIconBg"
+                    app:layout_constraintTop_toTopOf="@id/viewIconBg"
+                    app:tint="@color/permission_green" />
+
+                <TextView
+                    android:id="@+id/tvPermissionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:text="@string/camera_audio_title"
+                    android:textColor="@color/text_dark_primary"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/switchPermission"
+                    app:layout_constraintStart_toEndOf="@id/viewIconBg"
+                    app:layout_constraintTop_toTopOf="@id/viewIconBg" />
+
+                <TextView
+                    android:id="@+id/tvPermissionDesc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/camera_audio_desc"
+                    android:textColor="@color/text_gray_dim"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="@id/tvPermissionTitle"
+                    app:layout_constraintStart_toStartOf="@id/tvPermissionTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvPermissionTitle" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchPermission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:thumbTint="@color/white"
+                    app:trackTint="@color/permission_green" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_48sdp"
+        android:layout_margin="@dimen/_20sdp"
+        android:background="@drawable/bg_button_continue"
+        android:text="Continue \u2192"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

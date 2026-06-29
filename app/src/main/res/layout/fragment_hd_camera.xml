@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/cameraViewFinder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/viewFocusFrameIndicator"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:background="@drawable/bg_indicator_dot"
+        android:backgroundTint="@android:color/transparent"
+        android:visibility="visible"
+        app:strokeColor="#00E676"
+        app:strokeWidth="2.5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBarHeaderControls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_14sdp"
+        android:paddingVertical="@dimen/_12sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnHeaderBackAction"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintTop_toTopOf="@id/btnHeaderBackAction"
+            app:layout_constraintBottom_toBottomOf="@id/btnHeaderBackAction"
+            app:layout_constraintStart_toEndOf="@id/btnHeaderBackAction">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HD CAMERA"
+                android:textColor="#00E676"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAX"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                android:alpha="0.9"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/btnSettings"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/ic_settings"
+                android:padding="@dimen/_6sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#40000000"
+                android:layout_marginEnd="@dimen/_6sdp"/>
+
+            <ImageView
+                android:id="@+id/btnFlash"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/ic_flash_off"
+                android:padding="@dimen/_6sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#40000000"
+                android:layout_marginEnd="@dimen/_6sdp"/>
+
+            <ImageView
+                android:id="@+id/btnTimerToggle"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/ic_settings"
+                android:padding="@dimen/_6sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#40000000"
+                android:layout_marginEnd="@dimen/_6sdp"/>
+
+            <ImageView
+                android:id="@+id/btnRatioConfig"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/ic_live_effects_filter"
+                android:padding="@dimen/_6sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#40000000"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/llInteractiveControlDeck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        app:layout_constraintBottom_toTopOf="@id/llCameraModeSelectorStrip">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_36sdp"
+            android:background="@drawable/bg_rounded_control_panel"
+            android:backgroundTint="#50000000"
+            android:paddingHorizontal="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/ivZoomMinifiedIcon"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <SeekBar
+                android:id="@+id/sbDynamicZoomSeeker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="1"
+                android:progressTint="#00E676"
+                android:thumbTint="#00E676"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivZoomMinifiedIcon"
+                app:layout_constraintEnd_toStartOf="@id/tvZoomMaxCapIndicator"/>
+
+            <TextView
+                android:id="@+id/tvZoomMaxCapIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100x"
+                android:textColor="#00E676"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_rounded_control_panel"
+            android:backgroundTint="#50000000"
+            android:paddingVertical="@dimen/_12sdp"
+            android:paddingHorizontal="@dimen/_10sdp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EXPOSURE"
+                    android:textColor="#7C7C8A"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/_4sdp">
+                    <ImageView
+                        android:id="@+id/btnExposureMinus"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:src="@drawable/bg_circle_icon"
+                        android:backgroundTint="#20FFFFFF"/>
+                    <TextView
+                        android:id="@+id/tvExposureVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:textColor="#FFFFFF"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        />
+                    <ImageView
+                        android:id="@+id/btnExposurePlus"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:src="@drawable/bg_selected_check"
+                        android:backgroundTint="#20FFFFFF"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="@dimen/_24sdp"
+                android:background="#20FFFFFF"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WB"
+                    android:textColor="#7C7C8A"
+                    android:textSize="@dimen/_8ssp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tvParamWB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💧 Auto"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/_4sdp"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/dividerLine"
+                android:layout_width="1dp"
+                android:layout_height="@dimen/_24sdp"
+                android:background="#20FFFFFF"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1.5">
+
+                <TextView
+                    android:id="@+id/tvZoom1x"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:text="1x"
+                    android:textColor="#00E676"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#3000E676"
+                    android:layout_marginEnd="@dimen/_4sdp"/>
+
+                <TextView
+                    android:id="@+id/tvZoom10x"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:text="2x"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/_10ssp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#20FFFFFF"
+                    android:layout_marginEnd="@dimen/_4sdp"/>
+
+                <TextView
+                    android:id="@+id/tvZoom100x"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:text="5x"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/_10ssp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#20FFFFFF"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llCameraModeSelectorStrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/_16sdp"
+        app:layout_constraintBottom_toTopOf="@id/bottomConsoleDeckPanel">
+
+        <TextView
+            android:id="@+id/tvTabVideoMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📹 Video"
+            android:textColor="#A0FFFFFF"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginHorizontal="@dimen/_14sdp"/>
+
+        <TextView
+            android:id="@+id/tvTabPhotoMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📷 Photo"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12ssp"
+            android:background="@drawable/bg_rounded_control_panel"
+            android:backgroundTint="#00E676"
+            android:paddingHorizontal="@dimen/_14sdp"
+            android:paddingVertical="@dimen/_6sdp"
+            android:layout_marginHorizontal="@dimen/_14sdp"/>
+
+        <TextView
+            android:id="@+id/tvTabPortraitMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="👤 Portrait"
+            android:textColor="#A0FFFFFF"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginHorizontal="@dimen/_14sdp"/>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomConsoleDeckPanel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_90sdp"
+        android:background="#B0000000"
+        android:paddingHorizontal="@dimen/_24sdp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivGalleryThumbShortcut"
+            android:layout_width="@dimen/_44sdp"
+            android:layout_height="@dimen/_44sdp"
+            android:src="@drawable/ic_gallery_thumb_frame"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivActionShutter"
+            android:layout_width="@dimen/_62sdp"
+            android:layout_height="@dimen/_62sdp"
+            android:src="@drawable/ic_camera_shutter_trigger"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/btnCameraFlip"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_switch_camera"
+            android:padding="@dimen/_8sdp"
+            android:background="@drawable/bg_circle_icon"
+            android:backgroundTint="#20FFFFFF"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

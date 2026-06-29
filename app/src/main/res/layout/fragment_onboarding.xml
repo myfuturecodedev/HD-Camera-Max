@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/onboarding_screen">
+
+    <ImageView
+        android:id="@+id/btnWelcomeBackArrow"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/bg_indicator_dot"
+        android:backgroundTint="#1A00E676"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerOnboarding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/clOnboardingControlPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clOnboardingControlPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_16sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/onboardingIndicators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@id/btnOnboardingAction"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tabBackground="@drawable/bg_indicator_dot"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="@dimen/_50sdp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOnboardingAction"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_46sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:backgroundTint="#00E676"
+            app:cornerRadius="@dimen/_14sdp"
+            app:layout_constraintBottom_toTopOf="@id/layoutAdPlaceholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutAdPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:background="#FFFFFF"
+            android:padding="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/adIconFrame"
+                android:layout_width="@dimen/_38sdp"
+                android:layout_height="@dimen/_38sdp"
+                android:background="#E0E0E0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvAdTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="ADVERTISEMENT"
+                android:textColor="#7C7C8A"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/adIconFrame"
+                app:layout_constraintTop_toTopOf="@id/adIconFrame" />
+
+            <TextView
+                android:id="@+id/tvAdTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Cloud Storage Plus"
+                android:textColor="#121216"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/adIconFrame"
+                app:layout_constraintTop_toBottomOf="@id/tvAdTag" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Backup your memories securely."
+                android:textColor="#7C7C8A"
+                android:textSize="@dimen/_9ssp"
+                app:layout_constraintEnd_toStartOf="@id/btnAdInstallPlaceholder"
+                app:layout_constraintStart_toEndOf="@id/adIconFrame"
+                app:layout_constraintTop_toBottomOf="@id/tvAdTitle" />
+
+            <TextView
+                android:id="@+id/btnAdInstallPlaceholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#1A00E676"
+                android:paddingHorizontal="@dimen/_12sdp"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="Install"
+                android:textColor="#00E676"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

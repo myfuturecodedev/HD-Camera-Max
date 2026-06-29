@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.afterlogin.PhotoAndVideoViewFragment">
+
+    <!-- Top Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_16sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:background="@drawable/bg_circle_icon"
+            android:contentDescription="@null"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 Jun 2025"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:05 PM"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_8ssp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvFileNameTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@drawable/bg_gallery_toggle"
+        android:backgroundTint="#F5F5F5"
+        android:drawablePadding="@dimen/_8sdp"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_4sdp"
+        android:text="IMG_20250610_1205.jpg"
+        android:textColor="@color/text_gray_dim"
+        android:textSize="@dimen/_10ssp"
+        app:drawableStartCompat="@drawable/ic_camera_header"
+        app:drawableTint="@color/text_gray_dim"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar" />
+
+    <!-- Main Content -->
+    <ImageView
+        android:id="@+id/ivMain"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/_16sdp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/native_thumb"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvFileNameTag" />
+
+    <!-- Bottom Bar -->
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_bar"
+        android:elevation="@dimen/_8sdp"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/btnShare"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_share"
+                app:tint="@color/text_gray_dim" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnFavorite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivFavorite"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_heart"
+                app:tint="@color/permission_green" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Favorite"
+                android:textColor="@color/permission_green"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/text_gray_dim" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnMore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_more"
+                app:tint="@color/text_gray_dim" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="More"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Overlays -->
+
+    <!-- More Menu Overlay -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/overlayMore"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#22000000"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@drawable/bg_white_rounded_button"
+            android:elevation="@dimen/_8sdp"
+            android:orientation="vertical"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toTopOf="@id/anchorMore"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/menuRename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_edit" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rename"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Change file name"
+                        android:textColor="@color/text_gray_dim"
+                        android:textSize="@dimen/_8ssp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_download" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Download"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Save photo locally"
+                        android:textColor="@color/text_gray_dim"
+                        android:textSize="@dimen/_8ssp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuWallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_wallpaper" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Set as Wallpaper"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apply as home or lock screen"
+                        android:textColor="@color/text_gray_dim"
+                        android:textSize="@dimen/_8ssp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_info" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Details"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View file information"
+                        android:textColor="@color/text_gray_dim"
+                        android:textSize="@dimen/_8ssp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/anchorMore"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_60sdp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Delete Dialog Overlay -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/overlayDelete"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_32sdp"
+            android:background="@drawable/bg_dialog_card"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_delete"
+                app:tint="#FF4D4D" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@drawable/bg_primary_action_tag"
+                android:backgroundTint="#FFF0F0"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_4sdp"
+                android:text="⚠ Permanent Action"
+                android:textColor="#FF4D4D"
+                android:textSize="@dimen/_8ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:gravity="center"
+                android:text="Are you sure you want to delete?"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:gravity="center"
+                android:text="You will not be able to undo this action."
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_10ssp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnKeepIt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:backgroundTint="@color/permission_green"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="Keep It"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:cornerRadius="@dimen/_20sdp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConfirmDelete"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="Delete"
+                android:textAllCaps="false"
+                android:textColor="#FF4D4D"
+                app:cornerRadius="@dimen/_20sdp"
+                app:strokeColor="#FF4D4D" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Rename Dialog Overlay -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/overlayRename"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_24sdp"
+            android:background="@drawable/bg_dialog_card"
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/btnCloseRename"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#F5F5F5"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/text_gray_dim" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="@string/rename_file"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:text="@string/choose_a_new_name_for_your_photo"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_10ssp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/bg_gallery_toggle"
+                android:backgroundTint="#F5F5F5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/_8sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_camera_header"
+                    app:tint="@color/text_gray_dim" />
+
+                <EditText
+                    android:id="@+id/etRename"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/img_20250617_111520"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=".jpg"
+                    android:textColor="@color/text_gray_dim"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:text="@string/created_today"
+                    android:textColor="@color/permission_green"
+                    android:textSize="@dimen/_8ssp"
+                    app:drawableStartCompat="@drawable/ic_check"
+                    app:drawableTint="@color/permission_green" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:text="@string/jpg_image"
+                    android:textColor="@color/permission_green"
+                    android:textSize="@dimen/_8ssp"
+                    app:drawableStartCompat="@drawable/ic_check"
+                    app:drawableTint="@color/permission_green" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCancelRename"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/permission_green"
+                    app:cornerRadius="@dimen/_20sdp"
+                    app:strokeColor="@color/permission_green" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSaveRename"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/permission_green"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="@string/save_changes"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:cornerRadius="@dimen/_20sdp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

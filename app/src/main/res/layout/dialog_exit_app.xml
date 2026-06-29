@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="@dimen/_20sdp"
+    android:background="@drawable/bg_rounded_control_panel"
+    android:backgroundTint="#FFFFFF"
+    android:padding="@dimen/_16sdp">
+
+    <ImageView
+        android:id="@+id/btnDismissCross"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:src="@drawable/ic_live_effects_filter" android:background="@drawable/bg_indicator_dot"
+        android:backgroundTint="#1A00E676" android:padding="@dimen/_8sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Close" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutIconContainer"
+        android:layout_width="@dimen/_64sdp"
+        android:layout_height="@dimen/_64sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:background="@drawable/bg_rounded_control_panel"
+        android:backgroundTint="#F2FDF7" app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:src="@drawable/ic_camera_logo_premium"
+            android:contentDescription="Camera Icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvExitTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exit_app"
+        android:textColor="#121216"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@id/layoutIconContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvExitSubDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/your_camera_session_will_be_closed_nyou_can_reopen_the_app_anytime"
+        android:textColor="#7C7C8A"
+        android:textSize="@dimen/_12ssp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.1"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@id/tvExitTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutWarningStrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_control_panel"
+        android:backgroundTint="#FFFDF0" android:paddingVertical="@dimen/_10sdp"
+        android:paddingHorizontal="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@id/tvExitSubDescription">
+
+        <ImageView
+            android:id="@+id/ivWarningIconPlaceholder"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:src="@drawable/ic_settings" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="Warning" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/unsaved_edits_may_be_lost"
+            android:textColor="#DCA11D" android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivWarningIconPlaceholder"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        app:layout_constraintTop_toBottomOf="@id/layoutWarningStrip"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnActionStay"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_44sdp"
+            android:layout_weight="1"
+            android:text="@string/stay"
+            android:textAllCaps="false"
+            android:textColor="#00E676"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:strokeColor="#00E676"
+            app:strokeWidth="1.5dp"
+            app:cornerRadius="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_6sdp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnActionConfirmExit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_44sdp"
+            android:layout_weight="1"
+            android:text="@string/exit_app"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:backgroundTint="#00E676" app:cornerRadius="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_6sdp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
