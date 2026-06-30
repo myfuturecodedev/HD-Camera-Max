@@ -62,7 +62,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
             // Case 3: Sab completed hai (Returning user dashboard flow redirect)
             else -> {
                 (activity as? MainActivity)?.goToMain()
-
+               // findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
             }
         }
     }

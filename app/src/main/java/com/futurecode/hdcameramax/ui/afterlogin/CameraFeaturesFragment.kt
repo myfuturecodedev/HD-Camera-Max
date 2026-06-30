@@ -12,11 +12,8 @@ import com.futurecode.hdcameramax.databinding.FragmentCameraFeaturesBinding
 
 class CameraFeaturesFragment : BaseFragment<FragmentCameraFeaturesBinding>(FragmentCameraFeaturesBinding::inflate) {
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
     }
 }

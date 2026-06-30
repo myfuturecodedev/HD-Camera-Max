@@ -1,7 +1,9 @@
 package com.futurecode.hdcameramax.utils
 
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Size
@@ -20,6 +22,13 @@ import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
+import androidx.camera.video.MediaStoreOutputOptions
+import androidx.camera.video.Quality
+import androidx.camera.video.QualitySelector
+import androidx.camera.video.Recorder
+import androidx.camera.video.Recording
+import androidx.camera.video.VideoCapture
+import androidx.camera.video.VideoRecordEvent
 import java.util.Locale
 
 
@@ -212,12 +221,15 @@ class CameraEngineKit(
     private var cameraProvider: ProcessCameraProvider? = null
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
+    private var videoCapture: VideoCapture<Recorder>? = null
+    private var activeRecording: Recording? = null
 
     private var activeMode = CameraAppMode.PHOTO
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private var flashMode = ImageCapture.FLASH_MODE_OFF
     private var manualResolution: Size? = null
     private var defaultAspectRatio = AspectRatio.RATIO_4_3
+    private var hdrQualityEnabled = false
 
     private var _currentExposureIndex = 0
 
@@ -257,6 +269,21 @@ class CameraEngineKit(
 
         imageCapture?.flashMode = flashMode
         return flashMode
+    }
+
+    fun setFlashMode(mode: Int): Int {
+        flashMode = when (mode) {
+            ImageCapture.FLASH_MODE_ON -> ImageCapture.FLASH_MODE_ON
+            ImageCapture.FLASH_MODE_AUTO -> ImageCapture.FLASH_MODE_AUTO
+            else -> ImageCapture.FLASH_MODE_OFF
+        }
+        imageCapture?.flashMode = flashMode
+        return flashMode
+    }
+
+    fun setHdrQualityEnabled(enabled: Boolean) {
+        hdrQualityEnabled = enabled
+        rebuildCameraUseCasePipeline()
     }
 
     fun applyZoomRatio(multiplier: Float) {
@@ -319,6 +346,8 @@ class CameraEngineKit(
         val provider = cameraProvider ?: return
 
         try {
+            activeRecording?.stop()
+            activeRecording = null
             provider.unbindAll()
 
             viewFinder.scaleType = PreviewView.ScaleType.FILL_CENTER
@@ -327,7 +356,7 @@ class CameraEngineKit(
             val captureBuilder = ImageCapture.Builder()
                 .setFlashMode(flashMode)
                 .setCaptureMode(
-                    if (activeMode == CameraAppMode.PORTRAIT) {
+                    if (activeMode == CameraAppMode.PORTRAIT || hdrQualityEnabled) {
                         ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY
                     } else {
                         ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY
@@ -347,17 +376,42 @@ class CameraEngineKit(
             }
 
             imageCapture = captureBuilder.build()
+            val recorder = Recorder.Builder()
+                .setQualitySelector(QualitySelector.from(Quality.HIGHEST))
+                .build()
+            videoCapture = VideoCapture.withOutput(recorder)
 
             val selector = CameraSelector.Builder()
                 .requireLensFacing(lensFacing)
                 .build()
 
-            camera = provider.bindToLifecycle(
-                lifecycleOwner,
-                selector,
-                preview,
-                imageCapture
-            )
+            camera = try {
+                provider.bindToLifecycle(
+                    lifecycleOwner,
+                    selector,
+                    preview,
+                    imageCapture,
+                    videoCapture
+                )
+            } catch (videoException: Exception) {
+                videoCapture = null
+                provider.unbindAll()
+                preview = previewBuilder.build().also {
+                    it.setSurfaceProvider(viewFinder.surfaceProvider)
+                }
+                imageCapture = captureBuilder.build()
+                Toast.makeText(
+                    context,
+                    "Video mode is not supported on this device",
+                    Toast.LENGTH_SHORT
+                ).show()
+                provider.bindToLifecycle(
+                    lifecycleOwner,
+                    selector,
+                    preview,
+                    imageCapture
+                )
+            }
 
         } catch (e: Exception) {
             Toast.makeText(
@@ -372,7 +426,10 @@ class CameraEngineKit(
         onSuccess: (String) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        val capture = imageCapture ?: return
+        val capture = imageCapture ?: run {
+            onFailure(IllegalStateException("Camera is not ready"))
+            return
+        }
 
         val name = "IMG_" + SimpleDateFormat(
             "yyyyMMdd_HHmmss",
@@ -407,5 +464,96 @@ class CameraEngineKit(
                 }
             }
         )
+    }
+
+    fun startVideoRecording(
+        onStarted: () -> Unit,
+        onFinalized: (String) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val capture = videoCapture ?: run {
+            onFailure(IllegalStateException("Video recorder is not ready"))
+            return
+        }
+
+        if (activeRecording != null) {
+            onFailure(IllegalStateException("Video recording is already running"))
+            return
+        }
+
+        val name = "VID_" + SimpleDateFormat(
+            "yyyyMMdd_HHmmss",
+            Locale.US
+        ).format(System.currentTimeMillis())
+
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "$name.mp4")
+            put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                put(MediaStore.Video.Media.RELATIVE_PATH, "DCIM/CameraHDMax")
+            }
+        }
+
+        val outputOptions = MediaStoreOutputOptions.Builder(
+            context.contentResolver,
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        )
+            .setContentValues(contentValues)
+            .build()
+
+        try {
+            var pendingRecording = capture.output.prepareRecording(context, outputOptions)
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                pendingRecording = pendingRecording.withAudioEnabled()
+            }
+
+            activeRecording = pendingRecording.start(
+                ContextCompat.getMainExecutor(context)
+            ) { event ->
+                when (event) {
+                    is VideoRecordEvent.Start -> onStarted()
+                    is VideoRecordEvent.Finalize -> {
+                        activeRecording = null
+                        if (event.hasError()) {
+                            val cause = event.cause
+                            onFailure(
+                                if (cause is Exception) {
+                                    cause
+                                } else {
+                                    IllegalStateException(
+                                        "Video recording failed: ${event.error}",
+                                        cause
+                                    )
+                                }
+                            )
+                        } else {
+                            onFinalized(event.outputResults.outputUri.toString())
+                        }
+                    }
+                }
+            }
+        } catch (exception: Exception) {
+            activeRecording = null
+            onFailure(exception)
+        }
+    }
+
+    fun stopVideoRecording() {
+        activeRecording?.stop()
+    }
+
+    fun release() {
+        activeRecording?.stop()
+        activeRecording = null
+        cameraProvider?.unbindAll()
+        camera = null
+        preview = null
+        imageCapture = null
+        videoCapture = null
     }
 }

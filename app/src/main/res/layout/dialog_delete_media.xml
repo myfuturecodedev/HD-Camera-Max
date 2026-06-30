@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="@dimen/_24sdp"
+    app:cardCornerRadius="@dimen/_24sdp"
+    app:cardElevation="@dimen/_16sdp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/_20sdp"
+        android:paddingVertical="@dimen/_24sdp">
+
+        <ImageView
+            android:id="@+id/ivTrashCanIllustration"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:contentDescription="Delete Illustration"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/layoutWarningBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:background="@drawable/bg_gallery_toggle" android:backgroundTint="#FFF1F0"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_14sdp"
+            android:paddingVertical="@dimen/_6sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivTrashCanIllustration">
+
+            <ImageView
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:src="@drawable/ic_settings"
+                app:tint="#F5222D"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:contentDescription="Warning icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Permanent Action"
+                android:textColor="#F5222D"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDeleteMainTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="Are you sure you want to\ndelete?"
+            android:textColor="#121216"
+            android:textSize="@dimen/_19ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutWarningBadge" />
+
+        <TextView
+            android:id="@+id/tvDeleteSubDescMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="You will not be able to undo this\naction."
+            android:textColor="#7C7C8A"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDeleteMainTitle" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnActionKeepIt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_46sdp"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:text="Keep It"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:backgroundTint="#52C41A"
+            app:cornerRadius="@dimen/_24sdp"
+            app:elevation="@dimen/_2sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDeleteSubDescMessage" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnActionConfirmDelete"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_46sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="#F5222D"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/_24sdp"
+            app:strokeColor="#F5222D"
+            app:strokeWidth="1.5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnActionKeepIt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

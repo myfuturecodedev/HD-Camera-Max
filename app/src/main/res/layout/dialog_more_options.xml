@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/_220sdp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/_20sdp"
+    app:cardElevation="@dimen/_12sdp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_14sdp"
+        android:paddingVertical="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowRename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/ivIconRename"
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#1A00E676"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_settings"
+                app:tint="#00E676"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitleRename"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Rename"
+                android:textColor="#121216"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvDescRename"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconRename"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDescRename"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Change file name"
+                android:textColor="#7C7C8A"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconRename"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleRename" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowDownload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/ivIconDownload"
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#1A00E676"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_settings"
+                app:tint="#00E676"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitleDownload"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Download"
+                android:textColor="#121216"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvDescDownload"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconDownload"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDescDownload"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Save photo locally"
+                android:textColor="#7C7C8A"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconDownload"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleDownload" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowWallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/ivIconWallpaper"
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#1A00E676"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_settings"
+                app:tint="#00E676"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitleWallpaper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Set as Wallpaper"
+                android:textColor="#121216"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvDescWallpaper"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconWallpaper"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDescWallpaper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Apply as home or lock screen"
+                android:textColor="#7C7C8A"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconWallpaper"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleWallpaper" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/ivIconDetails"
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_34sdp"
+                android:background="@drawable/bg_circle_icon"
+                android:backgroundTint="#1A00E676"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_settings"
+                app:tint="#00E676"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitleDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Details"
+                android:textColor="#121216"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvDescDetails"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconDetails"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDescDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="View file information"
+                android:textColor="#7C7C8A"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivIconDetails"
+                app:layout_constraintTop_toBottomOf="@id/tvTitleDetails" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

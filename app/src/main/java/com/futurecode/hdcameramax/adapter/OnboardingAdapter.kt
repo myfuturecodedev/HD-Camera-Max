@@ -1,5 +1,6 @@
 package com.futurecode.hdcameramax.adapter
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ class OnboardingAdapter(private val slides: List<OnboardingSlide>) :
         val slide = slides[position]
         holder.binding.apply {
             ivOnboardingArt.setImageResource(slide.imageRes)
-            tvOnboardingTitle.text = slide.title
+            tvOnboardingTitle.text = Html.fromHtml(slide.title, Html.FROM_HTML_MODE_COMPACT)
             tvOnboardingDesc.text = slide.description
         }
     }

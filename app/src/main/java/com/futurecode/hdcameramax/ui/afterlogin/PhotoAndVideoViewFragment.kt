@@ -1,38 +1,50 @@
 package com.futurecode.hdcameramax.ui.afterlogin
 
+import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.FragmentPhotoAndVideoViewBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class PhotoAndVideoViewFragment : BaseFragment<FragmentPhotoAndVideoViewBinding>(FragmentPhotoAndVideoViewBinding::inflate) {
+class PhotoAndVideoViewFragment :
+    BaseFragment<FragmentPhotoAndVideoViewBinding>(FragmentPhotoAndVideoViewBinding::inflate) {
 
-    private var isFavorite = true
-
-
+    private var selectedMediaUri: Uri? = null
+    private var selectedDisplayName: String = ""
+    private var selectedIsVideo: Boolean = false
+    private var isFavorite = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        selectedMediaUri = arguments?.getString(ARG_MEDIA_URI)?.let(Uri::parse)
+        selectedIsVideo = arguments?.getBoolean(ARG_IS_VIDEO) ?: false
+        selectedDisplayName = selectedMediaUri?.let { loadDisplayName(it) }.orEmpty()
+
+        renderSelectedMedia()
         setupClickListeners()
         updateFavoriteUI()
     }
 
     private fun setupClickListeners() {
-        // Top and Bottom Bar Actions
-        binding.btnBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        binding.btnBack.setOnClickListener { findNavController().navigateUp() }
 
         binding.btnShare.setOnClickListener {
-            Toast.makeText(requireContext(), "Share clicked", Toast.LENGTH_SHORT).show()
+            shareSelectedMedia()
         }
 
         binding.btnFavorite.setOnClickListener {
@@ -40,74 +52,11 @@ class PhotoAndVideoViewFragment : BaseFragment<FragmentPhotoAndVideoViewBinding>
             updateFavoriteUI()
         }
 
-        binding.btnDelete.setOnClickListener {
-            binding.overlayDelete.visibility = View.VISIBLE
-        }
+        binding.btnDelete.setOnClickListener { showDeleteConfirmationDialog() }
 
+        // FIXED PIPELINE: Trigger native anchor coordinates injection instead of a full screen window dialog
         binding.btnMore.setOnClickListener {
-            binding.overlayMore.visibility = View.VISIBLE
-        }
-
-        // More Menu Overlay
-        binding.overlayMore.setOnClickListener {
-            binding.overlayMore.visibility = View.GONE
-        }
-
-        binding.menuRename.setOnClickListener {
-            binding.overlayMore.visibility = View.GONE
-            binding.overlayRename.visibility = View.VISIBLE
-        }
-
-        binding.menuDownload.setOnClickListener {
-            binding.overlayMore.visibility = View.GONE
-            Toast.makeText(requireContext(), "Downloading...", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.menuWallpaper.setOnClickListener {
-            binding.overlayMore.visibility = View.GONE
-            Toast.makeText(requireContext(), "Setting as wallpaper...", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.menuDetails.setOnClickListener {
-            binding.overlayMore.visibility = View.GONE
-            Toast.makeText(requireContext(), "Showing details...", Toast.LENGTH_SHORT).show()
-        }
-
-        // Delete Dialog
-        binding.btnKeepIt.setOnClickListener {
-            binding.overlayDelete.visibility = View.GONE
-        }
-
-        binding.btnConfirmDelete.setOnClickListener {
-            binding.overlayDelete.visibility = View.GONE
-            Toast.makeText(requireContext(), "Item deleted", Toast.LENGTH_SHORT).show()
-            findNavController().navigateUp()
-        }
-
-        binding.overlayDelete.setOnClickListener {
-            binding.overlayDelete.visibility = View.GONE
-        }
-
-        // Rename Dialog
-        binding.btnCloseRename.setOnClickListener {
-            binding.overlayRename.visibility = View.GONE
-        }
-
-        binding.btnCancelRename.setOnClickListener {
-            binding.overlayRename.visibility = View.GONE
-        }
-
-        binding.btnSaveRename.setOnClickListener {
-            val newName = binding.etRename.text.toString()
-            if (newName.isNotEmpty()) {
-                binding.tvFileNameTag.text = "$newName.jpg"
-                binding.overlayRename.visibility = View.GONE
-                Toast.makeText(requireContext(), "Renamed successfully", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        binding.overlayRename.setOnClickListener {
-            binding.overlayRename.visibility = View.GONE
+            showMoreOptionsPopupWindow(it) // 'it' means btnMore active anchor view reference
         }
     }
 
@@ -116,4 +65,215 @@ class PhotoAndVideoViewFragment : BaseFragment<FragmentPhotoAndVideoViewBinding>
         binding.ivFavorite.imageTintList = ContextCompat.getColorStateList(requireContext(), color)
     }
 
+    // ==========================================
+    // UPGRADED MODULE 1: Precise Anchor PopupWindow Engine
+    // ==========================================
+// ==========================================
+    // FIXED: Precise Real-time Anchor PopupWindow Calculation Engine
+    // ==========================================
+// ==========================================
+    // FINAL FIXED MODULE: Strict Height-Locked Floating Popup Window
+    // ==========================================
+    private fun showMoreOptionsPopupWindow(anchorView: View) {
+        val inflater = LayoutInflater.from(requireContext())
+        val popupView = inflater.inflate(R.layout.dialog_more_options, null)
+
+        // Force manual specification to explicitly prevent layout expansion
+        val exactWidth = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._220sdp)
+
+        // Exact measure specs force rules applied
+        popupView.measure(
+            View.MeasureSpec.makeMeasureSpec(exactWidth, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+
+        val exactHeight = popupView.measuredHeight
+
+        // Instantiate popup with STRICT pixel boundary specifications instead of generic Wrap/Match declarations
+        val popupWindow = PopupWindow(
+            popupView,
+            exactWidth,
+            exactHeight,
+            true
+        )
+
+        // Clear layout hardware caching blocks window variables hooks
+        popupWindow.isOutsideTouchable = true
+        popupWindow.isFocusable = true
+        popupWindow.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+        // Bind inner rows action buttons listeners safely
+        popupView.findViewById<View>(R.id.rowRename).setOnClickListener {
+            popupWindow.dismiss()
+            showRenameOverlayDialog()
+        }
+        popupView.findViewById<View>(R.id.rowDownload).setOnClickListener {
+            popupWindow.dismiss()
+            Toast.makeText(requireContext(), "Already saved in CameraHDMax", Toast.LENGTH_SHORT).show()
+        }
+        popupView.findViewById<View>(R.id.rowWallpaper).setOnClickListener {
+            popupWindow.dismiss()
+            val message = if (selectedIsVideo) {
+                "Wallpaper is available for photos only"
+            } else {
+                "Open the system gallery to set wallpaper"
+            }
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+        popupView.findViewById<View>(R.id.rowDetails).setOnClickListener {
+            popupWindow.dismiss()
+            showMediaDetails()
+        }
+
+        // --- MATH RE-CALCULATION FOR ACCURATE ANCHOR POSITION ---
+        val xOffset = -(exactWidth - anchorView.width)
+
+        // Moving menu exactly over the target anchor without pushing down screen bounds parameters
+        val spacingOffset = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp)
+        val yOffset = -(exactHeight + anchorView.height + spacingOffset)
+
+        // Execute precise window coordinate display loops
+        popupWindow.showAsDropDown(anchorView, xOffset, yOffset)
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        val dialog = android.app.Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_delete_media)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.window?.let { window ->
+            val layoutParams = window.attributes
+            layoutParams.width = android.view.ViewGroup.LayoutParams.MATCH_PARENT
+            layoutParams.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            window.attributes = layoutParams
+        }
+
+        dialog.findViewById<View>(R.id.btnActionKeepIt).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<View>(R.id.btnActionConfirmDelete).setOnClickListener {
+            dialog.dismiss()
+            deleteSelectedMedia()
+        }
+        dialog.show()
+    }
+
+    private fun showRenameOverlayDialog() {
+        binding.overlayRename.visibility = View.VISIBLE
+        binding.btnCloseRename.setOnClickListener { binding.overlayRename.visibility = View.GONE }
+        binding.btnCancelRename.setOnClickListener { binding.overlayRename.visibility = View.GONE }
+        binding.overlayRename.setOnClickListener { binding.overlayRename.visibility = View.GONE }
+
+        binding.btnSaveRename.setOnClickListener {
+            val newName = binding.etRename.text.toString().trim()
+            if (newName.isNotEmpty()) {
+                renameSelectedMedia(newName)
+                binding.overlayRename.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun renderSelectedMedia() {
+        val mediaUri = selectedMediaUri
+        if (mediaUri == null) {
+            binding.ivMain.setImageResource(R.drawable.native_thumb)
+            return
+        }
+
+        Glide.with(this)
+            .load(mediaUri)
+            .placeholder(R.drawable.native_thumb)
+            .fitCenter()
+            .into(binding.ivMain)
+
+        if (selectedDisplayName.isBlank()) {
+            selectedDisplayName = if (selectedIsVideo) "Video.mp4" else "Photo.jpg"
+        }
+        binding.tvFileNameTag.text = selectedDisplayName
+    }
+
+    private fun shareSelectedMedia() {
+        val mediaUri = selectedMediaUri ?: return
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = if (selectedIsVideo) "video/*" else "image/*"
+            putExtra(Intent.EXTRA_STREAM, mediaUri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_app)))
+    }
+
+    private fun deleteSelectedMedia() {
+        val mediaUri = selectedMediaUri ?: return
+        val deleted = runCatching {
+            requireContext().contentResolver.delete(mediaUri, null, null)
+        }.getOrDefault(0)
+
+        if (deleted > 0) {
+            Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+        } else {
+            Toast.makeText(requireContext(), "Delete failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun renameSelectedMedia(newBaseName: String) {
+        val mediaUri = selectedMediaUri ?: return
+        val cleanBaseName = newBaseName.substringBeforeLast('.').trim()
+        if (cleanBaseName.isEmpty()) return
+
+        val currentName = selectedDisplayName.ifBlank {
+            if (selectedIsVideo) "Video.mp4" else "Photo.jpg"
+        }
+        val extension = currentName.substringAfterLast(
+            delimiter = ".",
+            missingDelimiterValue = if (selectedIsVideo) "mp4" else "jpg"
+        )
+        val newDisplayName = "$cleanBaseName.$extension"
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, newDisplayName)
+        }
+
+        val updated = runCatching {
+            requireContext().contentResolver.update(mediaUri, values, null, null)
+        }.getOrDefault(0)
+
+        if (updated > 0) {
+            selectedDisplayName = newDisplayName
+            binding.tvFileNameTag.text = newDisplayName
+            Toast.makeText(requireContext(), "Renamed", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Rename failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showMediaDetails() {
+        val type = if (selectedIsVideo) "Video" else "Photo"
+        val createdAt = arguments?.getLong(ARG_DATE_ADDED)?.takeIf { it > 0L }?.let {
+            SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()).format(Date(it))
+        } ?: "Unknown date"
+        Toast.makeText(
+            requireContext(),
+            "$type • ${selectedDisplayName.ifBlank { "CameraHDMax media" }} • $createdAt",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun loadDisplayName(uri: Uri): String? {
+        return runCatching {
+            requireContext().contentResolver.query(
+                uri,
+                arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
+                null,
+                null,
+                null
+            )?.use { cursor ->
+                if (!cursor.moveToFirst()) return@use null
+                val index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                if (index >= 0) cursor.getString(index) else null
+            }
+        }.getOrNull()
+    }
+
+    companion object {
+        const val ARG_MEDIA_URI = "media_uri"
+        const val ARG_IS_VIDEO = "is_video"
+        const val ARG_DATE_ADDED = "date_added"
+    }
 }

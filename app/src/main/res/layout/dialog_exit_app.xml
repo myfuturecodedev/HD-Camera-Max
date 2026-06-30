@@ -1,144 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginHorizontal="@dimen/_20sdp"
-    android:background="@drawable/bg_rounded_control_panel"
-    android:backgroundTint="#FFFFFF"
-    android:padding="@dimen/_16sdp">
+    android:layout_marginHorizontal="@dimen/_24sdp"
+    android:background="@drawable/bg_dialog_card"
+    android:padding="@dimen/_20sdp">
 
+    <!-- Top Right Close Button -->
     <ImageView
         android:id="@+id/btnDismissCross"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:src="@drawable/ic_live_effects_filter" android:background="@drawable/bg_indicator_dot"
-        android:backgroundTint="#1A00E676" android:padding="@dimen/_8sdp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:backgroundTint="#1A5EBC8F"
+        android:contentDescription="Close"
+        android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Close" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
+    <!-- Center Icon Area -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutIconContainer"
-        android:layout_width="@dimen/_64sdp"
-        android:layout_height="@dimen/_64sdp"
+        android:id="@+id/layoutIconHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_12sdp"
-        android:background="@drawable/bg_rounded_control_panel"
-        android:backgroundTint="#F2FDF7" app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="@dimen/_32sdp"
-            android:layout_height="@dimen/_32sdp"
-            android:src="@drawable/ic_camera_logo_premium"
-            android:contentDescription="Camera Icon"
-            app:layout_constraintTop_toTopOf="parent"
+        <!-- Decorative Dots -->
+        <View
+            android:layout_width="@dimen/_6sdp"
+            android:layout_height="@dimen/_6sdp"
+            android:layout_marginStart="@dimen/_minus4sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:alpha="0.5"
+            android:background="@drawable/bg_circle_icon"
+            android:backgroundTint="@color/permission_green"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_minus8sdp"
+            android:alpha="0.6"
+            android:text="✱"
+            android:textColor="@color/permission_green"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <com.google.android.material.card.MaterialCardView-->
+<!--            android:layout_width="@dimen/_64sdp"-->
+<!--            android:layout_height="@dimen/_64sdp"-->
+<!--            app:cardCornerRadius="@dimen/_16sdp"-->
+<!--            app:cardElevation="0dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:strokeWidth="0dp">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="@dimen/_64sdp"-->
+<!--                android:layout_height="@dimen/_64sdp"-->
+<!--                android:contentDescription="Camera Icon"-->
+<!--                android:src="@drawable/ic_camera_header"/>-->
+
+<!--        </com.google.android.material.card.MaterialCardView>-->
+
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="Camera Icon"
+                android:src="@drawable/ic_camera_header"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tvExitTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/exit_app"
-        android:textColor="#121216"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="sans-serif-black"
+        android:text="Exit app?"
+        android:textColor="@color/black"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/_16sdp"
-        app:layout_constraintTop_toBottomOf="@id/layoutIconContainer"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/layoutIconHeader" />
 
     <TextView
         android:id="@+id/tvExitSubDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/your_camera_session_will_be_closed_nyou_can_reopen_the_app_anytime"
-        android:textColor="#7C7C8A"
-        android:textSize="@dimen/_12ssp"
-        android:gravity="center"
-        android:lineSpacingMultiplier="1.1"
         android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginHorizontal="@dimen/_12sdp"
-        app:layout_constraintTop_toBottomOf="@id/tvExitTitle"
+        android:gravity="center"
+        android:text="Your camera session will be closed.\nYou can reopen the app anytime."
+        android:textColor="@color/text_gray_dim"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tvExitTitle" />
 
+    <!-- Yellow Warning Strip -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutWarningStrip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded_control_panel"
-        android:backgroundTint="#FFFDF0" android:paddingVertical="@dimen/_10sdp"
-        android:paddingHorizontal="@dimen/_14sdp"
         android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/bg_gallery_toggle"
+        android:backgroundTint="#FFFDF0"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_10sdp"
         app:layout_constraintTop_toBottomOf="@id/tvExitSubDescription">
 
-        <ImageView
-            android:id="@+id/ivWarningIconPlaceholder"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:src="@drawable/ic_settings" app:layout_constraintTop_toTopOf="parent"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvWarningIcon"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_6sdp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="Warning" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_camera_header"
+                app:tint="#DCA11D" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/unsaved_edits_may_be_lost"
-            android:textColor="#DCA11D" android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
             android:layout_marginStart="@dimen/_10sdp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="Unsaved edits may be lost"
+            android:textColor="#DCA11D"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivWarningIconPlaceholder"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvWarningIcon"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_4sdp"
-        app:layout_constraintTop_toBottomOf="@id/layoutWarningStrip"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/layoutWarningStrip">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnActionStay"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_44sdp"
+            android:layout_height="@dimen/_46sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:layout_weight="1"
-            android:text="@string/stay"
+            android:text="Stay"
             android:textAllCaps="false"
-            android:textColor="#00E676"
+            android:textColor="@color/permission_green"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
-            app:strokeColor="#00E676"
-            app:strokeWidth="1.5dp"
-            app:cornerRadius="@dimen/_14sdp"
-            android:layout_marginEnd="@dimen/_6sdp"/>
+            app:cornerRadius="@dimen/_16sdp"
+            app:strokeColor="@color/permission_green"
+            app:strokeWidth="1.5dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnActionConfirmExit"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_44sdp"
+            android:layout_height="@dimen/_46sdp"
             android:layout_weight="1"
-            android:text="@string/exit_app"
+            android:backgroundTint="@color/permission_green"
+            android:text="Exit App"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
-            app:backgroundTint="#00E676" app:cornerRadius="@dimen/_14sdp"
-            android:layout_marginStart="@dimen/_6sdp"/>
-
+            app:cornerRadius="@dimen/_16sdp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

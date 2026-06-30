@@ -2,6 +2,7 @@ package com.futurecode.hdcameramax.ui.afterlogin
 
 import android.annotation.SuppressLint
 import android.content.ContentUris
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -20,107 +21,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-
-//class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBinding::inflate) {
-//
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        setupClickListeners()
-//        setupRecyclerViews()
-//    }
-//
-//    private fun setupClickListeners() {
-//        binding.btnBack.setOnClickListener {
-//            findNavController().navigateUp()
-//        }
-//
-//        binding.btnPicture.setOnClickListener {
-//            updateToggleState(isPicture = true)
-//        }
-//
-//        binding.btnVideo.setOnClickListener {
-//            updateToggleState(isPicture = false)
-//        }
-//    }
-//
-//    private fun updateToggleState(isPicture: Boolean) {
-//        if (isPicture) {
-//            binding.btnPicture.apply {
-//                setBackgroundResource(R.drawable.bg_active_tab)
-//                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-//                setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_camera_header, 0, 0, 0)
-//                compoundDrawableTintList =
-//                    ContextCompat.getColorStateList(requireContext(), R.color.white)
-//            }
-//            binding.btnVideo.apply {
-//                background = null
-//                setTextColor(ContextCompat.getColor(requireContext(), R.color.text_gray_dim))
-//                setCompoundDrawablesWithIntrinsicBounds(
-//                    R.drawable.ic_camera_shutter_trigger,
-//                    0,
-//                    0,
-//                    0
-//                )
-//                compoundDrawableTintList =
-//                    ContextCompat.getColorStateList(requireContext(), R.color.text_gray_dim)
-//            }
-//        } else {
-//            binding.btnPicture.apply {
-//                background = null
-//                setTextColor(ContextCompat.getColor(requireContext(), R.color.text_gray_dim))
-//                setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_camera_header, 0, 0, 0)
-//                compoundDrawableTintList =
-//                    ContextCompat.getColorStateList(requireContext(), R.color.text_gray_dim)
-//            }
-//            binding.btnVideo.apply {
-//                setBackgroundResource(R.drawable.bg_active_tab)
-//                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-//                setCompoundDrawablesWithIntrinsicBounds(
-//                    R.drawable.ic_camera_shutter_trigger,
-//                    0,
-//                    0,
-//                    0
-//                )
-//                compoundDrawableTintList =
-//                    ContextCompat.getColorStateList(requireContext(), R.color.white)
-//            }
-//        }
-//    }
-//
-//    private fun setupRecyclerViews() {
-//        // Today section
-//        val todayItems = listOf(
-//            GalleryAdapter.GalleryItem(isSelected = true),
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem()
-//        )
-//        binding.rvToday.adapter = GalleryAdapter(todayItems)
-//
-//        // Yesterday section
-//        val yesterdayItems = listOf(
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem(),
-//            GalleryAdapter.GalleryItem()
-//        )
-//        binding.rvYesterday.adapter = GalleryAdapter(yesterdayItems)
-//
-//        // Last Week section
-//        val lastWeekItems = List(6) { GalleryAdapter.GalleryItem() }
-//        binding.rvLastWeek.adapter = GalleryAdapter(lastWeekItems)
-//    }
-//
-//
-//}
-
-
-
 
 class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBinding::inflate) {
 
@@ -160,7 +60,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
         binding.btnPicture.setOnClickListener {
             if (isVideoTabSelected) {
                 isVideoTabSelected = false
-                updateTabUIStates()
+                updateTabUIStates(isPictureSelected = true) // ✅ Active picture state
                 filterAndRenderUiLists()
             }
         }
@@ -169,38 +69,29 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
         binding.btnVideo.setOnClickListener {
             if (!isVideoTabSelected) {
                 isVideoTabSelected = true
-                updateTabUIStates()
+                updateTabUIStates(isPictureSelected = false) // 👑 FIXED: Changed from 'true' to 'false' to render video state correctly
                 filterAndRenderUiLists()
             }
         }
     }
 
-    private fun updateTabUIStates() {
-        val context = requireContext()
-        if (isVideoTabSelected) {
-            // Video Active Layout Elements update
-            binding.btnVideo.setBackgroundResource(R.drawable.bg_active_tab)
-            binding.btnVideo.setTextColor(ContextCompat.getColor(context, R.color.white))
-            binding.btnVideo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_camera_shutter_trigger, 0, 0, 0)
-            binding.btnVideo.compoundDrawableTintList = ContextCompat.getColorStateList(context, R.color.white)
-
-            // Picture Inactive Layout mapping updates
-            binding.btnPicture.setBackgroundResource(0)
-            binding.btnPicture.setTextColor(ContextCompat.getColor(context, R.color.text_gray_dim))
-            binding.btnPicture.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_camera_header, 0, 0, 0)
-            binding.btnPicture.compoundDrawableTintList = ContextCompat.getColorStateList(context, R.color.text_gray_dim)
-        } else {
-            // Picture Active Layout mapping updates
+    private fun updateTabUIStates(isPictureSelected: Boolean) {
+        if (isPictureSelected) {
             binding.btnPicture.setBackgroundResource(R.drawable.bg_active_tab)
-            binding.btnPicture.setTextColor(ContextCompat.getColor(context, R.color.white))
-            binding.btnPicture.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_camera_header, 0, 0, 0)
-            binding.btnPicture.compoundDrawableTintList = ContextCompat.getColorStateList(context, R.color.white)
+            binding.btnPicture.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.btnPicture.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.white)
 
-            // Video Inactive Layout mapping updates
-            binding.btnVideo.setBackgroundResource(0)
-            binding.btnVideo.setTextColor(ContextCompat.getColor(context, R.color.text_gray_dim))
-            binding.btnVideo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_camera_shutter_trigger, 0, 0, 0)
-            binding.btnVideo.compoundDrawableTintList = ContextCompat.getColorStateList(context, R.color.text_gray_dim)
+            binding.btnVideo.setBackgroundResource(android.R.color.transparent)
+            binding.btnVideo.setTextColor(Color.parseColor("#7C7C8A"))
+            binding.btnVideo.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.text_gray_dim)
+        } else {
+            binding.btnPicture.setBackgroundResource(android.R.color.transparent)
+            binding.btnPicture.setTextColor(Color.parseColor("#7C7C8A"))
+            binding.btnPicture.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.text_gray_dim)
+
+            binding.btnVideo.setBackgroundResource(R.drawable.bg_active_tab)
+            binding.btnVideo.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.btnVideo.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.white)
         }
     }
 
@@ -280,6 +171,14 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
     }
 
     private fun handleMediaClick(item: MediaItem) {
-        // Custom gallery internal image full screen preview click listener behavior logic connects here smoothly
+        val args = Bundle().apply {
+            putString(PhotoAndVideoViewFragment.ARG_MEDIA_URI, item.uri.toString())
+            putBoolean(PhotoAndVideoViewFragment.ARG_IS_VIDEO, item.isVideo)
+            putLong(PhotoAndVideoViewFragment.ARG_DATE_ADDED, item.dateAdded)
+        }
+        findNavController().navigate(
+            R.id.action_galleryFragment_to_photoAndVideoViewFragment,
+            args
+        )
     }
 }

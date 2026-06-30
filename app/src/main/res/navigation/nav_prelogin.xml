@@ -17,11 +17,14 @@
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.futurecode.hdcameramax.ui.prelogin.OnboardingFragment"
-        android:label="OnboardingFragment" >
-
+        android:label="OnboardingFragment"
+        tools:layout="@layout/fragment_onboarding">
         <action
             android:id="@+id/action_onboardingFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
+        <action
+            android:id="@+id/action_onboardingFragment_to_languageFragment"
+            app:destination="@id/languageFragment" />
     </fragment>
     <fragment
         android:id="@+id/languageFragment"

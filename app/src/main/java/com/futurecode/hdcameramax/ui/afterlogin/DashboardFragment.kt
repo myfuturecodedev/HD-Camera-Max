@@ -84,11 +84,19 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
             binding.ivRecentPhotoTwo,
             binding.ivRecentPhotoThree,
             binding.ivRecentPhotoFour
-        ).forEach { recentView ->
+        ).forEachIndexed { index, recentView ->
             recentView.setOnClickListener {
-                val hasRecentPhoto = viewModel.uiState.value?.recentPhotos?.isNotEmpty() == true
-                if (hasRecentPhoto) {
-                    findNavController().navigate(R.id.action_dashboardFragment_to_photoAndVideoViewFragment)
+                val item = viewModel.uiState.value?.recentPhotos?.getOrNull(index)
+                if (item != null) {
+                    val args = Bundle().apply {
+                        putString(PhotoAndVideoViewFragment.ARG_MEDIA_URI, item.uri.toString())
+                        putBoolean(PhotoAndVideoViewFragment.ARG_IS_VIDEO, item.isVideo)
+                        putLong(PhotoAndVideoViewFragment.ARG_DATE_ADDED, item.dateAdded)
+                    }
+                    findNavController().navigate(
+                        R.id.action_dashboardFragment_to_photoAndVideoViewFragment,
+                        args
+                    )
                 } else {
                     navigateToGallery()
                 }
@@ -150,5 +158,31 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
     private fun navigateToGallery() {
         findNavController().navigate(R.id.action_dashboardFragment_to_galleryFragment)
     }
+
+    private fun showExitConfirmationDialog() {
+        val dialog = android.app.Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_exit_app)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        // Set dialog width to match parent with horizontal margins
+        dialog.window?.let { window ->
+            val layoutParams = window.attributes
+            layoutParams.width = android.view.ViewGroup.LayoutParams.MATCH_PARENT
+            layoutParams.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            window.attributes = layoutParams
+        }
+
+        dialog.findViewById<View>(R.id.btnDismissCross).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<View>(R.id.btnActionStay).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<View>(R.id.btnActionConfirmExit).setOnClickListener {
+            dialog.dismiss()
+            requireActivity().finish() // Or perform exit logic
+        }
+
+        dialog.show()
+    }
+
+
+
 
 }

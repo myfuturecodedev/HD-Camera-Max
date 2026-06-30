@@ -1,175 +1,50 @@
 package com.futurecode.hdcameramax.ui.afterlogin
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.SeekBar
-import android.widget.TextView // FIXED: Added missing TextView import
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ImageCapture
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.adapter.ResolutionPresetAdapter
 import com.futurecode.hdcameramax.base.BaseFragment
+import com.futurecode.hdcameramax.databinding.DialogResolutionSelectorBinding
 import com.futurecode.hdcameramax.databinding.FragmentHdCameraBinding
 import com.futurecode.hdcameramax.model.CameraAppMode
+import com.futurecode.hdcameramax.model.ResolutionPreset
 import com.futurecode.hdcameramax.utils.CameraEngineKit
-import java.util.Locale // FIXED: Added missing Locale import
-import android.Manifest
-import android.content.pm.PackageManager
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.Locale
 
-//class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraBinding::inflate) {
-//
-//    private lateinit var cameraKit: CameraEngineKit
-//    private var activeExposureMultiplier = 0
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        // 1. Core Engine Hook Setup
-//        cameraKit = CameraEngineKit(requireContext(), viewLifecycleOwner, binding.cameraViewFinder)
-//        cameraKit.initializePipeline {
-//            // Callback can track dynamic initial loading completions safely
-//        }
-//
-//        // 2. Click Matrix Bindings Execution
-//        setupCoreClickListeners()
-//    }
-//
-//    @SuppressLint("ClickableViewAccessibility")
-//    private fun setupCoreClickListeners() {
-//
-//        // Lens Flipper Trigger
-//        binding.btnCameraFlip.setOnClickListener { cameraKit.switchLensFacing() }
-//
-//        // Flash State Looper Controller
-//        binding.btnFlash.setOnClickListener {
-//            val state = cameraKit.cycleFlashMode()
-//            when (state) {
-//                ImageCapture.FLASH_MODE_ON -> binding.btnFlash.setImageResource(R.drawable.ic_settings) // Replace to active asset
-//                ImageCapture.FLASH_MODE_AUTO -> binding.btnFlash.setImageResource(R.drawable.ic_live_effects_filter)
-//                else -> binding.btnFlash.setImageResource(R.drawable.ic_flash_off)
-//            }
-//        }
-//
-//        // Zoom Discrete Shortcuts mapping
-//        binding.tvZoom1x.setOnClickListener { updateZoomLevel(1.0f, it) }
-//        binding.tvZoom10x.setOnClickListener { updateZoomLevel(2.0f, it) }
-//        binding.tvZoom100x.setOnClickListener { updateZoomLevel(5.0f, it) }
-//
-//        // Continuous Zoom Seek Slider integration
-//        binding.sbDynamicZoomSeeker.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-//            override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
-//                if (fromUser) {
-//                    val actualScale = 1.0f + (progress / 100f) * 10f // Scale logic up to 10x smoothly
-//                    cameraKit.applyZoomRatio(actualScale)
-//                    binding.tvZoomMaxCapIndicator.text = String.format(Locale.US, "%.0fx", actualScale)
-//                }
-//            }
-//            override fun onStartTrackingTouch(p0: SeekBar?) {}
-//            override fun onStopTrackingTouch(p0: SeekBar?) {}
-//        })
-//
-//        // Touch-To-Focus Interaction Layer Mapping
-//        binding.cameraViewFinder.setOnTouchListener { view, event ->
-//            if (event.action == MotionEvent.ACTION_DOWN) {
-//                cameraKit.triggerManualFocus(event.x, event.y)
-//                renderInteractiveFocusSquare(event.x, event.y)
-//                view.performClick()
-//                return@setOnTouchListener true
-//            }
-//            false
-//        }
-//
-//        // Exposure Index Matrix Adjusters Modification
-//        binding.btnExposurePlus.setOnClickListener {
-//            if (activeExposureMultiplier < 4) {
-//                activeExposureMultiplier++
-//                applyExposureChange()
-//            }
-//        }
-//        binding.btnExposureMinus.setOnClickListener {
-//            if (activeExposureMultiplier > -4) {
-//                activeExposureMultiplier--
-//                applyExposureChange()
-//            }
-//        }
-//
-//        // FIXED: Explicitly passing exact layout binding properties to avoid 'R' type inference ambiguity
-//        binding.tvTabVideoMode.setOnClickListener { switchUIMode(CameraAppMode.VIDEO, binding.tvTabVideoMode) }
-//        binding.tvTabPhotoMode.setOnClickListener { switchUIMode(CameraAppMode.PHOTO, binding.tvTabPhotoMode) }
-//        binding.tvTabPortraitMode.setOnClickListener { switchUIMode(CameraAppMode.PORTRAIT, binding.tvTabPortraitMode) }
-//
-//
-//        // High Definition Real-time Shutter Action Trigger Button
-//        binding.ivActionShutter.setOnClickListener {
-//            binding.ivActionShutter.isEnabled = false
-//            cameraKit.capturePhotoData(
-//                onSuccess = { path ->
-//                    binding.ivActionShutter.isEnabled = true
-//                    Toast.makeText(context, "Captured: $path", Toast.LENGTH_SHORT).show()
-//                },
-//                onFailure = { err ->
-//                    binding.ivActionShutter.isEnabled = true
-//                    Toast.makeText(context, "Failed: ${err.message}", Toast.LENGTH_SHORT).show()
-//                }
-//            )
-//        }
-//    }
-//
-//    private fun updateZoomLevel(scale: Float, view: View) {
-//        cameraKit.applyZoomRatio(scale)
-//        binding.tvZoom1x.setBackgroundResource(R.drawable.bg_circle_icon)
-//        binding.tvZoom10x.setBackgroundResource(R.drawable.bg_circle_icon)
-//        binding.tvZoom100x.setBackgroundResource(R.drawable.bg_circle_icon)
-//
-//        view.setBackgroundResource(R.drawable.bg_selected_check) // Toggle highlight visual representation state
-//        binding.tvZoomMaxCapIndicator.text = "${scale.toInt()}x"
-//        binding.sbDynamicZoomSeeker.progress = ((scale - 1f) / 10f * 100).toInt()
-//    }
-//
-//    private fun applyExposureChange() {
-//        val displayCalc = cameraKit.setExposureLevel(activeExposureMultiplier)
-//        binding.tvExposureVal.text = String.format(Locale.US, "%.1f", displayCalc)
-//    }
-//
-//    private fun switchUIMode(mode: CameraAppMode, activeTargetView: TextView) {
-//        cameraKit.switchAppMode(mode)
-//
-//        // Reset Text UI highlighting colors arrays properties
-//        binding.tvTabVideoMode.setTypeface(null, android.graphics.Typeface.NORMAL)
-//        binding.tvTabPhotoMode.setTypeface(null, android.graphics.Typeface.NORMAL)
-//        binding.tvTabPortraitMode.setTypeface(null, android.graphics.Typeface.NORMAL)
-//
-//        activeTargetView.setTypeface(null, android.graphics.Typeface.BOLD)
-//        Toast.makeText(context, "Switched to ${mode.name} Mode", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    private fun renderInteractiveFocusSquare(x: Float, y: Float) {
-//        binding.viewFocusFrameIndicator.x = x - (binding.viewFocusFrameIndicator.width / 2f)
-//        binding.viewFocusFrameIndicator.y = y - (binding.viewFocusFrameIndicator.height / 2f)
-//        binding.viewFocusFrameIndicator.visibility = View.VISIBLE
-//
-//        // FIXED: Replaced '0dp.toFloat()' with clean '0f' for alpha value
-//        binding.viewFocusFrameIndicator.animate().alpha(1f).setDuration(100).withEndAction {
-//            binding.viewFocusFrameIndicator.animate().alpha(0f).setStartDelay(2000).setDuration(500).start()
-//        }.start()
-//    }
-//}
-
-
-
-
-
-
+/*
+ * Previous implementation note:
+ * The older direct-control version handled CameraX, flash, zoom, focus, and capture inside
+ * fragment click listeners. It has been replaced in-place with MVVM state management below,
+ * while keeping this same Fragment class, XML binding, CameraEngineKit, and navigation entry.
+ */
 class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraBinding::inflate) {
 
     private lateinit var cameraKit: CameraEngineKit
-    private var activeExposureMultiplier = 0
+    private lateinit var viewModel: HdCameraViewModel
+    private var activeExposureIndex = 0
+    private var startVideoAfterCameraReady = false
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            viewModel.updatePermission(granted)
             if (granted) {
                 startCameraPreview()
             } else {
@@ -177,8 +52,41 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             }
         }
 
+    private val videoPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val cameraGranted = permissions[Manifest.permission.CAMERA] ?: hasCameraPermission()
+            val audioGranted = permissions[Manifest.permission.RECORD_AUDIO] ?: hasAudioPermission()
+            viewModel.updatePermission(cameraGranted)
+
+            if (!cameraGranted) {
+                viewModel.failVideoRecording()
+                Toast.makeText(requireContext(), "Camera permission is required", Toast.LENGTH_SHORT).show()
+                return@registerForActivityResult
+            }
+
+            if (!audioGranted) {
+                viewModel.failVideoRecording()
+                Toast.makeText(requireContext(), "Audio permission is required for video", Toast.LENGTH_SHORT).show()
+                return@registerForActivityResult
+            }
+
+            if (viewModel.uiState.value?.isCameraReady == true) {
+                handleVideoRecordingRequest()
+            } else {
+                startVideoAfterCameraReady = true
+                startCameraPreview()
+            }
+        }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(
+            this,
+            HdCameraViewModel.Factory(
+                HdCameraRepository(requireContext().applicationContext)
+            )
+        )[HdCameraViewModel::class.java]
 
         cameraKit = CameraEngineKit(
             context = requireContext(),
@@ -187,15 +95,27 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         )
 
         setupCoreClickListeners()
+        observeCameraState()
         checkCameraPermission()
     }
 
-    private fun checkCameraPermission() {
-        val granted = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
+    override fun onResume() {
+        super.onResume()
+        if (::viewModel.isInitialized) {
+            viewModel.refreshGalleryPreview()
+        }
+    }
 
+    override fun onDestroyView() {
+        if (::cameraKit.isInitialized) {
+            cameraKit.release()
+        }
+        super.onDestroyView()
+    }
+
+    private fun checkCameraPermission() {
+        val granted = hasCameraPermission()
+        viewModel.updatePermission(granted)
         if (granted) {
             startCameraPreview()
         } else {
@@ -203,39 +123,94 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         }
     }
 
+    private fun hasCameraPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun hasAudioPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun startCameraPreview() {
         cameraKit.initializePipeline {
-            Toast.makeText(requireContext(), "Camera ready", Toast.LENGTH_SHORT).show()
+            viewModel.markCameraReady()
+            viewModel.refreshGalleryPreview()
+            if (startVideoAfterCameraReady) {
+                startVideoAfterCameraReady = false
+                handleVideoRecordingRequest()
+            }
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupCoreClickListeners() {
-
         binding.btnHeaderBackAction.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.btnSettings.setOnClickListener {
+            viewModel.toggleSettingsPanel()
+        }
+
         binding.btnCameraFlip.setOnClickListener {
             cameraKit.switchLensFacing()
+            viewModel.hideSettingsPanel()
         }
 
         binding.btnFlash.setOnClickListener {
-            val state = cameraKit.cycleFlashMode()
+            val state = cameraKit.setFlashMode(viewModel.nextFlashMode())
+            viewModel.setFlashMode(state)
+        }
 
-            when (state) {
-                ImageCapture.FLASH_MODE_ON -> {
-                    binding.btnFlash.setImageResource(R.drawable.ic_flash)
-                }
+//        binding.btnHdrToggle.setOnClickListener {
+//            toggleHdr()
+//        }
 
-                ImageCapture.FLASH_MODE_AUTO -> {
-                    binding.btnFlash.setImageResource(R.drawable.ic_live_effects_filter)
-                }
+        binding.btnTimerToggle.setOnClickListener {
+            showTimerMenu()
+        }
 
-                else -> {
-                    binding.btnFlash.setImageResource(R.drawable.ic_flash_off)
-                }
-            }
+//        binding.btnGridToggle.setOnClickListener {
+//            viewModel.toggleGrid()
+//        }
+
+        binding.btnRatioConfig.setOnClickListener {
+            showAspectRatioMenu()
+        }
+
+        binding.btnPanelGrid.setOnClickListener {
+            viewModel.toggleGrid()
+        }
+
+        binding.btnPanelHdr.setOnClickListener {
+            toggleHdr()
+        }
+
+        binding.btnPanelFace.setOnClickListener {
+            viewModel.toggleFaceOverlay()
+        }
+
+        binding.btnPanelTimer.setOnClickListener {
+            showTimerMenu()
+        }
+
+        binding.btnPanelResolution.setOnClickListener {
+            showResolutionSelector()
+            viewModel.hideSettingsPanel()
+        }
+
+        binding.btnPanelAspect.setOnClickListener {
+            showAspectRatioMenu()
+        }
+
+        binding.btnOpenSettingsScreen.setOnClickListener {
+            navigateSafely(R.id.action_hdCameraFragment_to_settingsFragment)
         }
 
         binding.tvZoom1x.setOnClickListener {
@@ -256,14 +231,13 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
                     if (fromUser) {
                         val actualScale = 1.0f + (progress / 100f) * 9f
                         cameraKit.applyZoomRatio(actualScale)
-                        binding.tvZoomMaxCapIndicator.text =
-                            String.format(Locale.US, "%.1fx", actualScale)
+                        viewModel.updateZoom(actualScale)
                     }
                 }
 
-                override fun onStartTrackingTouch(sb: SeekBar?) {}
+                override fun onStartTrackingTouch(sb: SeekBar?) = Unit
 
-                override fun onStopTrackingTouch(sb: SeekBar?) {}
+                override fun onStopTrackingTouch(sb: SeekBar?) = Unit
             }
         )
 
@@ -279,75 +253,94 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         }
 
         binding.btnExposurePlus.setOnClickListener {
-            if (activeExposureMultiplier < 4) {
-                activeExposureMultiplier++
+            if (activeExposureIndex < 4) {
+                activeExposureIndex++
                 applyExposureChange()
             }
         }
 
         binding.btnExposureMinus.setOnClickListener {
-            if (activeExposureMultiplier > -4) {
-                activeExposureMultiplier--
+            if (activeExposureIndex > -4) {
+                activeExposureIndex--
                 applyExposureChange()
             }
         }
 
         binding.tvTabVideoMode.setOnClickListener {
-            switchUIMode(CameraAppMode.VIDEO, binding.tvTabVideoMode)
+            switchUIMode(CameraAppMode.VIDEO)
         }
 
         binding.tvTabPhotoMode.setOnClickListener {
-            switchUIMode(CameraAppMode.PHOTO, binding.tvTabPhotoMode)
+            switchUIMode(CameraAppMode.PHOTO)
         }
 
         binding.tvTabPortraitMode.setOnClickListener {
-            switchUIMode(CameraAppMode.PORTRAIT, binding.tvTabPortraitMode)
+            switchUIMode(CameraAppMode.PORTRAIT)
         }
 
         binding.ivActionShutter.setOnClickListener {
-            binding.ivActionShutter.isEnabled = false
-
-            cameraKit.capturePhotoData(
-                onSuccess = { path ->
-                    binding.ivActionShutter.isEnabled = true
-                    Toast.makeText(requireContext(), "Captured: $path", Toast.LENGTH_SHORT).show()
-                },
-                onFailure = { err ->
-                    binding.ivActionShutter.isEnabled = true
-                    Toast.makeText(requireContext(), "Failed: ${err.message}", Toast.LENGTH_SHORT).show()
-                }
-            )
+            viewModel.requestCapture()
         }
+
+        binding.ivGalleryThumbShortcut.setOnClickListener {
+            navigateSafely(R.id.action_hdCameraFragment_to_galleryFragment)
+        }
+
+        binding.cameraControlsScrim.setOnClickListener {
+            viewModel.hideSettingsPanel()
+        }
+    }
+
+    private fun observeCameraState() {
+        viewModel.uiState.observe(viewLifecycleOwner) { state ->
+            renderUiState(state)
+        }
+
+        viewModel.captureRequest.observe(viewLifecycleOwner) {
+            capturePhoto()
+        }
+
+        viewModel.videoRecordRequest.observe(viewLifecycleOwner) {
+            handleVideoRecordingRequest()
+        }
+    }
+
+    private fun toggleHdr() {
+        val enableHdr = viewModel.uiState.value?.isHdrEnabled != true
+        cameraKit.setHdrQualityEnabled(enableHdr)
+        viewModel.toggleHdr()
     }
 
     private fun updateZoomLevel(scale: Float, view: View) {
         cameraKit.applyZoomRatio(scale)
+        viewModel.updateZoom(scale)
 
-        binding.tvZoom1x.setBackgroundResource(R.drawable.bg_circle_icon)
-        binding.tvZoom10x.setBackgroundResource(R.drawable.bg_circle_icon)
-        binding.tvZoom100x.setBackgroundResource(R.drawable.bg_circle_icon)
+//        binding.tvZoom1x.setBackgroundResource(R.drawable.bg_circle_icon)
+//        binding.tvZoom10x.setBackgroundResource(R.drawable.bg_circle_icon)
+//        binding.tvZoom100x.setBackgroundResource(R.drawable.bg_circle_icon)
+//        view.setBackgroundResource(R.drawable.bg_selected_check)
 
-        view.setBackgroundResource(R.drawable.bg_selected_check)
 
-        binding.tvZoomMaxCapIndicator.text = "${scale.toInt()}x"
+        binding.tvZoom1x.setBackgroundResource(R.drawable.bg_zoom_btn_selected)
+        binding.tvZoom10x.setBackgroundResource(R.drawable.bg_zoom_btn_selected)
+        binding.tvZoom100x.setBackgroundResource(R.drawable.bg_zoom_btn_selected)
+
         binding.sbDynamicZoomSeeker.progress = (((scale - 1f) / 9f) * 100).toInt()
     }
 
     private fun applyExposureChange() {
-        val exposureValue = cameraKit.setExposureLevel(activeExposureMultiplier)
-        binding.tvExposureVal.text = String.format(Locale.US, "%.1f", exposureValue)
+        val exposureValue = cameraKit.setExposureLevel(activeExposureIndex)
+        viewModel.updateExposure(exposureValue)
     }
 
-    private fun switchUIMode(mode: CameraAppMode, activeTargetView: TextView) {
+    private fun switchUIMode(mode: CameraAppMode) {
+        if (viewModel.uiState.value?.isRecordingVideo == true && mode != CameraAppMode.VIDEO) {
+            cameraKit.stopVideoRecording()
+            Toast.makeText(requireContext(), "Stopping recording", Toast.LENGTH_SHORT).show()
+            return
+        }
         cameraKit.switchAppMode(mode)
-
-        binding.tvTabVideoMode.setTypeface(null, android.graphics.Typeface.NORMAL)
-        binding.tvTabPhotoMode.setTypeface(null, android.graphics.Typeface.NORMAL)
-        binding.tvTabPortraitMode.setTypeface(null, android.graphics.Typeface.NORMAL)
-
-        activeTargetView.setTypeface(null, android.graphics.Typeface.BOLD)
-
-        Toast.makeText(requireContext(), "Switched to ${mode.name} Mode", Toast.LENGTH_SHORT).show()
+        viewModel.setMode(mode)
     }
 
     private fun renderInteractiveFocusSquare(x: Float, y: Float) {
@@ -356,11 +349,256 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
         binding.viewFocusFrameIndicator.alpha = 1f
         binding.viewFocusFrameIndicator.visibility = View.VISIBLE
-
         binding.viewFocusFrameIndicator.animate()
             .alpha(0f)
             .setStartDelay(1200)
             .setDuration(400)
             .start()
+    }
+
+    private fun renderUiState(state: HdCameraUiState) {
+        binding.viewGridLines.visibility = if (state.isGridEnabled) View.VISIBLE else View.GONE
+        binding.viewFaceDetectionOverlay.visibility =
+            if (state.isFaceOverlayEnabled) View.VISIBLE else View.GONE
+        binding.cameraControlsScrim.visibility =
+            if (state.isSettingsPanelVisible) View.VISIBLE else View.GONE
+        binding.cameraSettingsPanel.visibility =
+            if (state.isSettingsPanelVisible) View.VISIBLE else View.GONE
+        binding.tvCountdownOverlay.visibility =
+            if (state.countdownValue > 0) View.VISIBLE else View.GONE
+
+        val shutterEnabled = state.isCameraReady && (!state.isCapturing || state.isRecordingVideo)
+        binding.tvCountdownOverlay.text = state.countdownValue.toString()
+        binding.ivActionShutter.isEnabled = shutterEnabled
+        binding.ivActionShutter.alpha = if (shutterEnabled) 1f else 0.45f
+        binding.ivActionShutter.setImageResource(
+            when {
+                state.activeMode == CameraAppMode.VIDEO && state.isRecordingVideo ->
+                    R.drawable.ic_camera_recording_stop_trigger
+                state.activeMode == CameraAppMode.VIDEO ->
+                    R.drawable.ic_camera_video_trigger
+                else -> R.drawable.ic_camera_shutter_trigger
+            }
+        )
+        binding.ivActionShutter.contentDescription = when {
+            state.activeMode == CameraAppMode.VIDEO && state.isRecordingVideo ->
+                getString(R.string.stop_recording)
+            state.activeMode == CameraAppMode.VIDEO ->
+                getString(R.string.start_recording)
+            else -> getString(R.string.capture)
+        }
+        binding.tvZoomMaxCapIndicator.text = String.format(Locale.US, "%.1fx", state.zoomRatio)
+        binding.tvExposureVal.text = String.format(Locale.US, "%.1f", state.exposureValue)
+        binding.tvTimerBadge.text = when {
+            state.isRecordingVideo -> getString(R.string.recording_short)
+            state.timerSeconds == 0 -> getString(R.string.off)
+            else -> "${state.timerSeconds}s"
+        }
+        binding.tvTimerBadge.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (state.isRecordingVideo) R.color.permission_green else R.color.white
+            )
+        )
+        binding.tvAspectBadge.text = state.aspectRatioLabel
+        binding.tvResolutionValue.text = state.selectedResolution?.displayString ?: "Auto"
+        binding.tvHdrBadge.text = if (state.isHdrEnabled) "ON" else "OFF"
+
+        renderFlashIcon(state.flashMode)
+       // renderToggleState(binding.btnHdrToggle, state.isHdrEnabled)
+        //renderToggleState(binding.btnGridToggle, state.isGridEnabled)
+        renderToggleState(binding.btnPanelHdr, state.isHdrEnabled)
+        renderToggleState(binding.btnPanelGrid, state.isGridEnabled)
+        renderToggleState(binding.btnPanelFace, state.isFaceOverlayEnabled)
+        renderModeTabs(state.activeMode)
+        renderGalleryPreview(state.latestMediaUri)
+    }
+
+    private fun renderFlashIcon(flashMode: Int) {
+        val icon = when (flashMode) {
+            ImageCapture.FLASH_MODE_ON -> R.drawable.ic_flash
+            ImageCapture.FLASH_MODE_AUTO -> R.drawable.ic_live_effects_filter
+            else -> R.drawable.ic_flash_off
+        }
+        binding.btnFlash.setImageResource(icon)
+    }
+
+    private fun renderToggleState(view: View, enabled: Boolean) {
+        view.backgroundTintList = ContextCompat.getColorStateList(
+            requireContext(),
+            if (enabled) R.color.permission_green else R.color.bg_card_dark
+        )
+    }
+
+    private fun renderModeTabs(mode: CameraAppMode) {
+        val activeBackground = R.drawable.bg_camera_mode_active
+        val inactiveBackground = R.drawable.bg_camera_mode_inactive
+
+        binding.tvTabVideoMode.setTypeface(
+            null,
+            if (mode == CameraAppMode.VIDEO) Typeface.BOLD else Typeface.NORMAL
+        )
+        binding.tvTabPhotoMode.setTypeface(
+            null,
+            if (mode == CameraAppMode.PHOTO) Typeface.BOLD else Typeface.NORMAL
+        )
+        binding.tvTabPortraitMode.setTypeface(
+            null,
+            if (mode == CameraAppMode.PORTRAIT) Typeface.BOLD else Typeface.NORMAL
+        )
+
+        binding.tvTabVideoMode.setBackgroundResource(if (mode == CameraAppMode.VIDEO) activeBackground else inactiveBackground)
+        binding.tvTabPhotoMode.setBackgroundResource(if (mode == CameraAppMode.PHOTO) activeBackground else inactiveBackground)
+        binding.tvTabPortraitMode.setBackgroundResource(if (mode == CameraAppMode.PORTRAIT) activeBackground else inactiveBackground)
+
+        binding.tvTabVideoMode.setTextColor(
+            ContextCompat.getColor(requireContext(), if (mode == CameraAppMode.VIDEO) R.color.white else R.color.text_gray_dim)
+        )
+        binding.tvTabPhotoMode.setTextColor(
+            ContextCompat.getColor(requireContext(), if (mode == CameraAppMode.PHOTO) R.color.white else R.color.text_gray_dim)
+        )
+        binding.tvTabPortraitMode.setTextColor(
+            ContextCompat.getColor(requireContext(), if (mode == CameraAppMode.PORTRAIT) R.color.white else R.color.text_gray_dim)
+        )
+    }
+
+    private fun renderGalleryPreview(uri: android.net.Uri?) {
+        if (uri == null) {
+            binding.ivGalleryThumbShortcut.setImageResource(R.drawable.ic_gallery_thumb_frame)
+        } else {
+            Glide.with(this)
+                .load(uri)
+                .placeholder(R.drawable.ic_gallery_thumb_frame)
+                .centerCrop()
+                .into(binding.ivGalleryThumbShortcut)
+        }
+    }
+
+    private fun handleVideoRecordingRequest() {
+        val state = viewModel.uiState.value ?: return
+
+        if (state.isRecordingVideo) {
+            cameraKit.stopVideoRecording()
+            return
+        }
+
+        if (state.activeMode != CameraAppMode.VIDEO) {
+            viewModel.failVideoRecording()
+            return
+        }
+
+        if (!hasCameraPermission() || !hasAudioPermission()) {
+            videoPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO
+                )
+            )
+            return
+        }
+
+        cameraKit.startVideoRecording(
+            onStarted = {
+                viewModel.markVideoRecordingStarted()
+                showToast("Recording started")
+            },
+            onFinalized = {
+                viewModel.finishVideoRecording()
+                showToast("Video saved")
+            },
+            onFailure = { error ->
+                viewModel.failVideoRecording()
+                showToast("Video failed: ${error.message}")
+            }
+        )
+    }
+
+    private fun capturePhoto() {
+        cameraKit.capturePhotoData(
+            onSuccess = {
+                viewModel.finishCapture()
+                showToast("Photo captured")
+            },
+            onFailure = { error ->
+                viewModel.finishCapture()
+                showToast("Capture failed: ${error.message}")
+            }
+        )
+    }
+
+    private fun showTimerMenu() {
+        PopupMenu(requireContext(), binding.btnTimerToggle, Gravity.NO_GRAVITY).apply {
+            menu.add(0, 0, 0, "Timer Off")
+            menu.add(0, 3, 1, "3 seconds")
+            menu.add(0, 5, 2, "5 seconds")
+            menu.add(0, 10, 3, "10 seconds")
+            setOnMenuItemClickListener {
+                viewModel.setTimer(it.itemId)
+                true
+            }
+        }.show()
+    }
+
+    private fun showAspectRatioMenu() {
+        PopupMenu(requireContext(), binding.btnRatioConfig, Gravity.NO_GRAVITY).apply {
+            menu.add("4:3")
+            menu.add("16:9")
+            setOnMenuItemClickListener {
+                val label = it.title.toString()
+                cameraKit.setAspectRatio(if (label == "16:9") 1 else 0)
+                viewModel.setAspectRatio(label)
+                true
+            }
+        }.show()
+    }
+
+    private fun showResolutionSelector() {
+        val dialogBinding = DialogResolutionSelectorBinding.inflate(layoutInflater)
+        val dialog = BottomSheetDialog(requireContext())
+        val adapter = ResolutionPresetAdapter { preset ->
+            applyResolutionPreset(preset)
+            dialog.dismiss()
+        }
+        val state = viewModel.uiState.value ?: HdCameraUiState()
+
+        dialogBinding.rvResolutions.layoutManager = LinearLayoutManager(requireContext())
+        dialogBinding.rvResolutions.adapter = adapter
+        adapter.submitResolutions(state.resolutionPresets, state.selectedResolution)
+        dialogBinding.btnCloseDialog.setOnClickListener { dialog.dismiss() }
+        dialogBinding.btnRatioAll.setOnClickListener {
+            adapter.submitResolutions(state.resolutionPresets, state.selectedResolution)
+        }
+        dialogBinding.btnRatio43.setOnClickListener {
+            adapter.submitResolutions(
+                state.resolutionPresets.filter { it.ratioLabel == "4:3" },
+                state.selectedResolution
+            )
+        }
+        dialogBinding.btnRatio169.setOnClickListener {
+            adapter.submitResolutions(
+                state.resolutionPresets.filter { it.ratioLabel == "16:9" },
+                state.selectedResolution
+            )
+        }
+
+        dialog.setContentView(dialogBinding.root)
+        dialog.show()
+    }
+
+    private fun applyResolutionPreset(preset: ResolutionPreset) {
+        viewModel.selectResolution(preset)
+        cameraKit.setManualResolution(preset.width, preset.height)
+    }
+
+    private fun navigateSafely(actionId: Int) {
+        runCatching {
+            findNavController().navigate(actionId)
+        }
+    }
+
+    private fun showToast(message: String) {
+        if (isAdded) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
     }
 }

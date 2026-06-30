@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Active state: Horizontal pill -->
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="#FFD214" /> <corners android:radius="@dimen/_4sdp" />
-            <size android:width="@dimen/_16sdp" android:height="@dimen/_6sdp" />
+            <solid android:color="@color/permission_green" />
+            <corners android:radius="@dimen/_10sdp" />
+            <size android:width="@dimen/_18sdp" android:height="@dimen/_5sdp" />
         </shape>
     </item>
 
+    <!-- Inactive state: Small circle dot -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="#557C7C8A" /> <size android:width="@dimen/_6sdp" android:height="@dimen/_6sdp" />
+            <solid android:color="#E0E0E0" />
+            <size android:width="@dimen/_5sdp" android:height="@dimen/_5sdp" />
         </shape>
     </item>
 </selector>

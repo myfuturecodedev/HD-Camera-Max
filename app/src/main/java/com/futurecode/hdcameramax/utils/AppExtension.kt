@@ -25,3 +25,5 @@ import com.futurecode.hdcameramax.R
 //
 //    dialog.show()
 //}
+
+

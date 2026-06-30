@@ -31,7 +31,14 @@
     <fragment
         android:id="@+id/hdCameraFragment"
         android:name="com.futurecode.hdcameramax.ui.afterlogin.HdCameraFragment"
-        android:label="HdCameraFragment" />
+        android:label="HdCameraFragment" >
+        <action
+            android:id="@+id/action_hdCameraFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_hdCameraFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.futurecode.hdcameramax.ui.afterlogin.GalleryFragment"
