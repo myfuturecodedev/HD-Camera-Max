@@ -19,6 +19,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/viewFilterOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@id/cameraViewFinder"
+        app:layout_constraintEnd_toEndOf="@id/cameraViewFinder"
+        app:layout_constraintStart_toStartOf="@id/cameraViewFinder"
+        app:layout_constraintTop_toTopOf="@id/cameraViewFinder" />
+
+    <View
         android:layout_width="0dp"
         android:layout_height="@dimen/_180sdp"
         android:background="@drawable/bg_camera_top_scrim"
@@ -175,8 +188,9 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/settings"
-                    android:src="@drawable/ic_flash_ligh"
-                    />
+                    android:padding="@dimen/_7sdp"
+                    android:src="@drawable/ic_settings"
+                    app:tint="@color/white" />
 
                 <ImageView
                     android:id="@+id/btnFlash"
@@ -185,8 +199,9 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/flash"
+                    android:padding="@dimen/_7sdp"
                     android:src="@drawable/ic_flash"
-                   />
+                    app:tint="@color/white" />
 
 <!--                <TextView-->
 <!--                    android:id="@+id/btnHdrToggle"-->
@@ -229,8 +244,9 @@
                     android:layout_height="@dimen/_28sdp"
                     android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/aspect_ratio"
+                    android:padding="@dimen/_7sdp"
                     android:src="@drawable/ic_more"
-                     />
+                    app:tint="@color/white" />
             </LinearLayout>
         </HorizontalScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -283,6 +299,24 @@
             android:textSize="@dimen/_7ssp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvRecordingTimerPill"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:background="@drawable/bg_recording_timer_pill"
+        android:gravity="center"
+        android:minWidth="@dimen/_78sdp"
+        android:paddingHorizontal="@dimen/_18sdp"
+        android:text="00.00"
+        android:textColor="@color/permission_green"
+        android:textSize="@dimen/_10ssp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/cameraControlsScrim"
@@ -455,7 +489,7 @@
         android:layout_marginHorizontal="@dimen/_14sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/llCameraModeSelectorStrip"
+        app:layout_constraintBottom_toTopOf="@id/llFilterSelectorStrip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -636,6 +670,285 @@
                     android:textSize="@dimen/_9ssp" />
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/llFilterSelectorStrip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/llCameraModeSelectorStrip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/filterDefaultOption"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardFilterDefault"
+                    android:layout_width="@dimen/_58sdp"
+                    android:layout_height="@dimen/_58sdp"
+                    app:cardCornerRadius="@dimen/_14sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/permission_green"
+                    app:strokeWidth="2dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/native_thumb" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvFilterDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/filter_default"
+                    android:textColor="@color/permission_green"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filterFoggyOption"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardFilterFoggy"
+                    android:layout_width="@dimen/_58sdp"
+                    android:layout_height="@dimen/_58sdp"
+                    app:cardCornerRadius="@dimen/_14sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="2dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/native_thumb" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#99DDE7F0" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvFilterFoggy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/filter_foggy"
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filterDaylightOption"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardFilterDaylight"
+                    android:layout_width="@dimen/_58sdp"
+                    android:layout_height="@dimen/_58sdp"
+                    app:cardCornerRadius="@dimen/_14sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="2dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/native_thumb" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#55FFD36A" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvFilterDaylight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/filter_daylight"
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filterSpikeOption"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardFilterSpike"
+                    android:layout_width="@dimen/_58sdp"
+                    android:layout_height="@dimen/_58sdp"
+                    app:cardCornerRadius="@dimen/_14sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="2dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/native_thumb" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#8820152A" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvFilterSpike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/filter_spike"
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filterGloamOption"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardFilterGloam"
+                    android:layout_width="@dimen/_58sdp"
+                    android:layout_height="@dimen/_58sdp"
+                    app:cardCornerRadius="@dimen/_14sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="2dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/native_thumb" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#88301954" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvFilterGloam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/filter_gloam"
+                    android:textColor="#D9FFFFFF"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:id="@+id/llRecordingZoomChips"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_34sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:background="@drawable/bg_camera_glass_panel"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/_9sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/llCameraModeSelectorStrip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tvRecordingZoom1x"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:background="@drawable/bg_zoom_btn_selected"
+            android:gravity="center"
+            android:text="1x"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_8ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvRecordingZoom10x"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:background="@drawable/bg_zoom_btn_unselected"
+            android:gravity="center"
+            android:text="2x"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_8ssp" />
+
+        <TextView
+            android:id="@+id/tvRecordingZoom100x"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:background="@drawable/bg_zoom_btn_unselected"
+            android:gravity="center"
+            android:text="5x"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_8ssp" />
     </LinearLayout>
 
     <LinearLayout

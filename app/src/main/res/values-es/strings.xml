@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="choose_preferred_language">Elija su idioma preferido</string>
+    <string name="lang_english_default">Inglés (predeterminado)</string>
+    <string name="lang_english">Inglés</string>
+    <string name="lang_arabic">Árabe</string>
+    <string name="lang_german">Alemán</string>
+    <string name="lang_spanish">Español</string>
+    <string name="lang_french">Francés</string>
+    <string name="lang_indonesian">Indonesio</string>
+    <string name="lang_italian">Italiano</string>
+    <string name="lang_japanese">Japonés</string>
+    <string name="lang_korean">Coreano</string>
+
+    <string name="unlock_premium">Desbloquear Premium</string>
+    <string name="get_unlimited_translations">Obtenga traducciones ilimitadas</string>
+    <string name="upgrade">Mejorar</string>
+
+    <string name="next">Siguiente →</string>
+    <string name="get_started">Comenzar →</string>
+    <string name="welcome_back">Bienvenido de nuevo 👋</string>
+    <string name="quick_tools">Herramientas rápidas</string>
+    <string name="see_all">Ver todo</string>
+    <string name="my_gallery">Mi galería</string>
+    <string name="browse_your_captured_photos_amp_videos">Explore sus fotos y videos capturados</string>
+    <string name="take_photo">Tomar foto</string>
+    <string name="open_camera">Abrir cámara</string>
+    <string name="rename">Renombrar</string>
+    <string name="change_file_name">Cambiar nombre de archivo</string>
+    <string name="download">Descargar</string>
+    <string name="save_photo_locally">Guardar foto localmente</string>
+    <string name="set_as_wallpaper">Establecer como fondo de pantalla</string>
+    <string name="apply_as_home_or_lock_screen">Aplicar como pantalla de inicio o de bloqueo</string>
+    <string name="details">Detalles</string>
+    <string name="view_file_information">Ver información del archivo</string>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_language">Sélectionner la langue</string>
+    <string name="choose_preferred_language">Choisissez votre langue préférée</string>
+    <string name="lang_english_default">Anglais (par défaut)</string>
+    <string name="lang_english">Anglais</string>
+    <string name="lang_arabic">Arabe</string>
+    <string name="lang_german">Allemand</string>
+    <string name="lang_spanish">Espagnol</string>
+    <string name="lang_french">Français</string>
+    <string name="lang_indonesian">Indonésien</string>
+    <string name="lang_italian">Italien</string>
+    <string name="lang_japanese">Japonais</string>
+    <string name="lang_korean">Coréen</string>
+
+    <string name="unlock_premium">Débloquer la version Premium</string>
+    <string name="get_unlimited_translations">Obtenez des traductions illimitées</string>
+    <string name="upgrade">Mettre à niveau</string>
+
+    <string name="next">Suivant →</string>
+    <string name="get_started">Commencer →</string>
+    <string name="welcome_back">Bon retour 👋</string>
+    <string name="quick_tools">Outils rapides</string>
+    <string name="see_all">Voir tout</string>
+    <string name="my_gallery">Ma galerie</string>
+    <string name="browse_your_captured_photos_amp_videos">Parcourir vos photos et vidéos capturées</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="open_camera">Ouvrir l\'appareil photo</string>
+    <string name="rename">Renommer</string>
+    <string name="change_file_name">Changer le اسم du fichier</string>
+    <string name="download">Télécharger</string>
+    <string name="save_photo_locally">Enregistrer la photo localement</string>
+    <string name="set_as_wallpaper">Définir comme fond d\'écran</string>
+    <string name="apply_as_home_or_lock_screen">Appliquer comme écran d\'accueil ou de verrouillage</string>
+    <string name="details">Détails</string>
+    <string name="view_file_information">Afficher les informations du fichier</string>
+</resources>

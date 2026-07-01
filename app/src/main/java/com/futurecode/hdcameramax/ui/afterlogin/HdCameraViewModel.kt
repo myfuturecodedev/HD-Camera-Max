@@ -35,6 +35,7 @@ class HdCameraViewModel(
     val videoRecordRequest: LiveData<Long> = _videoRecordRequest
 
     private var countdownJob: Job? = null
+    private var recordingTimerJob: Job? = null
 
     fun refreshGalleryPreview() {
         viewModelScope.launch {
@@ -108,14 +109,29 @@ class HdCameraViewModel(
     }
 
     fun setMode(mode: CameraAppMode) {
+        countdownJob?.cancel()
+        if (mode != CameraAppMode.VIDEO) {
+            stopRecordingTimer()
+        }
         _uiState.value = currentState().copy(
             activeMode = mode,
-            isSettingsPanelVisible = false
+            isSettingsPanelVisible = false,
+            isCapturing = false,
+            countdownValue = 0,
+            recordingElapsedSeconds = if (mode == CameraAppMode.VIDEO) {
+                currentState().recordingElapsedSeconds
+            } else {
+                0
+            }
         )
     }
 
     fun setAspectRatio(label: String) {
         _uiState.value = currentState().copy(aspectRatioLabel = label)
+    }
+
+    fun setFilter(filterName: String) {
+        _uiState.value = currentState().copy(selectedFilter = filterName)
     }
 
     fun selectResolution(preset: ResolutionPreset) {
@@ -151,7 +167,8 @@ class HdCameraViewModel(
                 countdownValue = 0
             )
 
-            if (state.activeMode == CameraAppMode.VIDEO) {
+            val latestState = currentState()
+            if (latestState.activeMode == CameraAppMode.VIDEO) {
                 _videoRecordRequest.value = System.currentTimeMillis()
             } else {
                 _captureRequest.value = System.currentTimeMillis()
@@ -161,15 +178,18 @@ class HdCameraViewModel(
 
     fun markVideoRecordingStarted() {
         countdownJob?.cancel()
+        startRecordingTimer()
         _uiState.value = currentState().copy(
             isCapturing = false,
             isRecordingVideo = true,
-            countdownValue = 0
+            countdownValue = 0,
+            recordingElapsedSeconds = 0
         )
     }
 
     fun finishVideoRecording() {
         countdownJob?.cancel()
+        stopRecordingTimer()
         viewModelScope.launch {
             val latestUri = withContext(Dispatchers.IO) {
                 repository.loadLatestMediaUri()
@@ -178,6 +198,7 @@ class HdCameraViewModel(
                 isCapturing = false,
                 isRecordingVideo = false,
                 countdownValue = 0,
+                recordingElapsedSeconds = 0,
                 latestMediaUri = latestUri
             )
         }
@@ -185,10 +206,12 @@ class HdCameraViewModel(
 
     fun failVideoRecording() {
         countdownJob?.cancel()
+        stopRecordingTimer()
         _uiState.value = currentState().copy(
             isCapturing = false,
             isRecordingVideo = false,
-            countdownValue = 0
+            countdownValue = 0,
+            recordingElapsedSeconds = 0
         )
     }
 
@@ -208,9 +231,12 @@ class HdCameraViewModel(
 
     fun cancelCaptureFlow() {
         countdownJob?.cancel()
+        stopRecordingTimer()
         _uiState.value = currentState().copy(
             isCapturing = false,
-            countdownValue = 0
+            isRecordingVideo = false,
+            countdownValue = 0,
+            recordingElapsedSeconds = 0
         )
     }
 
@@ -223,6 +249,32 @@ class HdCameraViewModel(
     }
 
     private fun currentState(): HdCameraUiState = _uiState.value ?: HdCameraUiState()
+
+    private fun startRecordingTimer() {
+        recordingTimerJob?.cancel()
+        recordingTimerJob = viewModelScope.launch {
+            var elapsedSeconds = 0
+            while (true) {
+                _uiState.value = currentState().copy(
+                    isRecordingVideo = true,
+                    recordingElapsedSeconds = elapsedSeconds
+                )
+                delay(1000)
+                elapsedSeconds++
+            }
+        }
+    }
+
+    private fun stopRecordingTimer() {
+        recordingTimerJob?.cancel()
+        recordingTimerJob = null
+    }
+
+    override fun onCleared() {
+        countdownJob?.cancel()
+        stopRecordingTimer()
+        super.onCleared()
+    }
 
     class Factory(
         private val repository: HdCameraRepository

@@ -3,6 +3,7 @@ package com.futurecode.hdcameramax.ui.afterlogin
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
@@ -10,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ImageCapture
@@ -27,6 +29,7 @@ import com.futurecode.hdcameramax.model.CameraAppMode
 import com.futurecode.hdcameramax.model.ResolutionPreset
 import com.futurecode.hdcameramax.utils.CameraEngineKit
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
 /*
@@ -108,6 +111,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     override fun onDestroyView() {
         if (::cameraKit.isInitialized) {
+            viewModel.cancelCaptureFlow()
             cameraKit.release()
         }
         super.onDestroyView()
@@ -209,6 +213,26 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             showAspectRatioMenu()
         }
 
+        binding.filterDefaultOption.setOnClickListener {
+            viewModel.setFilter(FILTER_DEFAULT)
+        }
+
+        binding.filterFoggyOption.setOnClickListener {
+            viewModel.setFilter(FILTER_FOGGY)
+        }
+
+        binding.filterDaylightOption.setOnClickListener {
+            viewModel.setFilter(FILTER_DAYLIGHT)
+        }
+
+        binding.filterSpikeOption.setOnClickListener {
+            viewModel.setFilter(FILTER_SPIKE)
+        }
+
+        binding.filterGloamOption.setOnClickListener {
+            viewModel.setFilter(FILTER_GLOAM)
+        }
+
         binding.btnOpenSettingsScreen.setOnClickListener {
             navigateSafely(R.id.action_hdCameraFragment_to_settingsFragment)
         }
@@ -222,6 +246,18 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         }
 
         binding.tvZoom100x.setOnClickListener {
+            updateZoomLevel(5.0f, it)
+        }
+
+        binding.tvRecordingZoom1x.setOnClickListener {
+            updateZoomLevel(1.0f, it)
+        }
+
+        binding.tvRecordingZoom10x.setOnClickListener {
+            updateZoomLevel(2.0f, it)
+        }
+
+        binding.tvRecordingZoom100x.setOnClickListener {
             updateZoomLevel(5.0f, it)
         }
 
@@ -311,19 +347,10 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         viewModel.toggleHdr()
     }
 
-    private fun updateZoomLevel(scale: Float, view: View) {
+    private fun updateZoomLevel(scale: Float, selectedView: View) {
         cameraKit.applyZoomRatio(scale)
         viewModel.updateZoom(scale)
-
-//        binding.tvZoom1x.setBackgroundResource(R.drawable.bg_circle_icon)
-//        binding.tvZoom10x.setBackgroundResource(R.drawable.bg_circle_icon)
-//        binding.tvZoom100x.setBackgroundResource(R.drawable.bg_circle_icon)
-//        view.setBackgroundResource(R.drawable.bg_selected_check)
-
-
-        binding.tvZoom1x.setBackgroundResource(R.drawable.bg_zoom_btn_selected)
-        binding.tvZoom10x.setBackgroundResource(R.drawable.bg_zoom_btn_selected)
-        binding.tvZoom100x.setBackgroundResource(R.drawable.bg_zoom_btn_selected)
+        selectedView.performHapticFeedback(android.view.HapticFeedbackConstants.CLOCK_TICK)
 
         binding.sbDynamicZoomSeeker.progress = (((scale - 1f) / 9f) * 100).toInt()
     }
@@ -357,15 +384,24 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     }
 
     private fun renderUiState(state: HdCameraUiState) {
+        val isRecordingVideo = state.activeMode == CameraAppMode.VIDEO && state.isRecordingVideo
+        val showSettingsPanel = state.isSettingsPanelVisible && !isRecordingVideo
+
         binding.viewGridLines.visibility = if (state.isGridEnabled) View.VISIBLE else View.GONE
         binding.viewFaceDetectionOverlay.visibility =
             if (state.isFaceOverlayEnabled) View.VISIBLE else View.GONE
         binding.cameraControlsScrim.visibility =
-            if (state.isSettingsPanelVisible) View.VISIBLE else View.GONE
+            if (showSettingsPanel) View.VISIBLE else View.GONE
         binding.cameraSettingsPanel.visibility =
-            if (state.isSettingsPanelVisible) View.VISIBLE else View.GONE
+            if (showSettingsPanel) View.VISIBLE else View.GONE
         binding.tvCountdownOverlay.visibility =
             if (state.countdownValue > 0) View.VISIBLE else View.GONE
+        binding.topBarHeaderControls.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
+        binding.llStatusBadges.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
+        binding.llInteractiveControlDeck.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
+        binding.llFilterSelectorStrip.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
+        binding.llRecordingZoomChips.visibility = if (isRecordingVideo) View.VISIBLE else View.GONE
+        binding.tvRecordingTimerPill.visibility = if (isRecordingVideo) View.VISIBLE else View.GONE
 
         val shutterEnabled = state.isCameraReady && (!state.isCapturing || state.isRecordingVideo)
         binding.tvCountdownOverlay.text = state.countdownValue.toString()
@@ -389,8 +425,9 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         }
         binding.tvZoomMaxCapIndicator.text = String.format(Locale.US, "%.1fx", state.zoomRatio)
         binding.tvExposureVal.text = String.format(Locale.US, "%.1f", state.exposureValue)
+        binding.tvRecordingTimerPill.text = formatRecordingPillDuration(state.recordingElapsedSeconds)
         binding.tvTimerBadge.text = when {
-            state.isRecordingVideo -> getString(R.string.recording_short)
+            state.isRecordingVideo -> "${getString(R.string.recording_short)} ${formatRecordingDuration(state.recordingElapsedSeconds)}"
             state.timerSeconds == 0 -> getString(R.string.off)
             else -> "${state.timerSeconds}s"
         }
@@ -405,11 +442,13 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         binding.tvHdrBadge.text = if (state.isHdrEnabled) "ON" else "OFF"
 
         renderFlashIcon(state.flashMode)
-       // renderToggleState(binding.btnHdrToggle, state.isHdrEnabled)
-        //renderToggleState(binding.btnGridToggle, state.isGridEnabled)
         renderToggleState(binding.btnPanelHdr, state.isHdrEnabled)
         renderToggleState(binding.btnPanelGrid, state.isGridEnabled)
         renderToggleState(binding.btnPanelFace, state.isFaceOverlayEnabled)
+        renderSettingsPanelLabels(state)
+        renderStatusBadgeState(state)
+        renderZoomChips(state.zoomRatio)
+        renderFilterState(state.selectedFilter)
         renderModeTabs(state.activeMode)
         renderGalleryPreview(state.latestMediaUri)
     }
@@ -428,6 +467,122 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             requireContext(),
             if (enabled) R.color.permission_green else R.color.bg_card_dark
         )
+    }
+
+    private fun renderSettingsPanelLabels(state: HdCameraUiState) {
+        binding.btnPanelGrid.text = getString(
+            if (state.isGridEnabled) R.string.grid_on else R.string.grid_off
+        )
+        binding.btnPanelHdr.text = getString(
+            if (state.isHdrEnabled) R.string.hdr_on else R.string.hdr_off
+        )
+        binding.btnPanelFace.text = getString(
+            if (state.isFaceOverlayEnabled) R.string.face_on else R.string.face_off
+        )
+        binding.btnPanelTimer.text = if (state.timerSeconds == 0) {
+            getString(R.string.timer_off)
+        } else {
+            getString(R.string.timer_seconds_short, state.timerSeconds)
+        }
+        binding.btnPanelResolution.text =
+            state.selectedResolution?.displayString ?: getString(R.string.resolution)
+        binding.btnPanelAspect.text = state.aspectRatioLabel
+    }
+
+    private fun renderStatusBadgeState(state: HdCameraUiState) {
+        binding.tvHdrBadge.setBackgroundResource(
+            if (state.isHdrEnabled) R.drawable.bg_camera_chip_active else R.drawable.bg_camera_chip_dark
+        )
+        binding.tvTimerBadge.setBackgroundResource(
+            if (state.timerSeconds > 0 || state.isRecordingVideo) {
+                R.drawable.bg_camera_chip_active
+            } else {
+                R.drawable.bg_camera_chip_dark
+            }
+        )
+        binding.tvAspectBadge.setBackgroundResource(R.drawable.bg_camera_chip_active)
+    }
+
+    private fun renderZoomChips(zoomRatio: Float) {
+        renderZoomChipSet(zoomRatio, binding.tvZoom1x, binding.tvZoom10x, binding.tvZoom100x)
+        renderZoomChipSet(
+            zoomRatio,
+            binding.tvRecordingZoom1x,
+            binding.tvRecordingZoom10x,
+            binding.tvRecordingZoom100x
+        )
+    }
+
+    private fun renderZoomChipSet(
+        zoomRatio: Float,
+        oneXChip: TextView,
+        twoXChip: TextView,
+        fiveXChip: TextView
+    ) {
+        val selectedView = when {
+            zoomRatio >= 4.25f -> fiveXChip
+            zoomRatio >= 1.5f -> twoXChip
+            else -> oneXChip
+        }
+
+        val chips = listOf(oneXChip, twoXChip, fiveXChip)
+        chips.forEach { chip ->
+            val selected = chip == selectedView
+            chip.setBackgroundResource(
+                if (selected) R.drawable.bg_zoom_btn_selected else R.drawable.bg_zoom_btn_unselected
+            )
+            chip.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+            chip.alpha = if (selected) 1f else 0.78f
+        }
+    }
+
+    private fun renderFilterState(selectedFilter: String) {
+        val filterChips = listOf(
+            FilterOption(binding.filterDefaultOption, binding.cardFilterDefault, binding.tvFilterDefault, FILTER_DEFAULT),
+            FilterOption(binding.filterFoggyOption, binding.cardFilterFoggy, binding.tvFilterFoggy, FILTER_FOGGY),
+            FilterOption(binding.filterDaylightOption, binding.cardFilterDaylight, binding.tvFilterDaylight, FILTER_DAYLIGHT),
+            FilterOption(binding.filterSpikeOption, binding.cardFilterSpike, binding.tvFilterSpike, FILTER_SPIKE),
+            FilterOption(binding.filterGloamOption, binding.cardFilterGloam, binding.tvFilterGloam, FILTER_GLOAM)
+        )
+
+        filterChips.forEach { option ->
+            val selected = option.filterName == selectedFilter
+            option.card.strokeColor = ContextCompat.getColor(
+                requireContext(),
+                if (selected) R.color.permission_green else android.R.color.transparent
+            )
+            option.card.strokeWidth =
+                resources.getDimensionPixelSize(if (selected) com.intuit.sdp.R.dimen._2sdp else com.intuit.sdp.R.dimen._1sdp)
+            option.label.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (selected) R.color.permission_green else R.color.white
+                )
+            )
+            option.label.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+            option.root.alpha = if (selected) 1f else 0.84f
+        }
+
+        val overlayColor = when (selectedFilter) {
+            FILTER_FOGGY -> Color.parseColor("#66DDE7F0")
+            FILTER_DAYLIGHT -> Color.parseColor("#36FFD36A")
+            FILTER_SPIKE -> Color.parseColor("#44FF2B7A")
+            FILTER_GLOAM -> Color.parseColor("#66301954")
+            else -> Color.TRANSPARENT
+        }
+        val overlayAlpha = when (selectedFilter) {
+            FILTER_FOGGY -> 0.34f
+            FILTER_DAYLIGHT -> 0.24f
+            FILTER_SPIKE -> 0.30f
+            FILTER_GLOAM -> 0.38f
+            else -> 0f
+        }
+
+        binding.viewFilterOverlay.setBackgroundColor(overlayColor)
+        binding.viewFilterOverlay.animate()
+            .alpha(overlayAlpha)
+            .setDuration(160)
+            .start()
     }
 
     private fun renderModeTabs(mode: CameraAppMode) {
@@ -497,6 +652,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             return
         }
 
+        viewModel.hideSettingsPanel()
         cameraKit.startVideoRecording(
             onStarted = {
                 viewModel.markVideoRecordingStarted()
@@ -527,11 +683,14 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     }
 
     private fun showTimerMenu() {
+        val currentTimer = viewModel.uiState.value?.timerSeconds ?: 0
         PopupMenu(requireContext(), binding.btnTimerToggle, Gravity.NO_GRAVITY).apply {
             menu.add(0, 0, 0, "Timer Off")
             menu.add(0, 3, 1, "3 seconds")
             menu.add(0, 5, 2, "5 seconds")
             menu.add(0, 10, 3, "10 seconds")
+            menu.setGroupCheckable(0, true, true)
+            menu.findItem(currentTimer)?.isChecked = true
             setOnMenuItemClickListener {
                 viewModel.setTimer(it.itemId)
                 true
@@ -540,9 +699,12 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     }
 
     private fun showAspectRatioMenu() {
+        val currentRatio = viewModel.uiState.value?.aspectRatioLabel ?: "4:3"
         PopupMenu(requireContext(), binding.btnRatioConfig, Gravity.NO_GRAVITY).apply {
-            menu.add("4:3")
-            menu.add("16:9")
+            menu.add(0, 43, 0, "4:3")
+            menu.add(0, 169, 1, "16:9")
+            menu.setGroupCheckable(0, true, true)
+            menu.findItem(if (currentRatio == "16:9") 169 else 43)?.isChecked = true
             setOnMenuItemClickListener {
                 val label = it.title.toString()
                 cameraKit.setAspectRatio(if (label == "16:9") 1 else 0)
@@ -563,22 +725,46 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
         dialogBinding.rvResolutions.layoutManager = LinearLayoutManager(requireContext())
         dialogBinding.rvResolutions.adapter = adapter
-        adapter.submitResolutions(state.resolutionPresets, state.selectedResolution)
+        fun renderFilterSelection(selected: TextView) {
+            listOf(dialogBinding.btnRatioAll, dialogBinding.btnRatio43, dialogBinding.btnRatio169)
+                .forEach { chip ->
+                    val active = chip == selected
+                    chip.setBackgroundResource(
+                        if (active) R.drawable.bg_camera_mode_active else R.drawable.bg_camera_resolution_filter
+                    )
+                    chip.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (active) R.color.white else R.color.text_dark_primary
+                        )
+                    )
+                    chip.setTypeface(null, if (active) Typeface.BOLD else Typeface.NORMAL)
+                }
+        }
+
+        fun submitFilteredResolutions(filter: String?) {
+            val filtered = if (filter == null) {
+                state.resolutionPresets
+            } else {
+                state.resolutionPresets.filter { it.ratioLabel == filter }
+            }
+            adapter.submitResolutions(filtered, viewModel.uiState.value?.selectedResolution)
+        }
+
+        renderFilterSelection(dialogBinding.btnRatioAll)
+        submitFilteredResolutions(null)
         dialogBinding.btnCloseDialog.setOnClickListener { dialog.dismiss() }
         dialogBinding.btnRatioAll.setOnClickListener {
-            adapter.submitResolutions(state.resolutionPresets, state.selectedResolution)
+            renderFilterSelection(dialogBinding.btnRatioAll)
+            submitFilteredResolutions(null)
         }
         dialogBinding.btnRatio43.setOnClickListener {
-            adapter.submitResolutions(
-                state.resolutionPresets.filter { it.ratioLabel == "4:3" },
-                state.selectedResolution
-            )
+            renderFilterSelection(dialogBinding.btnRatio43)
+            submitFilteredResolutions("4:3")
         }
         dialogBinding.btnRatio169.setOnClickListener {
-            adapter.submitResolutions(
-                state.resolutionPresets.filter { it.ratioLabel == "16:9" },
-                state.selectedResolution
-            )
+            renderFilterSelection(dialogBinding.btnRatio169)
+            submitFilteredResolutions("16:9")
         }
 
         dialog.setContentView(dialogBinding.root)
@@ -600,5 +786,32 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         if (isAdded) {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun formatRecordingDuration(totalSeconds: Int): String {
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+        return String.format(Locale.US, "%02d:%02d", minutes, seconds)
+    }
+
+    private fun formatRecordingPillDuration(totalSeconds: Int): String {
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+        return String.format(Locale.US, "%02d.%02d", minutes, seconds)
+    }
+
+    private data class FilterOption(
+        val root: View,
+        val card: MaterialCardView,
+        val label: TextView,
+        val filterName: String
+    )
+
+    private companion object {
+        const val FILTER_DEFAULT = "Default"
+        const val FILTER_FOGGY = "Foggy"
+        const val FILTER_DAYLIGHT = "Daylight"
+        const val FILTER_SPIKE = "Spike"
+        const val FILTER_GLOAM = "Gloam"
     }
 }

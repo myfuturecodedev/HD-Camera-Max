@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_language">اختر اللغة</string>
+    <string name="choose_preferred_language">اختر لغتك المفضلة</string>
+    <string name="lang_english_default">الإنجليزية (الافتراضية)</string>
+    <string name="lang_english">الإنجليزية</string>
+    <string name="lang_arabic">العربية</string>
+    <string name="lang_german">الألمانية</string>
+    <string name="lang_spanish">الإسبانية</string>
+    <string name="lang_french">الفرنسية</string>
+    <string name="lang_indonesian">الإندونيسية</string>
+    <string name="lang_italian">الإيطالية</string>
+    <string name="lang_japanese">اليابانية</string>
+    <string name="lang_korean">الكورية</string>
+
+    <string name="unlock_premium">فتح النسخة المميزة</string>
+    <string name="get_unlimited_translations">احصل على ترجمات غير محدودة</string>
+    <string name="upgrade">ترقية</string>
+
+    <string name="next">التالي ←</string>
+    <string name="get_started">البدء ←</string>
+    <string name="welcome_back">مرحباً بعودتك 👋</string>
+    <string name="quick_tools">أدوات سريعة</string>
+    <string name="see_all">عرض الكل</string>
+    <string name="my_gallery">معرض الصور الخاص بي</string>
+    <string name="browse_your_captured_photos_amp_videos">تصفح الصور ومقاطع الفيديو الملتقطة</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="open_camera">فتح الكاميرا</string>
+    <string name="rename">إعادة تسمية</string>
+    <string name="change_file_name">تغيير اسم الملف</string>
+    <string name="download">تنزيل</string>
+    <string name="save_photo_locally">حفظ الصورة محلياً</string>
+    <string name="set_as_wallpaper">تعيين كخلفية</string>
+    <string name="apply_as_home_or_lock_screen">تطبيق كشاشة رئيسية أو شاشة قفل</string>
+    <string name="details">التفاصيل</string>
+    <string name="view_file_information">عرض معلومات الملف</string>
+</resources>

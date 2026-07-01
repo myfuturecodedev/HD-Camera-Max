@@ -9,11 +9,11 @@ import android.widget.LinearLayout
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.activity.MyApplication
 import com.futurecode.hdcameramax.utils.PrefManager
+import com.futurecode.hdcameramax.utils.Utils
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.LoadAdError
-
 
 class BannerAdsHelper(context: Context, attrs: AttributeSet?) :
     LinearLayout(context, attrs) {
@@ -69,7 +69,7 @@ class BannerAdsHelper(context: Context, attrs: AttributeSet?) :
         imageView.setOnClickListener {
             val activity = context as? Activity
             activity?.let { act ->
-               // Util.openCustomChrome(act, Utils.getRandomUrls(act))
+                Utils.openCustomChrome(act, Utils.getRandomUrls(act))
             }
         }
     }

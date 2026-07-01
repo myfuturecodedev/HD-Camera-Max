@@ -27,6 +27,11 @@
     <string name="hd_zoom">HD Zoom</string>
     <string name="portrait">Portrait</string>
     <string name="filters">Filters</string>
+    <string name="filter_default">Default</string>
+    <string name="filter_foggy">Foggy</string>
+    <string name="filter_daylight">Daylight</string>
+    <string name="filter_spike">Spike</string>
+    <string name="filter_gloam">Gloam</string>
     <string name="beauty">Beauty</string>
     <string name="recent_photos">Recent Photos</string>
     <string name="view_all">View all</string>
@@ -88,7 +93,11 @@
     <string name="hdr">HDR</string>
     <string name="timer">Timer</string>
     <string name="grid">Grid</string>
+    <string name="grid_on">Grid On</string>
+    <string name="grid_off">Grid Off</string>
     <string name="face">Face</string>
+    <string name="face_on">Face On</string>
+    <string name="face_off">Face Off</string>
     <string name="aspect_ratio">Aspect Ratio</string>
     <string name="camera_switch">Switch camera</string>
     <string name="photo">Photo</string>
@@ -97,6 +106,10 @@
     <string name="recording_short">REC</string>
     <string name="start_recording">Start recording</string>
     <string name="stop_recording">Stop recording</string>
+    <string name="hdr_on">HDR On</string>
+    <string name="hdr_off">HDR Off</string>
+    <string name="timer_off">Timer Off</string>
+    <string name="timer_seconds_short">%1$ds Timer</string>
     <string name="exposure">Exposure</string>
     <string name="open_settings">Open Settings</string>
     <string name="recommended">Recommended</string>
@@ -108,4 +121,7 @@
     <string name="apply_as_home_or_lock_screen">Apply as home or lock screen</string>
     <string name="details">Details</string>
     <string name="view_file_information">View file information</string>
+    <string name="loading">Loading</string>
+    <string name="favourite">Favourite</string>
+    <string name="favorites_photos_amp_videos"><![CDATA[Favorites photos & videos]]></string>
 </resources>

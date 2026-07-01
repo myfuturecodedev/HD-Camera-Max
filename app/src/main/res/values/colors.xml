@@ -10,6 +10,7 @@
     <color name="text_gray_dim">#7C7C8A</color>
     <color name="border_gray">#2C2C35</color>
     <color name="shutter_inner">#EBECEF</color>
+    <color name="g2">#24508C</color>
 
     <!-- Permission Screen Colors -->
     <color name="permission_green">#5EBC8F</color>
@@ -35,4 +36,7 @@
     <color name="dashboard_card_stroke">#EFF2F5</color>
     <color name="dashboard_settings_bg">#F7FFFB</color>
     <color name="dashboard_gallery_glow">#FFF5C7</color>
+    <color name="splash_accent_green">#10B981</color>
+    <color name="splash_progress_track_color">#10B981</color>
+
 </resources>

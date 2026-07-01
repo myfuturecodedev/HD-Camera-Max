@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_language">言語選択</string>
+    <string name="choose_preferred_language">希望の言語を選択してください</string>
+    <string name="lang_english_default">英語（デフォルト）</string>
+    <string name="lang_english">英語</string>
+    <string name="lang_arabic">アラビア語</string>
+    <string name="lang_german">ドイツ語</string>
+    <string name="lang_spanish">スペイン語</string>
+    <string name="lang_french">フランス語</string>
+    <string name="lang_indonesian">インドネシア語</string>
+    <string name="lang_italian">イタリア語</string>
+    <string name="lang_japanese">日本語</string>
+    <string name="lang_korean">韓国語</string>
+
+    <string name="unlock_premium">プレミアムを解禁</string>
+    <string name="get_unlimited_translations">無制限の翻訳を利用する</string>
+    <string name="upgrade">アップグレード</string>
+
+    <string name="next">次へ →</string>
+    <string name="get_started">始める →</string>
+    <string name="welcome_back">おかえりなさい 👋</string>
+    <string name="quick_tools">クイックツール</string>
+    <string name="see_all">すべて見る</string>
+    <string name="my_gallery">マイギャラリー</string>
+    <string name="browse_your_captured_photos_amp_videos">撮影した写真と動画を表示</string>
+    <string name="take_photo">写真を撮影</string>
+    <string name="open_camera">カメラを開く</string>
+    <string name="rename">名前変更</string>
+    <string name="change_file_name">ファイル名を変更</string>
+    <string name="download">ダウンロード</string>
+    <string name="save_photo_locally">写真を端末に保存</string>
+    <string name="set_as_wallpaper">壁紙に設定</string>
+    <string name="apply_as_home_or_lock_screen">ホーム画面またはロック画面に適用</string>
+    <string name="details">詳細</string>
+    <string name="view_file_information">ファイル情報を表示</string>
+</resources>

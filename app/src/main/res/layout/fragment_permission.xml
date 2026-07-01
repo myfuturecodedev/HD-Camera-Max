@@ -127,7 +127,6 @@
                     android:text="@string/camera_audio_title"
                     android:textColor="@color/text_dark_primary"
                     android:textSize="@dimen/_13ssp"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/switchPermission"
                     app:layout_constraintStart_toEndOf="@id/viewIconBg"
                     app:layout_constraintTop_toTopOf="@id/viewIconBg" />
@@ -144,15 +143,30 @@
                     app:layout_constraintStart_toStartOf="@id/tvPermissionTitle"
                     app:layout_constraintTop_toBottomOf="@id/tvPermissionTitle" />
 
-                <androidx.appcompat.widget.SwitchCompat
+<!--                <androidx.appcompat.widget.SwitchCompat-->
+<!--                    android:id="@+id/switchPermission"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:thumbTint="@color/white"-->
+<!--                    app:trackTint="@color/permission_green" />-->
+
+
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/switchPermission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:minWidth="@dimen/_48sdp"
+                    android:minHeight="@dimen/_24sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:thumbTint="@color/white"
-                    app:trackTint="@color/permission_green" />
+                    app:thumbTint="@drawable/selector_permission_thumb"
+                    app:trackTint="@drawable/selector_permission_track" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,110 +5,104 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginHorizontal="@dimen/_10sdp"
-    android:background="@drawable/splash_background"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/black"
     android:padding="20dp">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/btn_close"-->
-<!--        android:layout_width="@dimen/_20sdp"-->
-<!--        android:layout_height="@dimen/_20sdp"-->
-<!--        android:layout_gravity="end"-->
-<!--        android:src="@drawable/close"-->
-<!--        app:tint="@color/white" />-->
-<!--    <TextView-->
-<!--        android:id="@+id/tvTitle"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center"-->
-<!--        android:text="🚀 Upgrade Diwali Bundle"-->
-<!--        android:textColor="@android:color/white"-->
-<!--        android:textSize="@dimen/_27sdp"-->
-<!--        android:textStyle="normal" />-->
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_gravity="end"
+        android:src="@drawable/close"
+        app:tint="@color/white" />
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="🚀 Upgrade Diwali Bundle"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_27sdp"
+        android:textStyle="normal" />
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/_8sdp"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-<!--        <TextView-->
-<!--            android:id="@+id/tvLimited"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:fontFamily="@font/inter_medium"-->
-<!--            android:gravity="center"-->
-<!--            android:text="LIMITED TIME OFFER"-->
-<!--            android:textColor="@color/splash_accent_green"-->
-<!--            android:textSize="@dimen/_14sdp" />-->
+        <TextView
+            android:id="@+id/tvLimited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="LIMITED TIME OFFER"
+            android:textColor="@color/splash_accent_green"
+            android:textSize="@dimen/_14sdp" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tvTimer"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/_5sdp"-->
-<!--            android:fontFamily="@font/inter_regular"-->
-<!--            android:gravity="center"-->
-<!--            android:text="(01:30)"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="@dimen/_14sdp" />-->
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:gravity="center"
+            android:text="(01:30)"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp" />
 
-<!--    </LinearLayout>-->
+    </LinearLayout>
 
-<!--    <TextView-->
-<!--        android:id="@+id/tvTitle2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/_10sdp"-->
-<!--        android:gravity="center"-->
-<!--        android:text="BLUE FLAME DRA"-->
-<!--        android:textColor="#05ebfc"-->
-<!--        android:textSize="@dimen/_22sdp"-->
-<!--        android:textStyle="normal" />-->
+    <TextView
+        android:id="@+id/tvTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center"
+        android:text="BLUE FLAME DRA"
+        android:textColor="#05ebfc"
+        android:textSize="@dimen/_22sdp"
+        android:textStyle="normal" />
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/_5sdp"-->
-<!--        android:fontFamily="@font/inter_regular"-->
-<!--        android:gravity="center"-->
-<!--        android:lineSpacingExtra="@dimen/_1sdp"-->
-<!--        android:textColor="#FDD835"-->
-<!--        android:text="Claim your reward now! 🔥 Don't miss out!"-->
-<!--        android:textSize="@dimen/_13sdp" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/_1sdp"
+        android:textColor="#FDD835"
+        android:text="Claim your reward now! 🔥 Don't miss out!"
+        android:textSize="@dimen/_13sdp" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imgBanner"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="@dimen/_150sdp"-->
-<!--        android:layout_marginTop="@dimen/_15sdp"-->
-<!--        android:scaleType="fitXY"-->
-<!--        android:src="@drawable/inapp1" />-->
+    <ImageView
+        android:id="@+id/imgBanner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:scaleType="fitXY"
+        android:src="@drawable/inapp1" />
 
-<!--    <Button-->
-<!--        android:id="@+id/btnUpgrade"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/_20sdp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        android:background="@drawable/splash_progress_horizontal_drawable"-->
-<!--        android:fontFamily="@font/inter_medium"-->
-<!--        android:text="Upgrade"-->
-<!--        android:textColor="@android:color/white"-->
-<!--        android:textSize="@dimen/_15sdp" />-->
+    <Button
+        android:id="@+id/btnUpgrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/splash_progress_horizontal_drawable"
+        android:text="Upgrade"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_15sdp" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/btnMaybeLater"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="@dimen/_10sdp"-->
-<!--        android:layout_marginBottom="@dimen/_30sdp"-->
-<!--        android:fontFamily="@font/inter_medium"-->
-<!--        android:gravity="center"-->
-<!--        android:text="Maybe Later"-->
-<!--        android:textColor="@android:color/white"-->
-<!--        android:textSize="@dimen/_11sdp" />-->
-<!--    -->
+    <TextView
+        android:id="@+id/btnMaybeLater"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:gravity="center"
+        android:text="Maybe Later"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_11sdp" />
 </LinearLayout>

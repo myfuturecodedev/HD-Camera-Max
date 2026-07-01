@@ -615,7 +615,7 @@
             android:text="@string/welcome_back"
             android:textColor="@color/dashboard_mint"
             android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
+            android:fontFamily="@font/inter_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -634,11 +634,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:fontFamily="sans-serif-black"
                 android:text="HD Camera "
                 android:textColor="@color/dashboard_title"
-                android:textSize="@dimen/_22ssp"
-                android:textStyle="bold"
+                android:textSize="@dimen/_19ssp"
+                android:fontFamily="@font/inter_black"
                 app:layout_constraintBottom_toBottomOf="@id/ivAppLogo"
                 app:layout_constraintStart_toEndOf="@id/ivAppLogo"
                 app:layout_constraintTop_toTopOf="@id/ivAppLogo" />
@@ -647,11 +646,10 @@
                 android:id="@+id/tvAppNameMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
                 android:text="Max"
                 android:textColor="@color/dashboard_mint"
-                android:textSize="@dimen/_22ssp"
-                android:textStyle="bold"
+                android:textSize="@dimen/_19ssp"
+                android:fontFamily="@font/inter_black"
                 app:layout_constraintBottom_toBottomOf="@id/tvAppName"
                 app:layout_constraintStart_toEndOf="@id/tvAppName"
                 app:layout_constraintTop_toTopOf="@id/tvAppName" />
@@ -663,7 +661,8 @@
                 android:layout_marginTop="@dimen/_6sdp"
                 android:text="@string/dashboard_desc"
                 android:textColor="@color/dashboard_body"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/inter_medium"
                 app:layout_constraintEnd_toStartOf="@id/btnSettings"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivAppLogo" />
@@ -672,9 +671,7 @@
                 android:id="@+id/btnSettings"
                 android:layout_width="@dimen/_46sdp"
                 android:layout_height="@dimen/_46sdp"
-                android:background="@drawable/bg_dashboard_settings_button"
                 android:contentDescription="@string/settings"
-                android:padding="@dimen/_12sdp"
                 android:src="@drawable/ic_menu"
                 app:layout_constraintBottom_toBottomOf="@id/tvAppDesc"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -723,10 +720,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/inter_black"
                         android:text="@string/take_photo"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_24ssp"
+                        android:textSize="@dimen/_19ssp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@id/tvPrimaryAction"
                         app:layout_constraintTop_toBottomOf="@id/tvPrimaryAction" />
@@ -737,6 +734,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_6sdp"
                         android:lineSpacingMultiplier="1.1"
+                        android:fontFamily="@font/inter_regular"
                         android:text="@string/take_photo_desc"
                         android:textColor="#E8FFFFFF"
                         android:textSize="@dimen/_12ssp"
@@ -756,18 +754,18 @@
                         android:textAllCaps="false"
                         android:textColor="@color/dashboard_mint_dark"
                         android:textSize="@dimen/_11ssp"
-                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@id/tvTakePhotoDesc"
                         app:layout_constraintTop_toBottomOf="@id/tvTakePhotoDesc" />
 
                     <ImageView
                         android:id="@+id/ivHeroCamera"
-                        android:layout_width="@dimen/_160sdp"
-                        android:layout_height="@dimen/_140sdp"
+                        android:layout_width="@dimen/_179sdp"
+                        android:layout_height="@dimen/_142sdp"
                         android:contentDescription="@null"
                         android:scaleType="fitCenter"
                         android:src="@drawable/camera_logo"
                         android:layout_marginEnd="0dp"
+                        android:paddingEnd="@dimen/_minus50sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -780,11 +778,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_24sdp"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="@font/inter_bold"
                 android:text="@string/quick_tools"
                 android:textColor="@color/dashboard_title"
-                android:textSize="@dimen/_16ssp"
-                android:textStyle="bold"
+                android:textSize="@dimen/_12ssp"
+                android:paddingBottom="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvTakePhoto" />
 
@@ -794,8 +792,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
                 android:textColor="@color/dashboard_mint"
-                android:textSize="@dimen/_11ssp"
-                android:textStyle="bold"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/inter_semibold"
+                android:paddingBottom="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="@id/tvQuickTools"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvQuickTools" />
@@ -827,11 +826,11 @@
                         android:id="@+id/tvGalleryTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
+                        android:fontFamily="@font/inter_bold"
                         android:text="@string/my_gallery"
                         android:textColor="@color/dashboard_title"
-                        android:textSize="@dimen/_18ssp"
-                        android:layout_marginTop="@dimen/_20sdp"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginTop="@dimen/_30sdp"
                         app:layout_constraintBottom_toTopOf="@id/tvGalleryDesc"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -844,7 +843,8 @@
                         android:layout_marginTop="@dimen/_4sdp"
                         android:text="@string/my_gallery_desc"
                         android:textColor="@color/dashboard_body"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/inter_regular"
                         app:layout_constraintStart_toStartOf="@id/tvGalleryTitle"
                         app:layout_constraintTop_toBottomOf="@id/tvGalleryTitle" />
 
@@ -1148,7 +1148,7 @@
             android:text="@string/capture"
             android:textColor="@color/dashboard_mint_dark"
             android:textSize="@dimen/_13ssp"
-            android:textStyle="bold" />
+             />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

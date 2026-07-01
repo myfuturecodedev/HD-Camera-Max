@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_language">Pilih Bahasa</string>
+    <string name="choose_preferred_language">Pilih bahasa pilihan Anda</string>
+    <string name="lang_english_default">Inggris (bawaan)</string>
+    <string name="lang_english">Inggris</string>
+    <string name="lang_arabic">Arab</string>
+    <string name="lang_german">Jerman</string>
+    <string name="lang_spanish">Spanyol</string>
+    <string name="lang_french">Prancis</string>
+    <string name="lang_indonesian">Bahasa Indonesia</string>
+    <string name="lang_italian">Italia</string>
+    <string name="lang_japanese">Jepang</string>
+    <string name="lang_korean">Korea</string>
+
+    <string name="unlock_premium">Buka Premium</string>
+    <string name="get_unlimited_translations">Dapatkan terjemahan tanpa batas</string>
+    <string name="upgrade">Tingkatkan</string>
+
+    <string name="next">Berikutnya →</string>
+    <string name="get_started">Mulai →</string>
+    <string name="welcome_back">Selamat Datang Kembali 👋</string>
+    <string name="quick_tools">Alat Cepat</string>
+    <string name="see_all">Lihat semua</string>
+    <string name="my_gallery">Galeri Saya</string>
+    <string name="browse_your_captured_photos_amp_videos">Telusuri foto &amp; video yang Anda ambil</string>
+    <string name="take_photo">Ambil Foto</string>
+    <string name="open_camera">Buka Kamera</string>
+    <string name="rename">Ubah Nama</string>
+    <string name="change_file_name">Ubah nama file</string>
+    <string name="download">Unduh</string>
+    <string name="save_photo_locally">Simpan foto secara lokal</string>
+    <string name="set_as_wallpaper">Atur sebagai Wallpaper</string>
+    <string name="apply_as_home_or_lock_screen">Terapkan sebagai layar utama atau kunci</string>
+    <string name="details">Detail</string>
+    <string name="view_file_information">Lihat informasi file</string>
+</resources>

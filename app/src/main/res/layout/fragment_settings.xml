@@ -20,9 +20,7 @@
             android:id="@+id/btnBack"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:background="@drawable/bg_circle_icon"
             android:contentDescription="@string/settings"
-            android:padding="@dimen/_10sdp"
             android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,15 +52,21 @@
             android:id="@+id/btnFavorite"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:background="@drawable/bg_circle_icon"
             android:contentDescription="@string/settings"
-            android:padding="@dimen/_10sdp"
             android:src="@drawable/ic_heart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:background="#EFECEC"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -87,9 +91,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:src="@drawable/ic_camera_header"
+                    app:tint="@color/permission_green"
                     android:contentDescription="@string/camera_settings" />
 
                 <TextView
@@ -122,14 +127,13 @@
                     android:id="@+id/iconResolutionBg"
                     android:layout_width="@dimen/_36sdp"
                     android:layout_height="@dimen/_36sdp"
-                    android:background="@drawable/bg_icon_container"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="@dimen/_18sdp"
-                    android:layout_height="@dimen/_18sdp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:src="@drawable/ic_resolution"
                     android:contentDescription="@string/resolution"
                     app:layout_constraintBottom_toBottomOf="@id/iconResolutionBg"
@@ -218,14 +222,13 @@
                     android:id="@+id/iconLanguageBg"
                     android:layout_width="@dimen/_36sdp"
                     android:layout_height="@dimen/_36sdp"
-                    android:background="@drawable/bg_icon_container"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="@dimen/_18sdp"
-                    android:layout_height="@dimen/_18sdp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:src="@drawable/ic_language"
                     android:contentDescription="@string/language"
                     app:layout_constraintBottom_toBottomOf="@id/iconLanguageBg"
@@ -320,14 +323,13 @@
                         android:id="@+id/iconRateUsBg"
                         android:layout_width="@dimen/_36sdp"
                         android:layout_height="@dimen/_36sdp"
-                        android:background="@drawable/bg_item_blue"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
                         android:src="@drawable/ic_star"
                         android:contentDescription="@string/rate_us"
                         app:layout_constraintBottom_toBottomOf="@id/iconRateUsBg"
@@ -374,14 +376,13 @@
                         android:id="@+id/iconShareBg"
                         android:layout_width="@dimen/_36sdp"
                         android:layout_height="@dimen/_36sdp"
-                        android:background="@drawable/bg_item_blue"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
                         android:src="@drawable/ic_share"
                         android:contentDescription="@string/share_app"
                         app:layout_constraintBottom_toBottomOf="@id/iconShareBg"
@@ -428,14 +429,13 @@
                         android:id="@+id/iconPrivacyBg"
                         android:layout_width="@dimen/_36sdp"
                         android:layout_height="@dimen/_36sdp"
-                        android:background="@drawable/bg_item_gray"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
                         android:src="@drawable/ic_shield"
                         android:contentDescription="@string/privacy_policy"
                         app:layout_constraintBottom_toBottomOf="@id/iconPrivacyBg"
@@ -488,8 +488,8 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
+                        android:layout_width="@dimen/_36sdp"
+                        android:layout_height="@dimen/_36sdp"
                         android:src="@drawable/ic_mail"
                         android:contentDescription="@string/feedback"
                         app:layout_constraintBottom_toBottomOf="@id/iconFeedbackBg"

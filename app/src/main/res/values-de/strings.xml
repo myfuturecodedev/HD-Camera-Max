@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_language">Sprache auswählen</string>
+    <string name="choose_preferred_language">Wählen Sie Ihre bevorzugte Sprache</string>
+    <string name="lang_english_default">Englisch (Standard)</string>
+    <string name="lang_english">Englisch</string>
+    <string name="lang_arabic">Arabisch</string>
+    <string name="lang_german">Deutsch</string>
+    <string name="lang_spanish">Spanisch</string>
+    <string name="lang_french">Französisch</string>
+    <string name="lang_indonesian">Indonesisch</string>
+    <string name="lang_italian">Italienisch</string>
+    <string name="lang_japanese">Japanisch</string>
+    <string name="lang_korean">Koreanisch</string>
+
+    <string name="unlock_premium">Premium freischalten</string>
+    <string name="get_unlimited_translations">Erhalten Sie unbegrenzte Übersetzungen</string>
+    <string name="upgrade">Upgrade</string>
+
+    <string name="next">Weiter →</string>
+    <string name="get_started">Loslegen →</string>
+    <string name="welcome_back">Willkommen zurück 👋</string>
+    <string name="quick_tools">Schnellzugriff</string>
+    <string name="see_all">Alle anzeigen</string>
+    <string name="my_gallery">Meine Galerie</string>
+    <string name="browse_your_captured_photos_amp_videos">Durchsuchen Sie Ihre aufgenommenen Fotos &amp; Videos</string>
+    <string name="take_photo">Foto aufnehmen</string>
+    <string name="open_camera">Kamera öffnen</string>
+    <string name="rename">Umbenennen</string>
+    <string name="change_file_name">Dateiname ändern</string>
+    <string name="download">Herunterladen</string>
+    <string name="save_photo_locally">Foto lokal speichern</string>
+    <string name="set_as_wallpaper">Als Hintergrundbild festlegen</string>
+    <string name="apply_as_home_or_lock_screen">Als Start- oder Sperrbildschirm einrichten</string>
+    <string name="details">Details</string>
+    <string name="view_file_information">Dateiinformationen anzeigen</string>
+</resources>

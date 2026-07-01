@@ -35,6 +35,7 @@
             >
 
             <TextView
+                android:id="@+id/text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10 Jun 2025"
@@ -43,6 +44,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12:05 PM"
@@ -52,20 +54,27 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:background="#EFECEC"
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        />
+
     <TextView
         android:id="@+id/tvFileNameTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
         android:background="@drawable/bg_gallery_toggle"
-        android:backgroundTint="#F5F5F5"
         android:drawablePadding="@dimen/_8sdp"
         android:gravity="center"
         android:paddingHorizontal="@dimen/_12sdp"
-        android:paddingVertical="@dimen/_4sdp"
+        android:paddingVertical="@dimen/_6sdp"
         android:text="IMG_20250610_1205.jpg"
         android:textColor="@color/text_gray_dim"
         android:textSize="@dimen/_10ssp"
+        android:layout_marginTop="@dimen/_20sdp"
         app:drawableStartCompat="@drawable/ic_camera_header"
         app:drawableTint="@color/text_gray_dim"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,11 +99,12 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_bottom_bar"
         android:elevation="@dimen/_8sdp"
         android:orientation="horizontal"
+        android:background="@drawable/bg_gallery_toggle"
         android:paddingVertical="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
@@ -117,7 +127,9 @@
                 android:layout_height="wrap_content"
                 android:text="Share"
                 android:textColor="@color/text_gray_dim"
-                android:textSize="@dimen/_10ssp" />
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginTop="@dimen/_6sdp"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -140,6 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Favorite"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:textColor="@color/permission_green"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
@@ -163,6 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Delete"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
@@ -186,6 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="More"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>

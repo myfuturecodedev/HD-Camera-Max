@@ -1,7 +1,9 @@
 package com.futurecode.hdcameramax.notification
 
-//
-//object NotificationRepository {
-//    val notifications = getNotificationListFromPrefs()
-//
-//}
+import com.futurecode.hdcameramax.utils.getNotificationListFromPrefs
+
+
+object NotificationRepository {
+    val notifications = getNotificationListFromPrefs()
+
+}
