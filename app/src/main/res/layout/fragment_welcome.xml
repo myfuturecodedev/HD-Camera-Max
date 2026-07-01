@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/ivWelcomeLogo"
-        android:layout_width="@dimen/_110sdp"
-        android:layout_height="@dimen/_110sdp"
+        android:layout_width="@dimen/_115sdp"
+        android:layout_height="@dimen/_115sdp"
         android:layout_marginTop="@dimen/_24sdp"
         android:src="@drawable/ic_camera"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,10 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_16sdp"
+        android:fontFamily="@font/inter_black"
         android:text="@string/welcome_back"
         android:textColor="#121216"
-        android:textSize="@dimen/_24ssp"
-        android:textStyle="bold"
+        android:textSize="@dimen/_26ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivWelcomeLogo" />
@@ -49,10 +49,11 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
-        android:text="@string/we_re_glad_to_have_you_here_again_nlet_s_pick_up_where_you_left_off_nand_continue_your_journey"
-        android:textColor="#7C7C8A"
-        android:textSize="@dimen/_12ssp"
         android:paddingBottom="@dimen/_8sdp"
+        android:text="@string/we_re_glad_to_have_you_here_again_nlet_s_pick_up_where_you_left_off_nand_continue_your_journey"
+        android:textColor="#6B7280"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/_13ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvWelcomeHeader" />
@@ -74,19 +75,23 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnWelcomeContinue"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_46sdp"
+        android:layout_height="@dimen/_48sdp"
         android:layout_marginHorizontal="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:elevation="@dimen/_4sdp"
+        android:fontFamily="@font/inter_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="@string/btn_continue"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="@dimen/_14ssp"
-        android:textStyle="bold"
-        app:backgroundTint="#00E676"
-        app:cornerRadius="@dimen/_16sdp"
+        app:backgroundTint="#10B981"
+        app:cornerRadius="@dimen/_100sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

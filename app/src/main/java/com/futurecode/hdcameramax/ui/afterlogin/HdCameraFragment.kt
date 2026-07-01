@@ -455,7 +455,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     private fun renderFlashIcon(flashMode: Int) {
         val icon = when (flashMode) {
-            ImageCapture.FLASH_MODE_ON -> R.drawable.ic_flash
+            ImageCapture.FLASH_MODE_ON -> R.drawable.ic_flash_plain
             ImageCapture.FLASH_MODE_AUTO -> R.drawable.ic_live_effects_filter
             else -> R.drawable.ic_flash_off
         }

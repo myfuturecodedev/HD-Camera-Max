@@ -24,10 +24,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/inter_bold"
                 android:text="@string/permission_access_title"
                 android:textColor="@color/text_dark_primary"
-                android:textSize="@dimen/_24ssp"
-                android:fontFamily="sans-serif-black"
+                android:textSize="@dimen/_26ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,9 +37,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:fontFamily="@font/inter_medium"
                 android:text="@string/permission_access_subtitle"
-                android:textColor="@color/text_gray_dim"
-                android:textSize="@dimen/_14ssp"
+                android:textColor="#6B7280"
+                android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle" />
@@ -68,11 +69,11 @@
                     android:id="@+id/tvInfoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_semibold"
                     android:gravity="center"
                     android:text="@string/permission_info_title"
-                    android:textColor="@color/text_dark_primary"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="bold"
+                    android:textColor="#111827"
+                    android:textSize="@dimen/_13ssp"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -80,9 +81,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/inter_medium"
                     android:gravity="center"
+                    android:lineHeight="@dimen/_18sdp"
                     android:text="@string/permission_info_desc"
-                    android:textColor="@color/text_gray_dim"
+                    android:textColor="#6B7280"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintTop_toBottomOf="@id/tvInfoTitle" />
 
@@ -104,14 +107,15 @@
                     android:background="@drawable/bg_icon_container"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.1" />
 
                 <ImageView
                     android:id="@+id/ivPermissionIcon"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
-                    android:src="@drawable/ic_switch_camera"
                     android:contentDescription="@string/camera_audio_title"
+                    android:src="@drawable/ic_switch_camera"
                     app:layout_constraintBottom_toBottomOf="@id/viewIconBg"
                     app:layout_constraintEnd_toEndOf="@id/viewIconBg"
                     app:layout_constraintStart_toStartOf="@id/viewIconBg"
@@ -124,9 +128,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:lineHeight="@dimen/_22sdp"
                     android:text="@string/camera_audio_title"
-                    android:textColor="@color/text_dark_primary"
-                    android:textSize="@dimen/_13ssp"
+                    android:textColor="#111827"
+                    android:textSize="@dimen/_14ssp"
                     app:layout_constraintEnd_toStartOf="@+id/switchPermission"
                     app:layout_constraintStart_toEndOf="@id/viewIconBg"
                     app:layout_constraintTop_toTopOf="@id/viewIconBg" />
@@ -136,22 +142,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/inter_medium"
+                    android:lineHeight="@dimen/_16sdp"
                     android:text="@string/camera_audio_desc"
-                    android:textColor="@color/text_gray_dim"
+                    android:textColor="#6B7280"
                     android:textSize="@dimen/_10ssp"
+                    android:paddingBottom="@dimen/_15sdp"
                     app:layout_constraintEnd_toEndOf="@id/tvPermissionTitle"
                     app:layout_constraintStart_toStartOf="@id/tvPermissionTitle"
                     app:layout_constraintTop_toBottomOf="@id/tvPermissionTitle" />
-
-<!--                <androidx.appcompat.widget.SwitchCompat-->
-<!--                    android:id="@+id/switchPermission"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:thumbTint="@color/white"-->
-<!--                    app:trackTint="@color/permission_green" />-->
 
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -173,17 +172,25 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <androidx.appcompat.widget.AppCompatButton
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_48sdp"
-        android:layout_margin="@dimen/_20sdp"
-        android:background="@drawable/bg_button_continue"
-        android:text="Continue \u2192"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:elevation="@dimen/_4sdp"
+        android:fontFamily="@font/inter_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/btn_continue"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:backgroundTint="#10B981"
+        app:cornerRadius="@dimen/_100sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

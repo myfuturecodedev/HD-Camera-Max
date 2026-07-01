@@ -27,11 +27,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/inter_bold"
         android:text="@string/select_language"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_22ssp"
-        android:textStyle="bold"
+        android:textColor="#111827"
+        android:textSize="@dimen/_25ssp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnDone" />
 
@@ -41,8 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_20sdp"
         android:text="@string/choose_your_preferred_language"
-        android:textColor="@color/text_gray_dim"
-        android:textSize="@dimen/_12ssp"
+        android:textColor="#6B7280"
+        android:textSize="@dimen/_11ssp"
+        android:fontFamily="@font/inter_regular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 

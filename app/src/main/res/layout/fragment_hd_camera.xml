@@ -116,20 +116,23 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBarHeaderControls"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_6sdp"
+        android:layout_height="@dimen/_86sdp"
+        android:background="@drawable/bg_camera_top_scrim"
+        android:paddingHorizontal="@dimen/_14sdp"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/btnHeaderBackAction"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="@dimen/_44sdp"
+            android:layout_height="@dimen/_44sdp"
+            android:background="@drawable/bg_camera_round_dark"
             android:contentDescription="@string/cancel"
-            android:src="@drawable/btn_back"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_camera_back_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -139,7 +142,7 @@
             android:id="@+id/cameraTitleBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_14sdp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@id/btnHeaderBackAction"
             app:layout_constraintStart_toEndOf="@id/btnHeaderBackAction"
@@ -148,25 +151,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hd_camera_max"
+                android:letterSpacing="0"
+                android:text="@string/camera_title_hd_camera"
                 android:textColor="@color/permission_green"
-                android:textSize="@dimen/_8ssp"
+                android:textSize="@dimen/_15ssp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.86"
-                android:text="@string/photo_resolution"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:letterSpacing="0"
+                android:text="@string/camera_title_max"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_7ssp" />
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <HorizontalScrollView
             android:id="@+id/topControlScroller"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginStart="@dimen/_12sdp"
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:scrollbars="none"
@@ -183,25 +189,21 @@
 
                 <ImageView
                     android:id="@+id/btnSettings"
-                    android:layout_width="@dimen/_28sdp"
-                    android:layout_height="@dimen/_28sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:background="@drawable/bg_camera_round_dark"
+                    android:layout_width="@dimen/_44sdp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:contentDescription="@string/settings"
-                    android:padding="@dimen/_7sdp"
-                    android:src="@drawable/ic_settings"
-                    app:tint="@color/white" />
+                    android:src="@drawable/ic_flash_ligh" />
 
                 <ImageView
                     android:id="@+id/btnFlash"
-                    android:layout_width="@dimen/_28sdp"
-                    android:layout_height="@dimen/_28sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_width="@dimen/_44sdp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/flash"
-                    android:padding="@dimen/_7sdp"
-                    android:src="@drawable/ic_flash"
-                    app:tint="@color/white" />
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/ic_flash_plain" />
 
 <!--                <TextView-->
 <!--                    android:id="@+id/btnHdrToggle"-->
@@ -218,13 +220,11 @@
 
                 <ImageView
                     android:id="@+id/btnTimerToggle"
-                    android:layout_width="@dimen/_28sdp"
-                    android:layout_height="@dimen/_28sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:background="@drawable/bg_camera_round_dark"
+                    android:layout_width="@dimen/_44sdp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:contentDescription="@string/timer"
-                    android:src="@drawable/ic_timer"
-                    app:tint="@color/white" />
+                    android:src="@drawable/ic_timer" />
 
 <!--                <TextView-->
 <!--                    android:id="@+id/btnGridToggle"-->
@@ -240,13 +240,10 @@
 
                 <ImageView
                     android:id="@+id/btnRatioConfig"
-                    android:layout_width="@dimen/_28sdp"
-                    android:layout_height="@dimen/_28sdp"
-                    android:background="@drawable/bg_camera_round_dark"
+                    android:layout_width="@dimen/_44sdp"
+                    android:layout_height="@dimen/_44sdp"
                     android:contentDescription="@string/aspect_ratio"
-                    android:padding="@dimen/_7sdp"
-                    android:src="@drawable/ic_more"
-                    app:tint="@color/white" />
+                    android:src="@drawable/ic_more" />
             </LinearLayout>
         </HorizontalScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

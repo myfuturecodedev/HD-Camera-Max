@@ -14,6 +14,8 @@
     <!-- Dashboard Screen -->
     <string name="welcome_back">Welcome Back \ud83d\udc4b</string>
     <string name="hd_camera_max">HD Camera Max</string>
+    <string name="camera_title_hd_camera">HD CAMERA</string>
+    <string name="camera_title_max">MAX</string>
     <string name="dashboard_desc">Capture stunning moments with enhanced zoom.</string>
     <string name="primary_action">Primary Action</string>
     <string name="take_photo">Take Photo</string>
@@ -57,7 +59,7 @@
     <string name="zoomify_3">Zoomify 3</string>
     <string name="app_version">Version 1.0.17</string>
     <string name="loading_system_libraries">Loading system libraries...</string>
-    <string name="next">Next</string>
+    <string name="next">Next -> </string>
     <string name="my_personal_gallery">My Personal\nGallery</string>
     <string name="save_view_and_manage_all_your_photos_and_videos_easily">Save, view, and manage all your\nphotos and videos easily.</string>
     <string name="zoom_with_clarity">Zoom with\nClarity</string>
@@ -84,6 +86,20 @@
     <string name="save_changes">Save Changes</string>
     <string name="select_language">Select Language</string>
     <string name="choose_your_preferred_language">Choose your preferred language</string>
+    <string name="choose_preferred_language">Choose your preferred language</string>
+    <string name="lang_english_default">English (Default)</string>
+    <string name="lang_english">English</string>
+    <string name="lang_arabic">Arabic</string>
+    <string name="lang_german">German</string>
+    <string name="lang_spanish">Spanish</string>
+    <string name="lang_french">French</string>
+    <string name="lang_indonesian">Indonesian</string>
+    <string name="lang_italian">Italian</string>
+    <string name="lang_japanese">Japanese</string>
+    <string name="lang_korean">Korean</string>
+    <string name="unlock_premium">Unlock Premium</string>
+    <string name="get_unlimited_translations">Get unlimited translations</string>
+    <string name="upgrade">Upgrade</string>
     <string name="browse_your_captured_photos_amp_videos"><![CDATA[Browse your captured photos & videos]]></string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
