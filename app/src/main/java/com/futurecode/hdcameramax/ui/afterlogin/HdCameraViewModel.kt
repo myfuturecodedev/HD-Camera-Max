@@ -60,7 +60,47 @@ class HdCameraViewModel(
 
     fun toggleGrid() {
         val state = currentState()
-        _uiState.value = state.copy(isGridEnabled = !state.isGridEnabled)
+        val openingSelector = !state.isGridSelectorVisible
+        _uiState.value = state.copy(
+            isGridSelectorVisible = openingSelector,
+            isSettingsPanelVisible = true,
+            isTimerStripVisible = false,
+            isFocusSelectorVisible = false,
+            selectedGridGuide = if (openingSelector && !state.isGridEnabled) "3×3" else state.selectedGridGuide,
+            isGridEnabled = if (openingSelector) true else state.isGridEnabled
+        )
+    }
+
+    fun selectGridGuide(guide: String) {
+        _uiState.value = currentState().copy(
+            selectedGridGuide = guide,
+            isGridEnabled = guide != "None"
+        )
+    }
+
+    fun hideGridSelector() {
+        _uiState.value = currentState().copy(isGridSelectorVisible = false)
+    }
+
+    fun toggleFocusSelector() {
+        val state = currentState()
+        _uiState.value = state.copy(
+            isFocusSelectorVisible = !state.isFocusSelectorVisible,
+            isSettingsPanelVisible = true,
+            isGridSelectorVisible = false,
+            isTimerStripVisible = false
+        )
+    }
+
+    fun selectFocusMode(mode: String) {
+        _uiState.value = currentState().copy(
+            selectedFocusMode = mode,
+            isFaceOverlayEnabled = mode != "Auto Focus"
+        )
+    }
+
+    fun hideFocusSelector() {
+        _uiState.value = currentState().copy(isFocusSelectorVisible = false)
     }
 
     fun toggleHdr() {
@@ -75,11 +115,35 @@ class HdCameraViewModel(
 
     fun toggleSettingsPanel() {
         val state = currentState()
-        _uiState.value = state.copy(isSettingsPanelVisible = !state.isSettingsPanelVisible)
+        _uiState.value = state.copy(
+            isSettingsPanelVisible = !state.isSettingsPanelVisible,
+            isTimerStripVisible = false,
+            isGridSelectorVisible = false,
+            isFocusSelectorVisible = false
+        )
     }
 
     fun hideSettingsPanel() {
         _uiState.value = currentState().copy(isSettingsPanelVisible = false)
+    }
+
+    fun toggleTimerStrip() {
+        val state = currentState()
+        _uiState.value = state.copy(
+            isTimerStripVisible = !state.isTimerStripVisible,
+            isSettingsPanelVisible = false,
+            isGridSelectorVisible = false,
+            isFocusSelectorVisible = false
+        )
+    }
+
+    fun hideTransientTopPanels() {
+        _uiState.value = currentState().copy(
+            isSettingsPanelVisible = false,
+            isTimerStripVisible = false,
+            isGridSelectorVisible = false,
+            isFocusSelectorVisible = false
+        )
     }
 
     fun setFlashMode(mode: Int) {
@@ -97,7 +161,10 @@ class HdCameraViewModel(
     }
 
     fun setTimer(seconds: Int) {
-        _uiState.value = currentState().copy(timerSeconds = seconds.coerceAtLeast(0))
+        _uiState.value = currentState().copy(
+            timerSeconds = seconds.coerceAtLeast(0),
+            isTimerStripVisible = false
+        )
     }
 
     fun updateZoom(zoomRatio: Float) {
@@ -116,6 +183,9 @@ class HdCameraViewModel(
         _uiState.value = currentState().copy(
             activeMode = mode,
             isSettingsPanelVisible = false,
+            isTimerStripVisible = false,
+            isGridSelectorVisible = false,
+            isFocusSelectorVisible = false,
             isCapturing = false,
             countdownValue = 0,
             recordingElapsedSeconds = if (mode == CameraAppMode.VIDEO) {
@@ -127,7 +197,18 @@ class HdCameraViewModel(
     }
 
     fun setAspectRatio(label: String) {
-        _uiState.value = currentState().copy(aspectRatioLabel = label)
+        _uiState.value = currentState().copy(
+            aspectRatioLabel = label
+        )
+    }
+
+    fun showAspectSelector() {
+        _uiState.value = currentState().copy(
+            isSettingsPanelVisible = true,
+            isGridSelectorVisible = false,
+            isFocusSelectorVisible = false,
+            isTimerStripVisible = false
+        )
     }
 
     fun setFilter(filterName: String) {

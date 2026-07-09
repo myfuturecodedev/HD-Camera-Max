@@ -9,6 +9,7 @@ import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.activity.MainActivity
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.FragmentSplashBinding
+import com.futurecode.hdcameramax.utils.JsonReadUtils
 import com.futurecode.hdcameramax.utils.PrefManager
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
@@ -18,6 +19,15 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
 
         // Progress bar aur dynamic text mapping loading logic shuru karein
         startLoadingAnimation()
+
+        val skipSplash = requireActivity().intent.getBooleanExtra("skip_splash", false)
+
+        // API hit karenge, aur response milne par hi direct navigate karwayenge
+        JsonReadUtils.fetchJsonData(requireContext()) {
+            if (isAdded) {
+                navigateToNextScreen()
+            }
+        }
     }
 
     private fun startLoadingAnimation() {
@@ -40,7 +50,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
 
         animator.addListener(object : android.animation.AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: android.animation.Animator) {
-                navigateToNextScreen()
+
             }
         })
 

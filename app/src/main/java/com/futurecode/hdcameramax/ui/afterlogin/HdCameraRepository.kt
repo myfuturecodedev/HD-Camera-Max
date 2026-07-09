@@ -13,16 +13,24 @@ class HdCameraRepository(private val context: Context) {
         return listOf(
             ResolutionPreset(4080, 3072, "4:3", "Ultra HD", isRecommended = true),
             ResolutionPreset(4096, 2304, "16:9", "Ultra HD"),
-            ResolutionPreset(4000, 3000, "4:3", "High"),
-            ResolutionPreset(3840, 2160, "16:9", "High"),
-            ResolutionPreset(3264, 2448, "4:3", "High"),
-            ResolutionPreset(3072, 1728, "16:9", "Medium"),
-            ResolutionPreset(2560, 1920, "4:3", "Medium"),
-            ResolutionPreset(2560, 1440, "16:9", "Medium"),
+            ResolutionPreset(4096, 1848, "Full", "Ultra HD"),
+            ResolutionPreset(3840, 2160, "16:9", "Ultra HD"),
+            ResolutionPreset(3712, 2784, "4:3", "High Quality"),
+            ResolutionPreset(3712, 2088, "16:9", "High Quality"),
+            ResolutionPreset(3712, 1680, "Full", "High Quality"),
+            ResolutionPreset(3264, 2448, "4:3", "High Quality"),
+            ResolutionPreset(3264, 1840, "16:9", "High Quality"),
+            ResolutionPreset(3264, 1472, "Full", "High Quality"),
+            ResolutionPreset(3200, 1440, "Full", "Standard"),
+            ResolutionPreset(3168, 1440, "Full", "Standard"),
+            ResolutionPreset(3136, 1440, "Full", "Standard"),
+            ResolutionPreset(3072, 3072, "1:1", "Standard"),
+            ResolutionPreset(2944, 1656, "16:9", "Standard"),
+            ResolutionPreset(2560, 1920, "4:3", "Standard"),
+            ResolutionPreset(2560, 1440, "16:9", "Standard"),
             ResolutionPreset(1920, 1440, "4:3", "Standard"),
             ResolutionPreset(1920, 1080, "16:9", "Standard"),
-            ResolutionPreset(1280, 960, "4:3", "Compact"),
-            ResolutionPreset(1280, 720, "16:9", "Compact")
+            ResolutionPreset(1440, 1440, "1:1", "Standard")
         )
     }
 

@@ -69,7 +69,9 @@ data class AppSettings(
     @SerializedName("promos")
     val promos: List<Promo?>?,
     @SerializedName("subscription_page")
-    val subscriptionPage: String?
+    val subscriptionPage: String?,
+    @SerializedName("inappbanner_url")
+    val inappbannerUrl: String?
 )
 
 @Keep

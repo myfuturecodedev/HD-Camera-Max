@@ -28,6 +28,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewHeaderNotch" />
 
+    <TextView
+        android:id="@+id/tvResolutionSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:text="@string/choose_image_quality_and_aspect_ratio"
+        android:textColor="@color/text_gray_dim"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintEnd_toStartOf="@id/btnCloseDialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvResolutionTitle" />
+
     <ImageView
         android:id="@+id/btnCloseDialog"
         android:layout_width="@dimen/_28sdp"
@@ -46,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_12sdp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvResolutionTitle">
+        app:layout_constraintTop_toBottomOf="@id/tvResolutionSubtitle">
 
         <TextView
             android:id="@+id/btnRatioAll"
@@ -56,7 +68,7 @@
             android:background="@drawable/bg_camera_mode_active"
             android:gravity="center"
             android:paddingHorizontal="@dimen/_14sdp"
-            android:text="All"
+            android:text="@string/all"
             android:textColor="@color/white"
             android:textSize="@dimen/_9ssp"
             android:textStyle="bold" />
@@ -85,12 +97,38 @@
             android:textColor="@color/text_dark_primary"
             android:textSize="@dimen/_9ssp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnRatio11"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:background="@drawable/bg_camera_resolution_filter"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/_14sdp"
+            android:text="1:1"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="@dimen/_9ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnRatioRecommended"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:background="@drawable/bg_camera_resolution_filter"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/_14sdp"
+            android:text="@string/recommended"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="@dimen/_9ssp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvResolutions"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_310sdp"
+        android:layout_height="@dimen/_520sdp"
         android:layout_marginTop="@dimen/_12sdp"
         android:clipToPadding="false"
         android:overScrollMode="never"

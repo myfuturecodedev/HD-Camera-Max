@@ -10,13 +10,17 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.util.DisplayMetrics
+import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.activity.MyApplication
+import com.futurecode.hdcameramax.ads.reward.RewardAdsHelper
+import com.futurecode.hdcameramax.databinding.DialogPremiumAdBinding
 import com.futurecode.hdcameramax.model.Promo
 import com.google.gson.Gson
 import org.json.JSONArray
@@ -184,5 +188,39 @@ object Utils {
             e.printStackTrace()
             emptyList()
         }
+    }
+
+
+
+    fun Fragment.showRewardAdDialog(
+        onRewardEarned: () -> Unit,
+        onRewardNotEarned: () -> Unit = {}
+    ) {
+        if (!isAdded || view == null) {
+            onRewardNotEarned()
+            return
+        }
+
+        val dialog = BaseDialog(requireActivity(), R.style.TransparentDialog)
+        val binding = DialogPremiumAdBinding.inflate(LayoutInflater.from(requireContext()))
+        dialog.setCancelable(false)
+        dialog.bind(binding) {
+            btnYes.setOnClickListener {
+                dialog.dismiss()
+                RewardAdsHelper(requireActivity()).showRewardAds { rewardEarned ->
+                    if (rewardEarned && view != null) {
+                        onRewardEarned()
+                    } else {
+                        onRewardNotEarned()
+                    }
+                }
+            }
+
+            btnNo.setOnClickListener {
+                dialog.dismiss()
+                onRewardNotEarned()
+            }
+        }
+        dialog.show()
     }
 }

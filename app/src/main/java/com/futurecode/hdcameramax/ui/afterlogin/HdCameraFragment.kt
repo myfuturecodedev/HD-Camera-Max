@@ -15,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ImageCapture
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -158,7 +159,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        binding.btnSettings.setOnClickListener {
+        binding.btnRatioConfig.setOnClickListener {
             viewModel.toggleSettingsPanel()
         }
 
@@ -177,14 +178,14 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 //        }
 
         binding.btnTimerToggle.setOnClickListener {
-            showTimerMenu()
+            viewModel.toggleTimerStrip()
         }
 
 //        binding.btnGridToggle.setOnClickListener {
 //            viewModel.toggleGrid()
 //        }
 
-        binding.btnRatioConfig.setOnClickListener {
+        binding.btnSettings.setOnClickListener {
             showAspectRatioMenu()
         }
 
@@ -192,25 +193,57 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             viewModel.toggleGrid()
         }
 
+        binding.tvCompositionDone.setOnClickListener {
+            viewModel.hideGridSelector()
+        }
+
+        binding.gridGuideNone.setOnClickListener {
+            viewModel.selectGridGuide(GRID_NONE)
+        }
+
+        binding.gridGuide3x3.setOnClickListener {
+            viewModel.selectGridGuide(GRID_3X3)
+        }
+
+        binding.gridGuide4x2.setOnClickListener {
+            viewModel.selectGridGuide(GRID_4X2)
+        }
+
+        binding.gridGuideCross.setOnClickListener {
+            viewModel.selectGridGuide(GRID_CROSS)
+        }
+
+        binding.gridGuideGolden.setOnClickListener {
+            viewModel.selectGridGuide(GRID_GOLDEN)
+        }
+
         binding.btnPanelHdr.setOnClickListener {
-            toggleHdr()
+            showResolutionSelector()
+            viewModel.hideTransientTopPanels()
         }
 
         binding.btnPanelFace.setOnClickListener {
-            viewModel.toggleFaceOverlay()
+            viewModel.toggleFocusSelector()
         }
 
-        binding.btnPanelTimer.setOnClickListener {
-            showTimerMenu()
+        binding.btnFocusModeClose.setOnClickListener {
+            viewModel.hideFocusSelector()
         }
 
-        binding.btnPanelResolution.setOnClickListener {
-            showResolutionSelector()
-            viewModel.hideSettingsPanel()
+        binding.focusModeAuto.setOnClickListener {
+            viewModel.selectFocusMode(FOCUS_AUTO)
         }
 
-        binding.btnPanelAspect.setOnClickListener {
-            showAspectRatioMenu()
+        binding.focusModeMacro.setOnClickListener {
+            viewModel.selectFocusMode(FOCUS_MACRO)
+        }
+
+        binding.focusModeCenter.setOnClickListener {
+            viewModel.selectFocusMode(FOCUS_CENTER)
+        }
+
+        binding.focusModeTracking.setOnClickListener {
+            viewModel.selectFocusMode(FOCUS_TRACKING)
         }
 
         binding.filterDefaultOption.setOnClickListener {
@@ -233,8 +266,40 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             viewModel.setFilter(FILTER_GLOAM)
         }
 
-        binding.btnOpenSettingsScreen.setOnClickListener {
-            navigateSafely(R.id.action_hdCameraFragment_to_settingsFragment)
+        binding.btnPanelFull.setOnClickListener {
+            viewModel.showAspectSelector()
+        }
+
+        binding.tvAspect169.setOnClickListener {
+            applyAspectLabel("16:9")
+        }
+
+        binding.tvAspect11.setOnClickListener {
+            applyAspectLabel("1:1")
+        }
+
+        binding.tvAspect43.setOnClickListener {
+            applyAspectLabel("4:3")
+        }
+
+        binding.tvAspectFull.setOnClickListener {
+            applyAspectLabel("Full")
+        }
+
+        binding.tvTimerOff.setOnClickListener {
+            viewModel.setTimer(0)
+        }
+
+        binding.tvTimer3s.setOnClickListener {
+            viewModel.setTimer(3)
+        }
+
+        binding.tvTimer5s.setOnClickListener {
+            viewModel.setTimer(5)
+        }
+
+        binding.tvTimer10s.setOnClickListener {
+            viewModel.setTimer(10)
         }
 
         binding.tvZoom1x.setOnClickListener {
@@ -279,8 +344,11 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
         binding.cameraViewFinder.setOnTouchListener { view, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                cameraKit.triggerManualFocus(event.x, event.y)
-                renderInteractiveFocusSquare(event.x, event.y)
+                val focusMode = viewModel.uiState.value?.selectedFocusMode ?: FOCUS_MACRO
+                if (focusMode != FOCUS_CENTER) {
+                    cameraKit.triggerManualFocus(event.x, event.y)
+                    renderInteractiveFocusSquare(event.x, event.y)
+                }
                 view.performClick()
                 true
             } else {
@@ -323,7 +391,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         }
 
         binding.cameraControlsScrim.setOnClickListener {
-            viewModel.hideSettingsPanel()
+            viewModel.hideTransientTopPanels()
         }
     }
 
@@ -360,6 +428,12 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         viewModel.updateExposure(exposureValue)
     }
 
+    private fun applyAspectLabel(label: String) {
+        val cameraAspect = if (label == "16:9") 1 else 0
+        cameraKit.setAspectRatio(cameraAspect)
+        viewModel.setAspectRatio(label)
+    }
+
     private fun switchUIMode(mode: CameraAppMode) {
         if (viewModel.uiState.value?.isRecordingVideo == true && mode != CameraAppMode.VIDEO) {
             cameraKit.stopVideoRecording()
@@ -386,20 +460,28 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     private fun renderUiState(state: HdCameraUiState) {
         val isRecordingVideo = state.activeMode == CameraAppMode.VIDEO && state.isRecordingVideo
         val showSettingsPanel = state.isSettingsPanelVisible && !isRecordingVideo
+        val showTimerStrip = state.isTimerStripVisible && !isRecordingVideo
 
         binding.viewGridLines.visibility = if (state.isGridEnabled) View.VISIBLE else View.GONE
-        binding.viewFaceDetectionOverlay.visibility =
-            if (state.isFaceOverlayEnabled) View.VISIBLE else View.GONE
+        renderGridGuidePreview(state)
+        renderFocusGuidePreview(state)
         binding.cameraControlsScrim.visibility =
             if (showSettingsPanel) View.VISIBLE else View.GONE
         binding.cameraSettingsPanel.visibility =
             if (showSettingsPanel) View.VISIBLE else View.GONE
+        binding.cardCompositionGridSelector.visibility =
+            if (state.isGridSelectorVisible && !isRecordingVideo) View.VISIBLE else View.GONE
+        binding.cardFocusModeSelector.visibility =
+            if (state.isFocusSelectorVisible && !isRecordingVideo) View.VISIBLE else View.GONE
+        binding.llTimerQuickStrip.visibility =
+            if (showTimerStrip) View.VISIBLE else View.GONE
         binding.tvCountdownOverlay.visibility =
             if (state.countdownValue > 0) View.VISIBLE else View.GONE
         binding.topBarHeaderControls.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
-        binding.llStatusBadges.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
+        binding.llStatusBadges.visibility = View.GONE
         binding.llInteractiveControlDeck.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
-        binding.llFilterSelectorStrip.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
+        binding.llFilterSelectorStrip.visibility =
+            if (!isRecordingVideo && state.activeMode == CameraAppMode.PORTRAIT) View.VISIBLE else View.GONE
         binding.llRecordingZoomChips.visibility = if (isRecordingVideo) View.VISIBLE else View.GONE
         binding.tvRecordingTimerPill.visibility = if (isRecordingVideo) View.VISIBLE else View.GONE
 
@@ -442,9 +524,9 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         binding.tvHdrBadge.text = if (state.isHdrEnabled) "ON" else "OFF"
 
         renderFlashIcon(state.flashMode)
-        renderToggleState(binding.btnPanelHdr, state.isHdrEnabled)
-        renderToggleState(binding.btnPanelGrid, state.isGridEnabled)
-        renderToggleState(binding.btnPanelFace, state.isFaceOverlayEnabled)
+        renderFeaturePanelState(state)
+        renderCompositionGridSelectorState(state.selectedGridGuide)
+        renderFocusModeSelectorState(state.selectedFocusMode)
         renderSettingsPanelLabels(state)
         renderStatusBadgeState(state)
         renderZoomChips(state.zoomRatio)
@@ -462,31 +544,239 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         binding.btnFlash.setImageResource(icon)
     }
 
-    private fun renderToggleState(view: View, enabled: Boolean) {
-        view.backgroundTintList = ContextCompat.getColorStateList(
-            requireContext(),
-            if (enabled) R.color.permission_green else R.color.bg_card_dark
+    private fun renderSettingsPanelLabels(state: HdCameraUiState) {
+        binding.tvPanelGridLabel.text = getString(R.string.grid)
+        binding.tvPanelFocusLabel.text = getString(R.string.focus)
+        binding.tvPanelHdrLabel.text = getString(R.string.hd_set)
+        binding.tvPanelFullLabel.text = getString(R.string.full)
+    }
+
+    private fun renderFeaturePanelState(state: HdCameraUiState) {
+        renderFeatureTile(
+            binding.btnPanelGrid,
+            listOf(binding.tvPanelGridIcon, binding.tvPanelGridLabel),
+            state.isGridEnabled || state.isGridSelectorVisible
+        )
+        renderFeatureTile(
+            binding.btnPanelFace,
+            listOf(binding.tvPanelFocusIcon, binding.tvPanelFocusLabel),
+            state.isFocusSelectorVisible || state.selectedFocusMode != FOCUS_AUTO
+        )
+        renderFeatureTile(
+            binding.btnPanelHdr,
+            listOf(binding.tvPanelHdrLabel),
+            state.selectedResolution != null
+        )
+        binding.tvPanelHdrIcon.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (state.selectedResolution != null) R.color.black else R.color.white
+            )
+        )
+        binding.tvPanelHdrIcon.setBackgroundResource(
+            if (state.selectedResolution != null) R.drawable.bg_camera_top_chip_active else R.drawable.bg_camera_top_chip_inactive
+        )
+        renderFeatureTile(
+            binding.btnPanelFull,
+            listOf(binding.tvPanelFullIcon, binding.tvPanelFullLabel),
+            state.isSettingsPanelVisible && !state.isGridSelectorVisible && !state.isFocusSelectorVisible
+        )
+        renderAspectChips(state.aspectRatioLabel)
+        renderTimerChips(state.timerSeconds)
+    }
+
+    private fun renderGridGuidePreview(state: HdCameraUiState) {
+        val guide = state.selectedGridGuide
+        val showGuide = state.isGridEnabled && guide != GRID_NONE
+        binding.viewGridLines.visibility = if (showGuide) View.VISIBLE else View.GONE
+        if (!showGuide) return
+
+        setHorizontalBias(binding.viewGridVerticalOne, if (guide == GRID_GOLDEN) 0.382f else 0.333f)
+        setHorizontalBias(binding.viewGridVerticalTwo, if (guide == GRID_GOLDEN) 0.618f else 0.666f)
+        setVerticalBias(binding.viewGridHorizontalOne, if (guide == GRID_GOLDEN) 0.382f else 0.333f)
+        setVerticalBias(binding.viewGridHorizontalTwo, if (guide == GRID_GOLDEN) 0.618f else 0.666f)
+
+        val isThreeByThree = guide == GRID_3X3 || guide == GRID_GOLDEN
+        val isFourByTwo = guide == GRID_4X2
+        val isCross = guide == GRID_CROSS
+
+        binding.viewGridVerticalOne.visibility =
+            if (isThreeByThree || isFourByTwo) View.VISIBLE else View.GONE
+        binding.viewGridVerticalTwo.visibility =
+            if (isThreeByThree || isFourByTwo) View.VISIBLE else View.GONE
+        binding.viewGridHorizontalOne.visibility =
+            if (isThreeByThree) View.VISIBLE else View.GONE
+        binding.viewGridHorizontalTwo.visibility =
+            if (isThreeByThree) View.VISIBLE else View.GONE
+        binding.viewGridCrossVertical.visibility =
+            if (isCross || isFourByTwo) View.VISIBLE else View.GONE
+        binding.viewGridCrossHorizontal.visibility =
+            if (isCross || isFourByTwo) View.VISIBLE else View.GONE
+    }
+
+    private fun setHorizontalBias(view: View, bias: Float) {
+        val params = view.layoutParams as? ConstraintLayout.LayoutParams ?: return
+        params.horizontalBias = bias
+        view.layoutParams = params
+    }
+
+    private fun setVerticalBias(view: View, bias: Float) {
+        val params = view.layoutParams as? ConstraintLayout.LayoutParams ?: return
+        params.verticalBias = bias
+        view.layoutParams = params
+    }
+
+    private fun renderCompositionGridSelectorState(selectedGuide: String) {
+        renderGridGuideOption(
+            binding.gridGuideNone,
+            listOf(binding.tvGridGuideNoneIcon, binding.tvGridGuideNone),
+            selectedGuide == GRID_NONE
+        )
+        renderGridGuideOption(
+            binding.gridGuide3x3,
+            listOf(binding.tvGridGuide3x3Icon, binding.tvGridGuide3x3),
+            selectedGuide == GRID_3X3
+        )
+        renderGridGuideOption(
+            binding.gridGuide4x2,
+            listOf(binding.tvGridGuide4x2Icon, binding.tvGridGuide4x2),
+            selectedGuide == GRID_4X2
+        )
+        renderGridGuideOption(
+            binding.gridGuideCross,
+            listOf(binding.tvGridGuideCrossIcon, binding.tvGridGuideCross),
+            selectedGuide == GRID_CROSS
+        )
+        renderGridGuideOption(
+            binding.gridGuideGolden,
+            listOf(binding.tvGridGuideGoldenIcon, binding.tvGridGuideGolden),
+            selectedGuide == GRID_GOLDEN
         )
     }
 
-    private fun renderSettingsPanelLabels(state: HdCameraUiState) {
-        binding.btnPanelGrid.text = getString(
-            if (state.isGridEnabled) R.string.grid_on else R.string.grid_off
-        )
-        binding.btnPanelHdr.text = getString(
-            if (state.isHdrEnabled) R.string.hdr_on else R.string.hdr_off
-        )
-        binding.btnPanelFace.text = getString(
-            if (state.isFaceOverlayEnabled) R.string.face_on else R.string.face_off
-        )
-        binding.btnPanelTimer.text = if (state.timerSeconds == 0) {
-            getString(R.string.timer_off)
-        } else {
-            getString(R.string.timer_seconds_short, state.timerSeconds)
+    private fun renderFocusGuidePreview(state: HdCameraUiState) {
+        val focusMode = state.selectedFocusMode
+        val showFaceFrame = state.isFaceOverlayEnabled && (focusMode == FOCUS_TRACKING || focusMode == FOCUS_MACRO)
+        val showCenterFrame = focusMode == FOCUS_CENTER
+
+        binding.viewFaceDetectionOverlay.visibility = if (showFaceFrame) View.VISIBLE else View.GONE
+        binding.viewFocusFrameIndicator.clearAnimation()
+        if (showCenterFrame) {
+            binding.viewFocusFrameIndicator.alpha = 1f
+            binding.viewFocusFrameIndicator.visibility = View.VISIBLE
+            binding.viewFocusFrameIndicator.x =
+                (binding.cameraViewFinder.width - binding.viewFocusFrameIndicator.width) / 2f
+            binding.viewFocusFrameIndicator.y =
+                (binding.cameraViewFinder.height - binding.viewFocusFrameIndicator.height) / 2f
+        } else if (binding.viewFocusFrameIndicator.alpha >= 1f && binding.viewFocusFrameIndicator.visibility == View.VISIBLE) {
+            binding.viewFocusFrameIndicator.visibility = View.GONE
         }
-        binding.btnPanelResolution.text =
-            state.selectedResolution?.displayString ?: getString(R.string.resolution)
-        binding.btnPanelAspect.text = state.aspectRatioLabel
+    }
+
+    private fun renderFocusModeSelectorState(selectedFocusMode: String) {
+        renderFocusModeOption(
+            binding.focusModeAuto,
+            binding.tvFocusAutoIcon,
+            binding.tvFocusAutoLabel,
+            selectedFocusMode == FOCUS_AUTO
+        )
+        renderFocusModeOption(
+            binding.focusModeMacro,
+            binding.tvFocusMacroIcon,
+            binding.tvFocusMacroLabel,
+            selectedFocusMode == FOCUS_MACRO
+        )
+        renderFocusModeOption(
+            binding.focusModeCenter,
+            binding.tvFocusCenterIcon,
+            binding.tvFocusCenterLabel,
+            selectedFocusMode == FOCUS_CENTER
+        )
+        renderFocusModeOption(
+            binding.focusModeTracking,
+            binding.tvFocusTrackingIcon,
+            binding.tvFocusTrackingLabel,
+            selectedFocusMode == FOCUS_TRACKING
+        )
+    }
+
+    private fun renderFocusModeOption(root: View, icon: TextView, label: TextView, selected: Boolean) {
+        root.setBackgroundResource(
+            if (selected) R.drawable.bg_camera_feature_tile_active else R.drawable.bg_camera_feature_tile_inactive
+        )
+        icon.setBackgroundResource(
+            if (selected) R.drawable.bg_focus_mode_circle_active else R.drawable.bg_focus_mode_circle_inactive
+        )
+        icon.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        label.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (selected) R.color.permission_green else R.color.white
+            )
+        )
+        label.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+    }
+
+    private fun renderGridGuideOption(root: View, labels: List<TextView>, selected: Boolean) {
+        root.setBackgroundResource(
+            if (selected) R.drawable.bg_camera_feature_tile_active else R.drawable.bg_camera_feature_tile_inactive
+        )
+        labels.forEachIndexed { index, label ->
+            val color = when {
+                selected && index == 0 -> ContextCompat.getColor(requireContext(), R.color.permission_green)
+                selected -> ContextCompat.getColor(requireContext(), R.color.white)
+                else -> Color.parseColor("#C7CBD1")
+            }
+            label.setTextColor(color)
+            label.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+        }
+    }
+
+    private fun renderFeatureTile(root: View, labels: List<TextView>, selected: Boolean) {
+        root.setBackgroundResource(
+            if (selected) R.drawable.bg_camera_feature_tile_active else R.drawable.bg_camera_feature_tile_inactive
+        )
+        labels.forEach { label ->
+            label.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (selected) R.color.permission_green else R.color.white
+                )
+            )
+            label.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+        }
+    }
+
+    private fun renderAspectChips(selectedLabel: String) {
+        val chips = listOf(
+            binding.tvAspect169 to "16:9",
+            binding.tvAspect11 to "1:1",
+            binding.tvAspect43 to "4:3",
+            binding.tvAspectFull to "Full"
+        )
+        chips.forEach { (chip, label) ->
+            val selected = label == selectedLabel
+            chip.setBackgroundResource(
+                if (selected) R.drawable.bg_camera_top_chip_active else R.drawable.bg_camera_top_chip_inactive
+            )
+            chip.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+        }
+    }
+
+    private fun renderTimerChips(timerSeconds: Int) {
+        val chips = listOf(
+            binding.tvTimerOff to 0,
+            binding.tvTimer3s to 3,
+            binding.tvTimer5s to 5,
+            binding.tvTimer10s to 10
+        )
+        chips.forEach { (chip, value) ->
+            val selected = value == timerSeconds
+            chip.setBackgroundResource(
+                if (selected) R.drawable.bg_camera_top_chip_active else R.drawable.bg_camera_top_chip_inactive
+            )
+            chip.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+        }
     }
 
     private fun renderStatusBadgeState(state: HdCameraUiState) {
@@ -700,15 +990,22 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     private fun showAspectRatioMenu() {
         val currentRatio = viewModel.uiState.value?.aspectRatioLabel ?: "4:3"
-        PopupMenu(requireContext(), binding.btnRatioConfig, Gravity.NO_GRAVITY).apply {
-            menu.add(0, 43, 0, "4:3")
-            menu.add(0, 169, 1, "16:9")
+        PopupMenu(requireContext(), binding.btnSettings, Gravity.NO_GRAVITY).apply {
+            menu.add(0, 169, 0, "16:9")
+            menu.add(0, 11, 1, "1:1")
+            menu.add(0, 43, 2, "4:3")
+            menu.add(0, 100, 3, "Full")
             menu.setGroupCheckable(0, true, true)
-            menu.findItem(if (currentRatio == "16:9") 169 else 43)?.isChecked = true
+            menu.findItem(
+                when (currentRatio) {
+                    "16:9" -> 169
+                    "1:1" -> 11
+                    "Full" -> 100
+                    else -> 43
+                }
+            )?.isChecked = true
             setOnMenuItemClickListener {
-                val label = it.title.toString()
-                cameraKit.setAspectRatio(if (label == "16:9") 1 else 0)
-                viewModel.setAspectRatio(label)
+                applyAspectLabel(it.title.toString())
                 true
             }
         }.show()
@@ -726,7 +1023,13 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         dialogBinding.rvResolutions.layoutManager = LinearLayoutManager(requireContext())
         dialogBinding.rvResolutions.adapter = adapter
         fun renderFilterSelection(selected: TextView) {
-            listOf(dialogBinding.btnRatioAll, dialogBinding.btnRatio43, dialogBinding.btnRatio169)
+            listOf(
+                dialogBinding.btnRatioAll,
+                dialogBinding.btnRatio43,
+                dialogBinding.btnRatio169,
+                dialogBinding.btnRatio11,
+                dialogBinding.btnRatioRecommended
+            )
                 .forEach { chip ->
                     val active = chip == selected
                     chip.setBackgroundResource(
@@ -743,10 +1046,10 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         }
 
         fun submitFilteredResolutions(filter: String?) {
-            val filtered = if (filter == null) {
-                state.resolutionPresets
-            } else {
-                state.resolutionPresets.filter { it.ratioLabel == filter }
+            val filtered = when (filter) {
+                null -> state.resolutionPresets
+                "Recommended" -> state.resolutionPresets.filter { it.isRecommended }
+                else -> state.resolutionPresets.filter { it.ratioLabel == filter }
             }
             adapter.submitResolutions(filtered, viewModel.uiState.value?.selectedResolution)
         }
@@ -765,6 +1068,14 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         dialogBinding.btnRatio169.setOnClickListener {
             renderFilterSelection(dialogBinding.btnRatio169)
             submitFilteredResolutions("16:9")
+        }
+        dialogBinding.btnRatio11.setOnClickListener {
+            renderFilterSelection(dialogBinding.btnRatio11)
+            submitFilteredResolutions("1:1")
+        }
+        dialogBinding.btnRatioRecommended.setOnClickListener {
+            renderFilterSelection(dialogBinding.btnRatioRecommended)
+            submitFilteredResolutions("Recommended")
         }
 
         dialog.setContentView(dialogBinding.root)
@@ -813,5 +1124,14 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         const val FILTER_DAYLIGHT = "Daylight"
         const val FILTER_SPIKE = "Spike"
         const val FILTER_GLOAM = "Gloam"
+        const val GRID_NONE = "None"
+        const val GRID_3X3 = "3×3"
+        const val GRID_4X2 = "4×2"
+        const val GRID_CROSS = "Cross"
+        const val GRID_GOLDEN = "GR.2"
+        const val FOCUS_AUTO = "Auto Focus"
+        const val FOCUS_MACRO = "Macro Focus"
+        const val FOCUS_CENTER = "Center Focus"
+        const val FOCUS_TRACKING = "Tracking Focus"
     }
 }

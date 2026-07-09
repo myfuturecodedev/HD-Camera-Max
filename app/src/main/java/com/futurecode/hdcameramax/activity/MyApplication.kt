@@ -36,7 +36,7 @@ class MyApplication: Application() {
         app = this
         prefManager = PrefManager.get(this)
 
-        JsonReadUtils.fetchJsonData(this)
+       // JsonReadUtils.fetchJsonData(this)
 
 
     }
