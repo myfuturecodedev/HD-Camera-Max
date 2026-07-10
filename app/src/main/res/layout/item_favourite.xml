@@ -46,7 +46,6 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_8ssp"
             android:visibility="gone"
-            app:drawableStartCompat="@drawable/ic_camera_shutter_trigger"
             app:drawableTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
