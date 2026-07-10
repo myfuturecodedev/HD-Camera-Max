@@ -3,6 +3,7 @@ package com.futurecode.hdcameramax.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
@@ -11,7 +12,9 @@ import com.futurecode.hdcameramax.model.MediaItem
 
 class GalleryAdapter(
     private var items: List<MediaItem>,
-    private val onItemClick: (MediaItem) -> Unit
+    private val onItemClick: (MediaItem) -> Unit,
+    private val onFavouriteClick: (MediaItem) -> Unit = {},
+    private val isFavourite: (MediaItem) -> Boolean = { false }
 ) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
 
     inner class GalleryViewHolder(val binding: ItemGalleryBinding) :
@@ -36,6 +39,13 @@ class GalleryAdapter(
         holder.binding.ivGalleryThumbnail.contentDescription =
             if (item.isVideo) "Video" else "Photo"
         holder.binding.ivVideoBadge.visibility = if (item.isVideo) View.VISIBLE else View.GONE
+        holder.binding.ivFavourite.imageTintList = ContextCompat.getColorStateList(
+            holder.itemView.context,
+            if (isFavourite(item)) R.color.permission_green else R.color.text_gray_dim
+        )
+        holder.binding.ivFavourite.setOnClickListener {
+            onFavouriteClick(item)
+        }
         holder.binding.root.setOnClickListener { onItemClick(item) }
     }
 

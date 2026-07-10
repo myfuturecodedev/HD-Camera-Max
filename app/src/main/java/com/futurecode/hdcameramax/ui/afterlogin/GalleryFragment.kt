@@ -27,6 +27,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
     private lateinit var todayAdapter: GalleryAdapter
     private lateinit var yesterdayAdapter: GalleryAdapter
     private lateinit var lastWeekAdapter: GalleryAdapter
+    private lateinit var favouriteRepository: FavouriteRepository
 
     private var allAppMediaList = mutableListOf<MediaItem>()
     private var isVideoTabSelected = false // Status tracker matching your prompt criteria
@@ -34,6 +35,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        favouriteRepository = FavouriteRepository(requireContext())
         initRecyclerViews()
         setupTabClickListeners()
 
@@ -43,16 +45,29 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.btnFav.setOnClickListener {
+            findNavController().navigate(R.id.action_galleryFragment_to_favouriteFragment)
+        }
     }
 
     private fun initRecyclerViews() {
-        todayAdapter = GalleryAdapter(emptyList()) { handleMediaClick(it) }
-        yesterdayAdapter = GalleryAdapter(emptyList()) { handleMediaClick(it) }
-        lastWeekAdapter = GalleryAdapter(emptyList()) { handleMediaClick(it) }
+        todayAdapter = createGalleryAdapter()
+        yesterdayAdapter = createGalleryAdapter()
+        lastWeekAdapter = createGalleryAdapter()
 
         binding.rvToday.adapter = todayAdapter
         binding.rvYesterday.adapter = yesterdayAdapter
         binding.rvLastWeek.adapter = lastWeekAdapter
+    }
+
+    private fun createGalleryAdapter(): GalleryAdapter {
+        return GalleryAdapter(
+            items = emptyList(),
+            onItemClick = { handleMediaClick(it) },
+            onFavouriteClick = { toggleFavourite(it) },
+            isFavourite = { favouriteRepository.isFavourite(it.uri) }
+        )
     }
 
     private fun setupTabClickListeners() {
@@ -168,6 +183,15 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
         todayAdapter.updateData(todayItems)
         yesterdayAdapter.updateData(yesterdayItems)
         lastWeekAdapter.updateData(lastWeekItems)
+    }
+
+    private fun toggleFavourite(item: MediaItem) {
+        val isNowFavourite = favouriteRepository.toggleFavourite(item.uri)
+        val message = if (isNowFavourite) "Added to favourites" else "Removed from favourites"
+        android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show()
+        todayAdapter.notifyDataSetChanged()
+        yesterdayAdapter.notifyDataSetChanged()
+        lastWeekAdapter.notifyDataSetChanged()
     }
 
     private fun handleMediaClick(item: MediaItem) {

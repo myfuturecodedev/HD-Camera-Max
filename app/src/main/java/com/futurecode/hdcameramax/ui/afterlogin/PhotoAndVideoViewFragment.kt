@@ -4,11 +4,14 @@ import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -27,17 +30,36 @@ class PhotoAndVideoViewFragment :
     private var selectedDisplayName: String = ""
     private var selectedIsVideo: Boolean = false
     private var isFavorite = false
+    private lateinit var favouriteRepository: FavouriteRepository
+    private val videoProgressHandler = Handler(Looper.getMainLooper())
+    private var shouldLoopVideo = false
+
+    private val videoProgressRunnable = object : Runnable {
+        override fun run() {
+            updateVideoProgress()
+            videoProgressHandler.postDelayed(this, VIDEO_PROGRESS_INTERVAL_MS)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        favouriteRepository = FavouriteRepository(requireContext())
         selectedMediaUri = arguments?.getString(ARG_MEDIA_URI)?.let(Uri::parse)
         selectedIsVideo = arguments?.getBoolean(ARG_IS_VIDEO) ?: false
         selectedDisplayName = selectedMediaUri?.let { loadDisplayName(it) }.orEmpty()
+        isFavorite = selectedMediaUri?.let { favouriteRepository.isFavourite(it) } == true
 
         renderSelectedMedia()
+        renderMediaMetadata()
         setupClickListeners()
         updateFavoriteUI()
+    }
+
+    override fun onDestroyView() {
+        videoProgressHandler.removeCallbacks(videoProgressRunnable)
+        bindingOrNull?.videoViewPlayer?.stopPlayback()
+        super.onDestroyView()
     }
 
     private fun setupClickListeners() {
@@ -48,7 +70,8 @@ class PhotoAndVideoViewFragment :
         }
 
         binding.btnFavorite.setOnClickListener {
-            isFavorite = !isFavorite
+            val mediaUri = selectedMediaUri ?: return@setOnClickListener
+            isFavorite = favouriteRepository.toggleFavourite(mediaUri)
             updateFavoriteUI()
         }
 
@@ -58,11 +81,69 @@ class PhotoAndVideoViewFragment :
         binding.btnMore.setOnClickListener {
             showMoreOptionsPopupWindow(it) // 'it' means btnMore active anchor view reference
         }
+
+        binding.btnVideoBack.setOnClickListener { findNavController().navigateUp() }
+
+        binding.btnVideoFavorite.setOnClickListener {
+            val mediaUri = selectedMediaUri ?: return@setOnClickListener
+            isFavorite = favouriteRepository.toggleFavourite(mediaUri)
+            updateFavoriteUI()
+        }
+
+        binding.btnVideoCenterPlay.setOnClickListener { toggleVideoPlayback() }
+        binding.btnVideoPlayPause.setOnClickListener { toggleVideoPlayback() }
+
+        binding.btnVideoPrevious.setOnClickListener {
+            seekVideoBy(-VIDEO_SEEK_STEP_MS)
+        }
+
+        binding.btnVideoNext.setOnClickListener {
+            seekVideoBy(VIDEO_SEEK_STEP_MS)
+        }
+
+        binding.btnVideoRepeat.setOnClickListener {
+            shouldLoopVideo = !shouldLoopVideo
+            binding.btnVideoRepeat.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (shouldLoopVideo) R.color.permission_green else R.color.white
+                )
+            )
+        }
+
+        binding.btnVideoFullscreen.setOnClickListener {
+            Toast.makeText(requireContext(), "Fullscreen", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.btnVideoLock.setOnClickListener {
+            Toast.makeText(requireContext(), "Controls locked", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.sbVideoProgress.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    if (fromUser) {
+                        val duration = binding.videoViewPlayer.duration.coerceAtLeast(0)
+                        val target = (duration * (progress / VIDEO_PROGRESS_MAX.toFloat())).toInt()
+                        binding.videoViewPlayer.seekTo(target)
+                        binding.tvVideoElapsed.text = formatPlaybackTime(target)
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+            }
+        )
     }
 
     private fun updateFavoriteUI() {
         val color = if (isFavorite) R.color.permission_green else R.color.text_gray_dim
         binding.ivFavorite.imageTintList = ContextCompat.getColorStateList(requireContext(), color)
+        binding.btnVideoFavorite.imageTintList = ContextCompat.getColorStateList(
+            requireContext(),
+            if (isFavorite) R.color.permission_green else R.color.white
+        )
     }
 
     // ==========================================
@@ -172,8 +253,19 @@ class PhotoAndVideoViewFragment :
 
     private fun renderSelectedMedia() {
         val mediaUri = selectedMediaUri
+        binding.videoPlayerRoot.visibility = if (selectedIsVideo) View.VISIBLE else View.GONE
+        binding.topBar.visibility = if (selectedIsVideo) View.GONE else View.VISIBLE
+        binding.tvFileNameTag.visibility = if (selectedIsVideo) View.GONE else View.VISIBLE
+        binding.ivMain.visibility = if (selectedIsVideo) View.GONE else View.VISIBLE
+        binding.bottomBar.visibility = if (selectedIsVideo) View.GONE else View.VISIBLE
+
         if (mediaUri == null) {
             binding.ivMain.setImageResource(R.drawable.native_thumb)
+            return
+        }
+
+        if (selectedIsVideo) {
+            renderVideoMedia(mediaUri)
             return
         }
 
@@ -187,6 +279,99 @@ class PhotoAndVideoViewFragment :
             selectedDisplayName = if (selectedIsVideo) "Video.mp4" else "Photo.jpg"
         }
         binding.tvFileNameTag.text = selectedDisplayName
+    }
+
+    private fun renderVideoMedia(mediaUri: Uri) {
+        Glide.with(this)
+            .load(mediaUri)
+            .placeholder(R.drawable.native_thumb)
+            .centerCrop()
+            .into(binding.ivVideoPoster)
+
+        if (selectedDisplayName.isBlank()) {
+            selectedDisplayName = "Video.mp4"
+        }
+        binding.tvVideoTitle.text = selectedDisplayName.substringBeforeLast('.', selectedDisplayName)
+        binding.tvVideoFileName.text = selectedDisplayName
+        binding.videoViewPlayer.setVideoURI(mediaUri)
+        binding.videoViewPlayer.setOnPreparedListener { player ->
+            binding.tvVideoDuration.text = formatPlaybackTime(player.duration)
+            binding.tvVideoElapsed.text = formatPlaybackTime(0)
+            binding.sbVideoProgress.max = VIDEO_PROGRESS_MAX
+            binding.sbVideoProgress.progress = 0
+            player.isLooping = shouldLoopVideo
+            binding.ivVideoPoster.visibility = View.GONE
+            binding.videoViewPlayer.start()
+            renderVideoPlaybackState(isPlaying = true)
+            videoProgressHandler.removeCallbacks(videoProgressRunnable)
+            videoProgressHandler.post(videoProgressRunnable)
+        }
+        binding.videoViewPlayer.setOnCompletionListener {
+            if (shouldLoopVideo) {
+                binding.videoViewPlayer.start()
+                renderVideoPlaybackState(isPlaying = true)
+            } else {
+                renderVideoPlaybackState(isPlaying = false)
+                binding.sbVideoProgress.progress = VIDEO_PROGRESS_MAX
+            }
+        }
+    }
+
+    private fun renderMediaMetadata() {
+        val createdAt = arguments?.getLong(ARG_DATE_ADDED)?.takeIf { it > 0L } ?: System.currentTimeMillis()
+        binding.textDate.text = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date(createdAt))
+        binding.time.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date(createdAt))
+    }
+
+    private fun toggleVideoPlayback() {
+        if (!selectedIsVideo) return
+        if (binding.videoViewPlayer.isPlaying) {
+            binding.videoViewPlayer.pause()
+            renderVideoPlaybackState(isPlaying = false)
+        } else {
+            binding.ivVideoPoster.visibility = View.GONE
+            binding.videoViewPlayer.start()
+            renderVideoPlaybackState(isPlaying = true)
+            videoProgressHandler.removeCallbacks(videoProgressRunnable)
+            videoProgressHandler.post(videoProgressRunnable)
+        }
+    }
+
+    private fun renderVideoPlaybackState(isPlaying: Boolean) {
+        val label = if (isPlaying) "II" else ">"
+        binding.btnVideoCenterPlay.text = label
+        binding.btnVideoPlayPause.text = label
+    }
+
+    private fun seekVideoBy(deltaMs: Int) {
+        val duration = binding.videoViewPlayer.duration.coerceAtLeast(0)
+        if (duration == 0) return
+        val target = (binding.videoViewPlayer.currentPosition + deltaMs).coerceIn(0, duration)
+        binding.videoViewPlayer.seekTo(target)
+        updateVideoProgress()
+    }
+
+    private fun updateVideoProgress() {
+        if (!selectedIsVideo || bindingOrNull == null) return
+        val duration = binding.videoViewPlayer.duration.coerceAtLeast(0)
+        val current = binding.videoViewPlayer.currentPosition.coerceAtLeast(0)
+        binding.tvVideoElapsed.text = formatPlaybackTime(current)
+        binding.tvVideoDuration.text = formatPlaybackTime(duration)
+        binding.sbVideoProgress.progress = if (duration > 0) {
+            ((current / duration.toFloat()) * VIDEO_PROGRESS_MAX).toInt().coerceIn(0, VIDEO_PROGRESS_MAX)
+        } else {
+            0
+        }
+        if (!binding.videoViewPlayer.isPlaying) {
+            videoProgressHandler.removeCallbacks(videoProgressRunnable)
+        }
+    }
+
+    private fun formatPlaybackTime(milliseconds: Int): String {
+        val totalSeconds = (milliseconds / 1000).coerceAtLeast(0)
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+        return String.format(Locale.US, "%02d:%02d", minutes, seconds)
     }
 
     private fun shareSelectedMedia() {
@@ -206,6 +391,7 @@ class PhotoAndVideoViewFragment :
         }.getOrDefault(0)
 
         if (deleted > 0) {
+            favouriteRepository.removeFavourite(mediaUri)
             Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         } else {
@@ -275,5 +461,8 @@ class PhotoAndVideoViewFragment :
         const val ARG_MEDIA_URI = "media_uri"
         const val ARG_IS_VIDEO = "is_video"
         const val ARG_DATE_ADDED = "date_added"
+        const val VIDEO_PROGRESS_MAX = 1000
+        const val VIDEO_SEEK_STEP_MS = 10_000
+        const val VIDEO_PROGRESS_INTERVAL_MS = 500L
     }
 }

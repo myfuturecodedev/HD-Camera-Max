@@ -45,6 +45,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     private lateinit var viewModel: HdCameraViewModel
     private var activeExposureIndex = 0
     private var startVideoAfterCameraReady = false
+    private var dashboardFeature: String? = null
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -97,9 +98,11 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             lifecycleOwner = viewLifecycleOwner,
             viewFinder = binding.cameraViewFinder
         )
+        dashboardFeature = arguments?.getString(ARG_DASHBOARD_FEATURE)
 
         setupCoreClickListeners()
         observeCameraState()
+        applyDashboardFeature(applyCameraControls = false)
         checkCameraPermission()
     }
 
@@ -146,9 +149,42 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         cameraKit.initializePipeline {
             viewModel.markCameraReady()
             viewModel.refreshGalleryPreview()
+            applyDashboardFeature(applyCameraControls = true)
             if (startVideoAfterCameraReady) {
                 startVideoAfterCameraReady = false
                 handleVideoRecordingRequest()
+            }
+        }
+    }
+
+    private fun applyDashboardFeature(applyCameraControls: Boolean) {
+        when (dashboardFeature) {
+            FEATURE_HD_ZOOM -> {
+                cameraKit.switchAppMode(CameraAppMode.PHOTO)
+                viewModel.setMode(CameraAppMode.PHOTO)
+                viewModel.updateZoom(5.0f)
+                binding.sbDynamicZoomSeeker.progress = (((5.0f - 1f) / 9f) * 100).toInt()
+                if (applyCameraControls) {
+                    cameraKit.applyZoomRatio(5.0f)
+                }
+            }
+
+            FEATURE_PORTRAIT -> {
+                cameraKit.switchAppMode(CameraAppMode.PORTRAIT)
+                viewModel.setMode(CameraAppMode.PORTRAIT)
+            }
+
+            FEATURE_FILTERS -> {
+                cameraKit.switchAppMode(CameraAppMode.PORTRAIT)
+                viewModel.setMode(CameraAppMode.PORTRAIT)
+                viewModel.setFilter(FILTER_DEFAULT)
+            }
+
+            FEATURE_BEAUTY -> {
+                cameraKit.switchAppMode(CameraAppMode.PORTRAIT)
+                viewModel.setMode(CameraAppMode.PORTRAIT)
+                viewModel.selectFocusMode(FOCUS_MACRO)
+                viewModel.setFilter(FILTER_DAYLIGHT)
             }
         }
     }
@@ -264,6 +300,30 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
         binding.filterGloamOption.setOnClickListener {
             viewModel.setFilter(FILTER_GLOAM)
+        }
+
+        binding.wbControlColumn.setOnClickListener {
+            viewModel.toggleWhiteBalanceStrip()
+        }
+
+        binding.wbIncandescentOption.setOnClickListener {
+            viewModel.setWhiteBalance(WB_INCANDESCENT)
+        }
+
+        binding.wbFluorescentOption.setOnClickListener {
+            viewModel.setWhiteBalance(WB_FLUORESCENT)
+        }
+
+        binding.wbDaylightOption.setOnClickListener {
+            viewModel.setWhiteBalance(WB_DAYLIGHT)
+        }
+
+        binding.wbCloudyOption.setOnClickListener {
+            viewModel.setWhiteBalance(WB_CLOUDY)
+        }
+
+        binding.wbShadeOption.setOnClickListener {
+            viewModel.setWhiteBalance(WB_SHADE)
         }
 
         binding.btnPanelFull.setOnClickListener {
@@ -461,6 +521,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         val isRecordingVideo = state.activeMode == CameraAppMode.VIDEO && state.isRecordingVideo
         val showSettingsPanel = state.isSettingsPanelVisible && !isRecordingVideo
         val showTimerStrip = state.isTimerStripVisible && !isRecordingVideo
+        val showWhiteBalanceStrip = state.isWhiteBalanceStripVisible && !isRecordingVideo
 
         binding.viewGridLines.visibility = if (state.isGridEnabled) View.VISIBLE else View.GONE
         renderGridGuidePreview(state)
@@ -480,8 +541,12 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         binding.topBarHeaderControls.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
         binding.llStatusBadges.visibility = View.GONE
         binding.llInteractiveControlDeck.visibility = if (isRecordingVideo) View.GONE else View.VISIBLE
+        binding.panelZoomSliderControl.visibility =
+            if (showWhiteBalanceStrip) View.GONE else View.VISIBLE
+        binding.llWhiteBalanceStrip.visibility =
+            if (showWhiteBalanceStrip) View.VISIBLE else View.GONE
         binding.llFilterSelectorStrip.visibility =
-            if (!isRecordingVideo && state.activeMode == CameraAppMode.PORTRAIT) View.VISIBLE else View.GONE
+            if (!isRecordingVideo && !showWhiteBalanceStrip && state.activeMode == CameraAppMode.PORTRAIT) View.VISIBLE else View.GONE
         binding.llRecordingZoomChips.visibility = if (isRecordingVideo) View.VISIBLE else View.GONE
         binding.tvRecordingTimerPill.visibility = if (isRecordingVideo) View.VISIBLE else View.GONE
 
@@ -520,7 +585,14 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             )
         )
         binding.tvAspectBadge.text = state.aspectRatioLabel
-        binding.tvResolutionValue.text = state.selectedResolution?.displayString ?: "Auto"
+        binding.tvWhiteBalanceValue.text = state.selectedWhiteBalance
+        binding.wbControlColumn.setBackgroundResource(
+            if (showWhiteBalanceStrip || state.selectedWhiteBalance != WB_AUTO) {
+                R.drawable.bg_camera_feature_tile_active
+            } else {
+                R.drawable.bg_camera_feature_tile_inactive
+            }
+        )
         binding.tvHdrBadge.text = if (state.isHdrEnabled) "ON" else "OFF"
 
         renderFlashIcon(state.flashMode)
@@ -531,6 +603,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         renderStatusBadgeState(state)
         renderZoomChips(state.zoomRatio)
         renderFilterState(state.selectedFilter)
+        renderWhiteBalanceState(state.selectedWhiteBalance)
         renderModeTabs(state.activeMode)
         renderGalleryPreview(state.latestMediaUri)
     }
@@ -875,6 +948,82 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             .start()
     }
 
+    private fun renderWhiteBalanceState(selectedWhiteBalance: String) {
+        val whiteBalanceOptions = listOf(
+            WhiteBalanceOption(
+                binding.wbIncandescentOption,
+                binding.cardWbIncandescent,
+                binding.tvWbIncandescent,
+                WB_INCANDESCENT
+            ),
+            WhiteBalanceOption(
+                binding.wbFluorescentOption,
+                binding.cardWbFluorescent,
+                binding.tvWbFluorescent,
+                WB_FLUORESCENT
+            ),
+            WhiteBalanceOption(
+                binding.wbDaylightOption,
+                binding.cardWbDaylight,
+                binding.tvWbDaylight,
+                WB_DAYLIGHT
+            ),
+            WhiteBalanceOption(
+                binding.wbCloudyOption,
+                binding.cardWbCloudy,
+                binding.tvWbCloudy,
+                WB_CLOUDY
+            ),
+            WhiteBalanceOption(
+                binding.wbShadeOption,
+                binding.cardWbShade,
+                binding.tvWbShade,
+                WB_SHADE
+            )
+        )
+
+        whiteBalanceOptions.forEach { option ->
+            val selected = option.whiteBalanceName == selectedWhiteBalance
+            option.card.strokeColor = ContextCompat.getColor(
+                requireContext(),
+                if (selected) R.color.permission_green else android.R.color.transparent
+            )
+            option.card.strokeWidth =
+                resources.getDimensionPixelSize(if (selected) com.intuit.sdp.R.dimen._2sdp else com.intuit.sdp.R.dimen._1sdp)
+            option.label.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (selected) R.color.permission_green else R.color.white
+                )
+            )
+            option.label.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+            option.root.alpha = if (selected) 1f else 0.84f
+        }
+
+        val overlayColor = when (selectedWhiteBalance) {
+            WB_INCANDESCENT -> Color.parseColor("#44FFB15A")
+            WB_FLUORESCENT -> Color.parseColor("#33DDE7F0")
+            WB_DAYLIGHT -> Color.parseColor("#22FFD36A")
+            WB_CLOUDY -> Color.parseColor("#443B4A66")
+            WB_SHADE -> Color.parseColor("#55301954")
+            else -> Color.TRANSPARENT
+        }
+        val overlayAlpha = when (selectedWhiteBalance) {
+            WB_INCANDESCENT -> 0.20f
+            WB_FLUORESCENT -> 0.18f
+            WB_DAYLIGHT -> 0.14f
+            WB_CLOUDY -> 0.24f
+            WB_SHADE -> 0.28f
+            else -> 0f
+        }
+
+        binding.viewWhiteBalanceOverlay.setBackgroundColor(overlayColor)
+        binding.viewWhiteBalanceOverlay.animate()
+            .alpha(overlayAlpha)
+            .setDuration(160)
+            .start()
+    }
+
     private fun renderModeTabs(mode: CameraAppMode) {
         val activeBackground = R.drawable.bg_camera_mode_active
         val inactiveBackground = R.drawable.bg_camera_mode_inactive
@@ -1118,12 +1267,31 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         val filterName: String
     )
 
-    private companion object {
+    private data class WhiteBalanceOption(
+        val root: View,
+        val card: MaterialCardView,
+        val label: TextView,
+        val whiteBalanceName: String
+    )
+
+    companion object {
+        const val ARG_DASHBOARD_FEATURE = "dashboard_feature"
+        const val FEATURE_HD_ZOOM = "hd_zoom"
+        const val FEATURE_PORTRAIT = "portrait"
+        const val FEATURE_FILTERS = "filters"
+        const val FEATURE_BEAUTY = "beauty"
+
         const val FILTER_DEFAULT = "Default"
         const val FILTER_FOGGY = "Foggy"
         const val FILTER_DAYLIGHT = "Daylight"
         const val FILTER_SPIKE = "Spike"
         const val FILTER_GLOAM = "Gloam"
+        const val WB_AUTO = "Auto"
+        const val WB_INCANDESCENT = "Incandescent"
+        const val WB_FLUORESCENT = "Fluorescent"
+        const val WB_DAYLIGHT = "Daylight"
+        const val WB_CLOUDY = "Cloudy"
+        const val WB_SHADE = "Shade"
         const val GRID_NONE = "None"
         const val GRID_3X3 = "3×3"
         const val GRID_4X2 = "4×2"

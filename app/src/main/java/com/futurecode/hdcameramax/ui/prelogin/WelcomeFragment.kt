@@ -3,6 +3,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.activity.MainActivity
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.FragmentWelcomeBinding
 class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(FragmentWelcomeBinding::inflate) {
@@ -24,10 +25,13 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(FragmentWelcomeBind
     private fun navigateToMainCameraDashboard() {
         if (!isAdded) return
 
-        findNavController().navigate(R.id.action_welcomeFragment_to_languageFragment)
+       // findNavController().navigate(R.id.action_welcomeFragment_to_languageFragment)
 
         // val intent = android.content.Intent(requireActivity(), HomeActivity::class.java)
         // startActivity(intent)
         // requireActivity().finish()
+
+        (activity as? MainActivity)?.goToMain()
+
     }
 }

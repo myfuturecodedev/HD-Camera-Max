@@ -91,6 +91,7 @@
             android:paddingBottom="@dimen/_24sdp">
 
             <TextView
+                android:id="@+id/tvTodayTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/today"
@@ -99,10 +100,11 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvTodayMeta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="June 14, 2025 - 12 items"
+                android:text="@string/june_14_2025_12_items"
                 android:textColor="#7C7C8A"
                 android:textSize="@dimen/_10ssp" />
 
@@ -117,6 +119,7 @@
                 tools:listitem="@layout/item_favourite" />
 
             <TextView
+                android:id="@+id/tvYesterdayTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
@@ -126,10 +129,11 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvYesterdayMeta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="June 13, 2025 - 8 items"
+                android:text="@string/june_13_2025_8_items"
                 android:textColor="#7C7C8A"
                 android:textSize="@dimen/_10ssp" />
 
@@ -144,6 +148,7 @@
                 tools:listitem="@layout/item_favourite" />
 
             <TextView
+                android:id="@+id/tvLastWeekTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
@@ -153,10 +158,11 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvLastWeekMeta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="June 7–12, 2025 - 24 items"
+                android:text="@string/june_7_12_2025_24_items"
                 android:textColor="#7C7C8A"
                 android:textSize="@dimen/_10ssp" />
 
@@ -169,6 +175,17 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
                 tools:listitem="@layout/item_favourite" />
+
+            <TextView
+                android:id="@+id/tvEmptyFavourites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_60sdp"
+                android:gravity="center"
+                android:text="@string/no_favourites_yet"
+                android:textColor="#7C7C8A"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

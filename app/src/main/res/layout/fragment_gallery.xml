@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="My gallery"
+                android:text="@string/my_gallery"
                 android:textColor="#121216"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="Browse your captured photos &amp; videos"
+                android:text="@string/browse_your_captured_photos_amp_videos"
                 android:textColor="#7C7C8A"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
@@ -95,7 +95,7 @@
             android:background="@drawable/bg_active_tab"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Picture"
+            android:text="@string/picture"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"
@@ -115,7 +115,7 @@
             android:background="@android:color/transparent"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Video"
+            android:text="@string/video"
             android:textAllCaps="false"
             android:textColor="#7C7C8A"
             android:textSize="@dimen/_12ssp"
@@ -147,7 +147,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today"
+                android:text="@string/today"
                 android:textColor="#121216"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
@@ -156,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="June 14, 2025 - 12 items"
+                android:text="@string/june_14_2025_12_items"
                 android:textColor="#7C7C8A"
                 android:textSize="@dimen/_10ssp" />
 
@@ -174,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Yesterday"
+                android:text="@string/yesterday"
                 android:textColor="#121216"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
@@ -183,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="June 13, 2025 - 8 items"
+                android:text="@string/june_13_2025_8_items"
                 android:textColor="#7C7C8A"
                 android:textSize="@dimen/_10ssp" />
 
@@ -201,7 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:text="Last Week"
+                android:text="@string/last_week"
                 android:textColor="#121216"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
@@ -210,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:text="June 7–12, 2025 - 24 items"
+                android:text="@string/june_7_12_2025_24_items"
                 android:textColor="#7C7C8A"
                 android:textSize="@dimen/_10ssp" />
 

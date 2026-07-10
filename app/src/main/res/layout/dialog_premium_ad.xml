@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="@dimen/_20sdp"
-    app:cardBackgroundColor="#130D26"
-    app:cardCornerRadius="@dimen/_16sdp"
-    app:cardElevation="@dimen/_10sdp">
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="@dimen/_24sdp"
+    app:cardElevation="@dimen/_12sdp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,68 +18,80 @@
 
         <ImageView
             android:id="@+id/ivDialogIcon"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:src="@drawable/app_logo"
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:src="@drawable/logo_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo_small" />
 
         <TextView
             android:id="@+id/tvDialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_14sdp"
             android:gravity="center"
-            android:text="@string/start_the_scary_prank"
-            android:textColor="#9D26FF"
-            android:textSize="@dimen/_14ssp"
+            android:text="@string/unlock_pro_features"
+            android:textColor="#121216"
+            android:textSize="@dimen/_16ssp"
+            android:fontFamily="sans-serif-black"
+            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/ivDialogIcon" />
 
         <TextView
             android:id="@+id/tvDialogMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:gravity="center"
             android:fontFamily="@font/inter_medium"
-            android:text="@string/unlock_monster_call_chat"
-            android:textColor="#A5A2B5"
+            android:text="@string/unlock_pro_features_desc"
+            android:textColor="#7C7C8A"
             android:textSize="@dimen/_11ssp"
-            android:lineHeight="@dimen/_15sdp"
+            android:lineHeight="@dimen/_16sdp"
             app:layout_constraintTop_toBottomOf="@id/tvDialogTitle" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNo"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
-            android:background="@drawable/bg_ghost_card_unselected"
-            android:text="@string/not_now"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:text="@string/not_now_clean"
             android:textAllCaps="false"
-            android:textColor="#A5A2B5"
+            android:textColor="#7C7C8A"
             android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:strokeColor="#E0E0E0"
+            app:cornerRadius="@dimen/_100sdp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnYes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDialogMessage" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnYes"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/bg_next_button"
-            android:text="@string/watch_ad"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:text="@string/watch_ad_premium"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/permission_green"
+            app:cornerRadius="@dimen/_100sdp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnNo"
             app:layout_constraintTop_toBottomOf="@id/tvDialogMessage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardFavourite"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_100sdp"
     android:layout_margin="@dimen/_4sdp"
     app:cardCornerRadius="@dimen/_12sdp"
     app:cardElevation="0dp"
@@ -13,8 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/ivThumbnail"

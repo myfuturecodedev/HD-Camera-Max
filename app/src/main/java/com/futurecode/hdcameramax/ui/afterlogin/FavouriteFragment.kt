@@ -1,60 +1,200 @@
 package com.futurecode.hdcameramax.ui.afterlogin
 
+import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.provider.MediaStore
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.base.BaseFragment
+import com.futurecode.hdcameramax.databinding.FragmentFavouriteBinding
+import com.futurecode.hdcameramax.model.MediaItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(FragmentFavouriteBinding::inflate) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavouriteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FavouriteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var todayAdapter: FavouriteAdapter
+    private lateinit var yesterdayAdapter: FavouriteAdapter
+    private lateinit var lastWeekAdapter: FavouriteAdapter
+    private lateinit var favouriteRepository: FavouriteRepository
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        favouriteRepository = FavouriteRepository(requireContext())
+        setupRecyclerViews()
+        setupClickListeners()
+        loadFavouriteMedia()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::favouriteRepository.isInitialized) {
+            loadFavouriteMedia()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+    private fun setupRecyclerViews() {
+        todayAdapter = createAdapter()
+        yesterdayAdapter = createAdapter()
+        lastWeekAdapter = createAdapter()
+
+        binding.rvToday.adapter = todayAdapter
+        binding.rvYesterday.adapter = yesterdayAdapter
+        binding.rvLastWeek.adapter = lastWeekAdapter
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavouriteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavouriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun createAdapter(): FavouriteAdapter {
+        return FavouriteAdapter(
+            items = emptyList(),
+            onItemClick = { openMediaPreview(it) },
+            onRemoveFavourite = { removeFavourite(it) }
+        )
+    }
+
+    private fun setupClickListeners() {
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.btnFav.setOnClickListener {
+            loadFavouriteMedia()
+        }
+    }
+
+    @SuppressLint("Range")
+    private fun loadFavouriteMedia() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val favourites = withContext(Dispatchers.IO) {
+                val favouriteUriStrings = favouriteRepository.favouriteUris()
+                if (favouriteUriStrings.isEmpty()) {
+                    return@withContext emptyList<MediaItem>()
                 }
+
+                val mediaItems = mutableListOf<MediaItem>()
+                val targetSubFolder = "%DCIM/CameraHDMax%"
+                val collectionUri = MediaStore.Files.getContentUri("external")
+                val projection = arrayOf(
+                    MediaStore.Files.FileColumns._ID,
+                    MediaStore.Files.FileColumns.MEDIA_TYPE,
+                    MediaStore.Files.FileColumns.DATE_ADDED,
+                    MediaStore.Files.FileColumns.RELATIVE_PATH
+                )
+                val selection =
+                    "(${MediaStore.Files.FileColumns.MEDIA_TYPE} = ? OR ${MediaStore.Files.FileColumns.MEDIA_TYPE} = ?) AND ${MediaStore.Files.FileColumns.RELATIVE_PATH} LIKE ?"
+                val selectionArgs = arrayOf(
+                    MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString(),
+                    MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString(),
+                    targetSubFolder
+                )
+                val sortOrder = "${MediaStore.Files.FileColumns.DATE_ADDED} DESC"
+
+                context?.contentResolver?.query(collectionUri, projection, selection, selectionArgs, sortOrder)
+                    ?.use { cursor ->
+                        while (cursor.moveToNext()) {
+                            val id = cursor.getLong(cursor.getColumnIndex(MediaStore.Files.FileColumns._ID))
+                            val mediaType = cursor.getInt(cursor.getColumnIndex(MediaStore.Files.FileColumns.MEDIA_TYPE))
+                            val dateAdded = cursor.getLong(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATE_ADDED))
+                            val isVideo = mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
+                            val baseContentUri = if (isVideo) {
+                                MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                            } else {
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            }
+                            val itemUri = ContentUris.withAppendedId(baseContentUri, id)
+                            if (favouriteUriStrings.contains(itemUri.toString())) {
+                                val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                    .format(Date(dateAdded * 1000))
+                                mediaItems.add(MediaItem(itemUri, isVideo, dateAdded * 1000, formattedDate))
+                            }
+                        }
+                    }
+
+                mediaItems
             }
+
+            renderFavouriteSections(favourites)
+        }
+    }
+
+    private fun renderFavouriteSections(favourites: List<MediaItem>) {
+        val todayCalendar = Calendar.getInstance()
+        val yesterdayCalendar = Calendar.getInstance().apply { add(Calendar.DATE, -1) }
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val todayStr = sdf.format(todayCalendar.time)
+        val yesterdayStr = sdf.format(yesterdayCalendar.time)
+
+        val todayItems = favourites.filter { it.formattedDate == todayStr }
+        val yesterdayItems = favourites.filter { it.formattedDate == yesterdayStr }
+        val lastWeekItems = favourites.filter { it.formattedDate != todayStr && it.formattedDate != yesterdayStr }
+
+        todayAdapter.updateData(todayItems)
+        yesterdayAdapter.updateData(yesterdayItems)
+        lastWeekAdapter.updateData(lastWeekItems)
+
+        renderSection(
+            title = binding.tvTodayTitle,
+            meta = binding.tvTodayMeta,
+            list = binding.rvToday,
+            items = todayItems,
+            dateLabel = SimpleDateFormat("MMMM d, yyyy", Locale.getDefault()).format(todayCalendar.time)
+        )
+        renderSection(
+            title = binding.tvYesterdayTitle,
+            meta = binding.tvYesterdayMeta,
+            list = binding.rvYesterday,
+            items = yesterdayItems,
+            dateLabel = SimpleDateFormat("MMMM d, yyyy", Locale.getDefault()).format(yesterdayCalendar.time)
+        )
+        renderSection(
+            title = binding.tvLastWeekTitle,
+            meta = binding.tvLastWeekMeta,
+            list = binding.rvLastWeek,
+            items = lastWeekItems,
+            dateLabel = "Older"
+        )
+
+        binding.tvEmptyFavourites.visibility = if (favourites.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun renderSection(
+        title: View,
+        meta: android.widget.TextView,
+        list: View,
+        items: List<MediaItem>,
+        dateLabel: String
+    ) {
+        val visibility = if (items.isEmpty()) View.GONE else View.VISIBLE
+        title.visibility = visibility
+        meta.visibility = visibility
+        list.visibility = visibility
+        meta.text = "$dateLabel · ${items.size} items"
+    }
+
+    private fun removeFavourite(item: MediaItem) {
+        favouriteRepository.removeFavourite(item.uri)
+        Toast.makeText(requireContext(), "Removed from favourites", Toast.LENGTH_SHORT).show()
+        loadFavouriteMedia()
+    }
+
+    private fun openMediaPreview(item: MediaItem) {
+        val args = Bundle().apply {
+            putString(PhotoAndVideoViewFragment.ARG_MEDIA_URI, item.uri.toString())
+            putBoolean(PhotoAndVideoViewFragment.ARG_IS_VIDEO, item.isVideo)
+            putLong(PhotoAndVideoViewFragment.ARG_DATE_ADDED, item.dateAdded)
+        }
+        findNavController().navigate(
+            R.id.action_favouriteFragment_to_photoAndVideoViewFragment,
+            args
+        )
     }
 }

@@ -10,7 +10,9 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import android.widget.NumberPicker
 import android.widget.Toast
@@ -19,9 +21,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.activity.MyApplication
+import com.futurecode.hdcameramax.ads.AdInterface
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
 import com.futurecode.hdcameramax.ads.reward.RewardAdsHelper
 import com.futurecode.hdcameramax.databinding.DialogPremiumAdBinding
 import com.futurecode.hdcameramax.model.Promo
+import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.gson.Gson
 import org.json.JSONArray
 import java.lang.reflect.Field
@@ -134,22 +139,22 @@ object Utils {
         }
     }
 
-//    fun View.setAdClickListener(
-//        activity: Activity,
-//        adsHelper: FullScreenAdsHelper,
-//        isShowEveryTime: Boolean = false,
-//        onFinished: () -> Unit
-//    ) {
-//        setOnClickListener {
-//            ProgressBarUtils.showProgressDialog(activity)
-//            adsHelper.showInterstitialAds(isShowEveryTime, object : AdInterface {
-//                override fun finished() {
-//                    ProgressBarUtils.hideProgressDialog()
-//                    onFinished()
-//                }
-//            })
-//        }
-//    }
+    fun View.setAdClickListener(
+        activity: Activity,
+        adsHelper: FullScreenAdsHelper,
+        isShowEveryTime: Boolean = false,
+        onFinished: () -> Unit
+    ) {
+        setOnClickListener {
+            ProgressBarUtils.showProgressDialog(activity)
+            adsHelper.showInterstitialAds(isShowEveryTime, object : AdInterface {
+                override fun finished() {
+                    ProgressBarUtils.hideProgressDialog()
+                    onFinished()
+                }
+            })
+        }
+    }
 
     /**
      * Corrected method: Initializes PrefManager using the local context
@@ -192,6 +197,42 @@ object Utils {
 
 
 
+//    fun Fragment.showRewardAdDialog(
+//        onRewardEarned: () -> Unit,
+//        onRewardNotEarned: () -> Unit = {}
+//    ) {
+//        if (!isAdded || view == null) {
+//            onRewardNotEarned()
+//            return
+//        }
+//
+//        val dialog = BaseDialog(requireActivity(), R.style.TransparentDialog)
+//        val binding = DialogPremiumAdBinding.inflate(LayoutInflater.from(requireContext()))
+//        dialog.setCancelable(false)
+//        dialog.bind(binding) {
+//            btnYes.setOnClickListener {
+//                dialog.dismiss()
+//                RewardAdsHelper(requireActivity()).showRewardAds { rewardEarned ->
+//                    if (rewardEarned && view != null) {
+//                        onRewardEarned()
+//                    } else {
+//                        onRewardNotEarned()
+//                    }
+//                }
+//            }
+//
+//            btnNo.setOnClickListener {
+//                dialog.dismiss()
+//                onRewardNotEarned()
+//            }
+//        }
+//        dialog.show()
+//    }
+
+
+    // ====================================================================
+// 👑 1. FIXED EXTENSION FUNCTION: Correctly mapping the interface anonymous layers
+// ====================================================================
     fun Fragment.showRewardAdDialog(
         onRewardEarned: () -> Unit,
         onRewardNotEarned: () -> Unit = {}
@@ -207,13 +248,35 @@ object Utils {
         dialog.bind(binding) {
             btnYes.setOnClickListener {
                 dialog.dismiss()
-                RewardAdsHelper(requireActivity()).showRewardAds { rewardEarned ->
-                    if (rewardEarned && view != null) {
-                        onRewardEarned()
-                    } else {
+
+                // Variable to track tracking token inside the full lifecycle pipeline scope securely
+                var isRewardEarnedInSession = false
+
+                // ✅ FIXED SYNC: Instantiating the explicit RewardAdInterface signature expected by helper
+                RewardAdsHelper(requireActivity()).showRewardAds(object : RewardAdsHelper.RewardAdInterface {
+                    override fun onAdShown() {
+                        Log.d("RewardDialog", "Ad presentation verified successfully.")
+                    }
+
+                    override fun onUserEarnedReward(rewardItem: RewardItem) {
+                        // Flips verification lock safely to true when user fully finishes watch conditions
+                        isRewardEarnedInSession = true
+                    }
+
+                    override fun onAdClosed() {
+                        // Triggers the respective final callback only after ad window screen dismisses completely
+                        if (isRewardEarnedInSession && view != null) {
+                            onRewardEarned()
+                        } else {
+                            onRewardNotEarned()
+                        }
+                    }
+
+                    override fun onAdFailed(error: String) {
+                        Log.e("RewardDialog", "Ad execution processing dropped: $error")
                         onRewardNotEarned()
                     }
-                }
+                })
             }
 
             btnNo.setOnClickListener {

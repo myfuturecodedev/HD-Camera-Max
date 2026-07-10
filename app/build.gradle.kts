@@ -7,6 +7,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
+
         applicationId = "com.futurecode.hdcameramax"
         minSdk = 24
         targetSdk = 36
@@ -18,7 +19,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -79,7 +81,7 @@ dependencies {
 
     implementation("com.android.billingclient:billing-ktx:8.3.0")
 
-    val cameraVersion = "1.3.3"
+    val cameraVersion = "1.6.0"
     implementation("androidx.camera:camera-core:$cameraVersion")
     implementation("androidx.camera:camera-camera2:$cameraVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraVersion")

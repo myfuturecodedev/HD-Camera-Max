@@ -18,8 +18,7 @@
         android:contentDescription="Close"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Center Icon Area -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,27 +54,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:layout_width="@dimen/_64sdp"-->
-<!--            android:layout_height="@dimen/_64sdp"-->
-<!--            app:cardCornerRadius="@dimen/_16sdp"-->
-<!--            app:cardElevation="0dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:strokeWidth="0dp">-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="@dimen/_64sdp"-->
-<!--                android:layout_height="@dimen/_64sdp"-->
-<!--                android:contentDescription="Camera Icon"-->
-<!--                android:src="@drawable/ic_camera_header"/>-->
-
-<!--        </com.google.android.material.card.MaterialCardView>-->
-
-
-
         <com.google.android.material.card.MaterialCardView
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
@@ -90,9 +68,9 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:contentDescription="Camera Icon"
-                android:src="@drawable/ic_camera_header"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_exist_img" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -104,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
         android:fontFamily="sans-serif-black"
-        android:text="Exit app?"
+        android:text="@string/exit_app"
         android:textColor="@color/black"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
@@ -117,8 +95,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/inter_regular"
         android:gravity="center"
-        android:text="Your camera session will be closed.\nYou can reopen the app anytime."
+        android:lineHeight="@dimen/_20sdp"
+        android:text="@string/your_camera_session_will_be_closed_nyou_can_reopen_the_app_anytime"
         android:textColor="@color/text_gray_dim"
         android:textSize="@dimen/_12ssp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,44 +109,33 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutWarningStrip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_48sdp"
         android:layout_marginTop="@dimen/_16sdp"
-        android:background="@drawable/bg_gallery_toggle"
-        android:backgroundTint="#FFFDF0"
+        android:background="@drawable/exit_button_background"
         android:paddingHorizontal="@dimen/_12sdp"
         android:paddingVertical="@dimen/_10sdp"
         app:layout_constraintTop_toBottomOf="@id/tvExitSubDescription">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cvWarningIcon"
+        <ImageView
+            android:id="@+id/image_camera_icon"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="@dimen/_6sdp"
-            app:cardElevation="0dp"
+            android:src="@drawable/exist_camera_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_4sdp"
-                android:src="@drawable/ic_camera_header"
-                app:tint="#DCA11D" />
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="Unsaved edits may be lost"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/unsaved_edits_may_be_lost"
             android:textColor="#DCA11D"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cvWarningIcon"
+            app:layout_constraintStart_toEndOf="@id/image_camera_icon"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -185,14 +154,14 @@
             android:layout_height="@dimen/_46sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:layout_weight="1"
-            android:text="Stay"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/stay"
             android:textAllCaps="false"
-            android:textColor="@color/permission_green"
+            android:textColor="#10B981"
             android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            app:cornerRadius="@dimen/_16sdp"
+            app:cornerRadius="@dimen/_14sdp"
             app:strokeColor="@color/permission_green"
-            app:strokeWidth="1.5dp" />
+            app:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnActionConfirmExit"
@@ -200,12 +169,12 @@
             android:layout_height="@dimen/_46sdp"
             android:layout_weight="1"
             android:backgroundTint="@color/permission_green"
-            android:text="Exit App"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/exit_btn"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            app:cornerRadius="@dimen/_16sdp" />
+            app:cornerRadius="@dimen/_14sdp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

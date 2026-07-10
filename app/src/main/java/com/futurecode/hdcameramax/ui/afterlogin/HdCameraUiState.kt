@@ -27,6 +27,8 @@ data class HdCameraUiState(
     val exposureValue: Float = 0f,
     val aspectRatioLabel: String = "4:3",
     val selectedFilter: String = "Default",
+    val selectedWhiteBalance: String = "Auto",
+    val isWhiteBalanceStripVisible: Boolean = false,
     val activeMode: CameraAppMode = CameraAppMode.PHOTO,
     val selectedResolution: ResolutionPreset? = null,
     val resolutionPresets: List<ResolutionPreset> = emptyList(),

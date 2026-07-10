@@ -67,7 +67,8 @@ class HdCameraViewModel(
             isTimerStripVisible = false,
             isFocusSelectorVisible = false,
             selectedGridGuide = if (openingSelector && !state.isGridEnabled) "3×3" else state.selectedGridGuide,
-            isGridEnabled = if (openingSelector) true else state.isGridEnabled
+            isGridEnabled = if (openingSelector) true else state.isGridEnabled,
+            isWhiteBalanceStripVisible = false
         )
     }
 
@@ -88,7 +89,8 @@ class HdCameraViewModel(
             isFocusSelectorVisible = !state.isFocusSelectorVisible,
             isSettingsPanelVisible = true,
             isGridSelectorVisible = false,
-            isTimerStripVisible = false
+            isTimerStripVisible = false,
+            isWhiteBalanceStripVisible = false
         )
     }
 
@@ -119,7 +121,8 @@ class HdCameraViewModel(
             isSettingsPanelVisible = !state.isSettingsPanelVisible,
             isTimerStripVisible = false,
             isGridSelectorVisible = false,
-            isFocusSelectorVisible = false
+            isFocusSelectorVisible = false,
+            isWhiteBalanceStripVisible = false
         )
     }
 
@@ -133,7 +136,8 @@ class HdCameraViewModel(
             isTimerStripVisible = !state.isTimerStripVisible,
             isSettingsPanelVisible = false,
             isGridSelectorVisible = false,
-            isFocusSelectorVisible = false
+            isFocusSelectorVisible = false,
+            isWhiteBalanceStripVisible = false
         )
     }
 
@@ -142,7 +146,8 @@ class HdCameraViewModel(
             isSettingsPanelVisible = false,
             isTimerStripVisible = false,
             isGridSelectorVisible = false,
-            isFocusSelectorVisible = false
+            isFocusSelectorVisible = false,
+            isWhiteBalanceStripVisible = false
         )
     }
 
@@ -186,6 +191,7 @@ class HdCameraViewModel(
             isTimerStripVisible = false,
             isGridSelectorVisible = false,
             isFocusSelectorVisible = false,
+            isWhiteBalanceStripVisible = false,
             isCapturing = false,
             countdownValue = 0,
             recordingElapsedSeconds = if (mode == CameraAppMode.VIDEO) {
@@ -207,12 +213,34 @@ class HdCameraViewModel(
             isSettingsPanelVisible = true,
             isGridSelectorVisible = false,
             isFocusSelectorVisible = false,
-            isTimerStripVisible = false
+            isTimerStripVisible = false,
+            isWhiteBalanceStripVisible = false
         )
     }
 
     fun setFilter(filterName: String) {
-        _uiState.value = currentState().copy(selectedFilter = filterName)
+        _uiState.value = currentState().copy(
+            selectedFilter = filterName,
+            isWhiteBalanceStripVisible = false
+        )
+    }
+
+    fun toggleWhiteBalanceStrip() {
+        val state = currentState()
+        _uiState.value = state.copy(
+            isWhiteBalanceStripVisible = !state.isWhiteBalanceStripVisible,
+            isSettingsPanelVisible = false,
+            isTimerStripVisible = false,
+            isGridSelectorVisible = false,
+            isFocusSelectorVisible = false
+        )
+    }
+
+    fun setWhiteBalance(whiteBalance: String) {
+        _uiState.value = currentState().copy(
+            selectedWhiteBalance = whiteBalance,
+            isWhiteBalanceStripVisible = true
+        )
     }
 
     fun selectResolution(preset: ResolutionPreset) {

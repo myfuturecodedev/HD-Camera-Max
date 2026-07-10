@@ -70,6 +70,7 @@
     <string name="apply_stunning_filters_and_effects_to_give_every_photo_a_unique_and_professional_look">Apply stunning filters and effects to\ngive every photo a unique and\nprofessional look.</string>
     <string name="get_started">Get started →</string>
     <string name="exit_app">Exit app?</string>
+    <string name="exit_btn">Exit app</string>
     <string name="your_camera_session_will_be_closed_nyou_can_reopen_the_app_anytime">Your camera session will be closed.\nYou can reopen the app anytime.</string>
     <string name="unsaved_edits_may_be_lost">Unsaved edits may be lost</string>
     <string name="stay">Stay</string>
@@ -108,6 +109,13 @@
     <string name="flash">Flash</string>
     <string name="hdr">HDR</string>
     <string name="timer">Timer</string>
+    <string name="white_balance">WB</string>
+    <string name="wb_auto">Auto</string>
+    <string name="wb_incandescent">Incandescent</string>
+    <string name="wb_fluorescent">Fluorescent</string>
+    <string name="wb_daylight">Daylight</string>
+    <string name="wb_cloudy">Cloudy</string>
+    <string name="wb_shade">Shade</string>
     <string name="grid">Grid</string>
     <string name="focus">Focus</string>
     <string name="hd_set">HD Set</string>
@@ -158,4 +166,30 @@
     <string name="loading">Loading</string>
     <string name="favourite">Favourite</string>
     <string name="favorites_photos_amp_videos"><![CDATA[Favorites photos & videos]]></string>
+
+    <string name="unlock_pro_features">Unlock Pro Features</string>
+    <string name="unlock_pro_features_desc">Watch a short advertisement to temporarily unlock premium Ultra HD filters and advanced camera modes.</string>
+    <string name="not_now_clean">Not Now</string>
+    <string name="watch_ad_premium">Watch Ad</string>
+    <string name="permanent_action">Permanent Action</string>
+    <string name="are_you_sure_you_want_to_ndelete">Are you sure you want to\ndelete?</string>
+    <string name="you_will_not_be_able_to_undo_this_naction">You will not be able to undo this\naction.</string>
+    <string name="keep_it">Keep It</string>
+    <string name="delete">Delete</string>
+    <string name="no_internet_found">No Internet Found</string>
+    <string name="hd_camera">HD Camera</string>
+    <string name="max">Max</string>
+    <string name="june_14_2025_12_items">June 14, 2025 - 12 items</string>
+    <string name="june_13_2025_8_items">June 13, 2025 - 8 items</string>
+    <string name="june_7_12_2025_24_items">June 7–12, 2025 - 24 items</string>
+    <string name="no_favourites_yet">No favourites yet</string>
+    <string name="picture">Picture</string>
+    <string name="hd">HD</string>
+    <string name="share">Share</string>
+    <string name="favorite">Favorite</string>
+    <string name="more">More</string>
+    <string name="are_you_sure_you_want_to_delete">Are you sure you want to delete?</string>
+    <string name="you_will_not_be_able_to_undo_this_action">You will not be able to undo this action.</string>
+    <string name="jpg">.jpg</string>
+
 </resources>

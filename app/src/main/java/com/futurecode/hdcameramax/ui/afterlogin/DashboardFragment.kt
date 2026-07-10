@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import com.futurecode.hdcameramax.model.MediaItem
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
 
     private lateinit var viewModel: DashboardViewModel
+    private var pendingCameraFeature: String? = null
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -25,6 +27,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
             if (granted) {
                 navigateToCamera()
             } else {
+                pendingCameraFeature = null
                 Toast.makeText(requireContext(), "Camera permission is required", Toast.LENGTH_SHORT).show()
             }
         }
@@ -41,6 +44,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
 
         setupClickListeners()
         observeDashboard()
+
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showExitConfirmationDialog() // Trigger your popup here
+            }
+        })
     }
 
     override fun onResume() {
@@ -79,6 +89,22 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
             navigateToGallery()
         }
 
+        binding.featureHdZoom.setOnClickListener {
+            openCamera(HdCameraFragment.FEATURE_HD_ZOOM)
+        }
+
+        binding.featurePortrait.setOnClickListener {
+            openCamera(HdCameraFragment.FEATURE_PORTRAIT)
+        }
+
+        binding.featureFilters.setOnClickListener {
+            openCamera(HdCameraFragment.FEATURE_FILTERS)
+        }
+
+        binding.featureBeauty.setOnClickListener {
+            openCamera(HdCameraFragment.FEATURE_BEAUTY)
+        }
+
         listOf(
             binding.ivRecentPhotoOne,
             binding.ivRecentPhotoTwo,
@@ -105,8 +131,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
     }
 
     private fun openCamera() {
+        openCamera(null)
+    }
+
+    private fun openCamera(feature: String?) {
+        pendingCameraFeature = feature
         if (hasCameraPermission()) {
-            navigateToCamera()
+            navigateToCamera(feature)
         } else {
             cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
@@ -152,7 +183,16 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
     }
 
     private fun navigateToCamera() {
-        findNavController().navigate(R.id.action_dashboardFragment_to_hdCameraFragment)
+        navigateToCamera(pendingCameraFeature)
+        pendingCameraFeature = null
+    }
+
+    private fun navigateToCamera(feature: String?) {
+        val args = Bundle().apply {
+            feature?.let { putString(HdCameraFragment.ARG_DASHBOARD_FEATURE, it) }
+        }
+        findNavController().navigate(R.id.action_dashboardFragment_to_hdCameraFragment, args)
+        pendingCameraFeature = null
     }
 
     private fun navigateToGallery() {

@@ -17,9 +17,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Progress bar aur dynamic text mapping loading logic shuru karein
-        startLoadingAnimation()
-
         val skipSplash = requireActivity().intent.getBooleanExtra("skip_splash", false)
 
         // API hit karenge, aur response milne par hi direct navigate karwayenge
@@ -30,50 +27,14 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
         }
     }
 
-    private fun startLoadingAnimation() {
-        val animator = ValueAnimator.ofInt(0, 100)
-        animator.duration = 3000 // 3 Seconds splash hold time
-        animator.interpolator = LinearInterpolator()
-
-        animator.addUpdateListener { animation ->
-            val progressValue = animation.animatedValue as Int
-
-            binding.splashProgressBar.progress = progressValue
-
-            when (progressValue) {
-                in 0..35 -> binding.tvLoadingStatus.text = "Loading system libraries..."
-                in 36..70 -> binding.tvLoadingStatus.text = "Initializing camera engine..."
-                in 71..99 -> binding.tvLoadingStatus.text = "Optimizing UI modules..."
-                100 -> binding.tvLoadingStatus.text = "Ready!"
-            }
-        }
-
-        animator.addListener(object : android.animation.AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: android.animation.Animator) {
-
-            }
-        })
-
-        animator.start()
-    }
 
     private fun navigateToNextScreen() {
+
         if (!isAdded) return
+        findNavController().navigate(
+            R.id.action_splashFragment_to_languageFragment,
+            Bundle().apply { putString("from", "auth") }
+        )
 
-        // FIXED: PrefManager context extraction system instance cleanly loaded here
-        val prefs = PrefManager.get(requireContext())
-
-        when {
-
-            // Case 2: Language select ho chuki hai par onboarding abhi baki hai
-            !prefs.isOnboardingDone -> {
-                findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
-            }
-            // Case 3: Sab completed hai (Returning user dashboard flow redirect)
-            else -> {
-                (activity as? MainActivity)?.goToMain()
-               // findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment)
-            }
-        }
     }
 }

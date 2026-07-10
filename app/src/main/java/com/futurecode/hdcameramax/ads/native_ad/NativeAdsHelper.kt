@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import com.facebook.ads.Ad
@@ -113,6 +114,8 @@ class NativeAdsHelper(private val activity: Activity) {
         nativeBannerAdView.visibility = View.GONE
         mainLayout.visibility = View.VISIBLE
         placeholder.visibility = View.VISIBLE
+        placeholder.adjustViewBounds = true
+        placeholder.scaleType = ImageView.ScaleType.FIT_CENTER
 
         Glide.with(activity)
             .load(R.drawable.native_thumb)

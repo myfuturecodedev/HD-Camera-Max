@@ -14,16 +14,15 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import kotlin.inc
 
 
 class FullScreenAdsHelper(private val activity: Activity) {
 
     private var myPreferenceHelper: PrefManager = MyApplication.app.prefManager
     private lateinit var adInterface: AdInterface
-
-    // FIXED: Changed from lateinit to nullable types to cleanly avoid UninitializedPropertyAccessExceptions
-    private var fb_interstitialAd: InterstitialAd? = null
-    private var mInterstitialAd: com.google.android.gms.ads.interstitial.InterstitialAd? = null
+    private lateinit var fb_interstitialAd: InterstitialAd
+    private lateinit var mInterstitialAd: com.google.android.gms.ads.interstitial.InterstitialAd
 
     fun showInterstitialAds(isShowEveryTime: Boolean, adInterface: AdInterface) {
         this.adInterface = adInterface
@@ -49,6 +48,7 @@ class FullScreenAdsHelper(private val activity: Activity) {
 
     private fun showAds() {
         if (!myPreferenceHelper.adsOff) {
+
             when (InterstitialAdsLogic.getCurrentAdNetwork(activity)) {
                 "Admob" -> showAdmobAds()
                 "Meta" -> showMetaAds()
@@ -58,93 +58,122 @@ class FullScreenAdsHelper(private val activity: Activity) {
         } else {
             openActivity()
         }
+
     }
 
     private fun showMetaAds() {
         val interstitialId: String? = myPreferenceHelper.metaInterstitial
+        if (interstitialId.isNullOrBlank()) {
+            showCustomAd(false)
+            return
+        }
         ProgressBarUtils.showProgressDialog(activity)
-
-        val ad = InterstitialAd(activity, interstitialId)
-        fb_interstitialAd = ad
-
+        fb_interstitialAd = InterstitialAd(activity, interstitialId)
         val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
-            override fun onInterstitialDisplayed(ad: Ad?) {}
+            override fun onInterstitialDisplayed(ad: Ad?) {
+                // Interstitial ad displayed callback
+            }
 
             override fun onInterstitialDismissed(ad: Ad?) {
+                // Interstitial dismissed callback
                 ProgressBarUtils.hideProgressDialog()
                 openActivity()
             }
 
             override fun onError(ad: Ad?, adError: AdError?) {
-                // FIXED: Dismiss current loader state before attempting fallbacks
-                ProgressBarUtils.hideProgressDialog()
+                // Ad error callback
                 showCustomAd(false)
             }
 
             override fun onAdLoaded(ad: Ad?) {
+                // Interstitial ad is loaded and ready to be displayed
+                // Show the ad
                 ProgressBarUtils.hideProgressDialog()
-                fb_interstitialAd?.show()
+                fb_interstitialAd.show()
             }
 
-            override fun onAdClicked(ad: Ad?) {}
-            override fun onLoggingImpression(ad: Ad?) {}
+            override fun onAdClicked(ad: Ad?) {
+                // Ad clicked callback
+            }
+
+            override fun onLoggingImpression(ad: Ad?) {
+                // Ad impression logged callback
+            }
         }
 
-        ad.loadAd(
-            ad.buildLoadAdConfig()
+
+        // For auto play video ads, it's recommended to load the ad
+        // at least 30 seconds before it is shown
+        fb_interstitialAd.loadAd(
+            fb_interstitialAd.buildLoadAdConfig()
                 .withAdListener(interstitialAdListener)
                 .build()
         )
+
     }
 
     private fun showAdmobAds() {
+        val interstitialId = myPreferenceHelper.admobInterstitial
+        if (interstitialId.isNullOrBlank()) {
+            showCustomAd(false)
+            return
+        }
         ProgressBarUtils.showProgressDialog(activity)
         val adRequest = AdRequest.Builder().build()
-
         com.google.android.gms.ads.interstitial.InterstitialAd.load(
             activity,
-            myPreferenceHelper.admobInterstitial,
+            interstitialId,
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     super.onAdFailedToLoad(loadAdError)
-                    // FIXED: Clear processing animation loops to prevent freezing bugs
-                    ProgressBarUtils.hideProgressDialog()
                     showCustomAd(false)
+
+
                 }
 
                 override fun onAdLoaded(interstitialAd: com.google.android.gms.ads.interstitial.InterstitialAd) {
                     Log.d("TAG_ADMOB", "Ad was loaded.")
                     mInterstitialAd = interstitialAd
+                    val responseInfo = mInterstitialAd.responseInfo
+                    Log.d("ADS_CHECK", "Adapter: ${responseInfo?.mediationAdapterClassName}")
+                    Log.d("ADS_CHECK", "Response ID: ${responseInfo?.responseId}")
+                    mInterstitialAd.fullScreenContentCallback =
+                        object : FullScreenContentCallback() {
+                            override fun onAdClicked() {
+                                // Called when a click is recorded for an ad.
+                                Log.d("TAG_ADMOB", "Ad was clicked.")
+                            }
 
-                    mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                        override fun onAdClicked() {
-                            Log.d("TAG_ADMOB", "Ad was clicked.")
-                        }
+                            override fun onAdDismissedFullScreenContent() {
+                                // Called when ad is dismissed.
+                                Log.d("TAG_ADMOB", "Ad dismissed fullscreen content.")
+                                ProgressBarUtils.hideProgressDialog()
+                                openActivity()
+                            }
 
-                        override fun onAdDismissedFullScreenContent() {
-                            Log.d("TAG_ADMOB", "Ad dismissed fullscreen content.")
-                            ProgressBarUtils.hideProgressDialog()
-                            openActivity()
-                        }
+                            override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
+                                // Called when ad fails to show.
+                                Log.e("TAG_ADMOB", "Ad failed to show fullscreen content.")
+                                showCustomAd(false)
+                            }
 
-                        override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
-                            Log.e("TAG_ADMOB", "Ad failed to show fullscreen content.")
-                            ProgressBarUtils.hideProgressDialog()
-                            showCustomAd(false)
-                        }
+                            override fun onAdImpression() {
+                                // Called when an impression is recorded for an ad.
+                                Log.d("TAG_ADMOB", "Ad recorded an impression.")
+                            }
 
-                        override fun onAdImpression() {
-                            Log.d("TAG_ADMOB", "Ad recorded an impression.")
+                            override fun onAdShowedFullScreenContent() {
+                                // Called when ad is shown.
+                                Log.d("TAG_ADMOB", "Ad showed fullscreen content.")
+                            }
                         }
-
-                        override fun onAdShowedFullScreenContent() {
-                            Log.d("TAG_ADMOB", "Ad showed fullscreen content.")
-                        }
+                    if (this@FullScreenAdsHelper::mInterstitialAd.isInitialized) {
+                        ProgressBarUtils.hideProgressDialog()
+                        mInterstitialAd.show(activity)
+                    } else {
+                        showCustomAd(false)
                     }
-
-                    ProgressBarUtils.hideProgressDialog()
-                    mInterstitialAd?.show(activity)
                 }
             })
     }
@@ -164,13 +193,19 @@ class FullScreenAdsHelper(private val activity: Activity) {
             ProgressBarUtils.hideProgressDialog()
             openActivity()
         }
+
+
     }
+
 
     private fun openActivity() {
         ProgressBarUtils.hideProgressDialog()
-        // FIXED: Safe call operator used to destroy the Meta view if instantiated, completely crash-proof
-        fb_interstitialAd?.destroy()
-        fb_interstitialAd = null
+        if (this::fb_interstitialAd.isInitialized && fb_interstitialAd != null) {
+            fb_interstitialAd.destroy()
+        }
+
         adInterface.finished()
     }
+
+
 }

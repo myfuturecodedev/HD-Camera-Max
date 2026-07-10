@@ -125,7 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Share"
+                android:text="@string/share"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp"
                 android:layout_marginTop="@dimen/_6sdp"
@@ -151,7 +151,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Favorite"
+                android:text="@string/favorite"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:textColor="@color/permission_green"
                 android:textSize="@dimen/_10ssp" />
@@ -175,7 +175,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp" />
@@ -199,13 +199,236 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="More"
+                android:text="@string/more"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/videoPlayerRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <VideoView
+            android:id="@+id/videoViewPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/ivVideoPoster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/native_thumb" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_gravity="top"
+            android:background="@drawable/bg_camera_top_scrim" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/videoHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:padding="@dimen/_16sdp">
+
+            <ImageView
+                android:id="@+id/btnVideoBack"
+                android:layout_width="@dimen/_38sdp"
+                android:layout_height="@dimen/_38sdp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/permission_green" />
+
+            <LinearLayout
+                android:id="@+id/videoTitleBlock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/btnVideoBack"
+                app:layout_constraintEnd_toStartOf="@id/btnVideoFavorite"
+                app:layout_constraintStart_toEndOf="@id/btnVideoBack"
+                app:layout_constraintTop_toTopOf="@id/btnVideoBack">
+
+                <TextView
+                    android:id="@+id/tvVideoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    tools:text="Mediamorph" />
+
+                <TextView
+                    android:id="@+id/tvVideoFileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:maxLines="1"
+                    android:textColor="#D6FFFFFF"
+                    android:textSize="@dimen/_10ssp"
+                    tools:text="Canyon_Sunset_4K.mp4" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnVideoFavorite"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:padding="@dimen/_7sdp"
+                android:src="@drawable/ic_heart"
+                app:layout_constraintEnd_toStartOf="@id/btnVideoLock"
+                app:layout_constraintTop_toTopOf="@id/btnVideoBack"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/btnVideoLock"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:gravity="center"
+                android:text="L"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnVideoBack" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/btnVideoCenterPlay"
+            android:layout_width="@dimen/_78sdp"
+            android:layout_height="@dimen/_78sdp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_camera_glass_panel"
+            android:gravity="center"
+            android:text="II"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_24ssp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/videoControlPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:background="@drawable/bg_camera_glass_panel"
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvVideoElapsed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="#E8FFFFFF"
+                    android:textSize="@dimen/_10ssp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tvVideoDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="#E8FFFFFF"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/sbVideoProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:max="1000"
+                android:progressTint="@color/permission_green"
+                android:thumbTint="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btnVideoRepeat"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="R"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnVideoPrevious"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="|&lt;"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnVideoPlayPause"
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    android:background="@drawable/bg_white_rounded_button"
+                    android:gravity="center"
+                    android:text="II"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_22ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnVideoNext"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="&gt;|"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnVideoFullscreen"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="[]"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_18ssp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 
     <!-- Overlays -->
 
@@ -254,7 +477,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rename"
+                        android:text="@string/rename"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
@@ -262,7 +485,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change file name"
+                        android:text="@string/change_file_name"
                         android:textColor="@color/text_gray_dim"
                         android:textSize="@dimen/_8ssp" />
                 </LinearLayout>
@@ -292,7 +515,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Download"
+                        android:text="@string/download"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
@@ -300,7 +523,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Save photo locally"
+                        android:text="@string/save_photo_locally"
                         android:textColor="@color/text_gray_dim"
                         android:textSize="@dimen/_8ssp" />
                 </LinearLayout>
@@ -330,7 +553,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Set as Wallpaper"
+                        android:text="@string/set_as_wallpaper"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
@@ -338,7 +561,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Apply as home or lock screen"
+                        android:text="@string/apply_as_home_or_lock_screen"
                         android:textColor="@color/text_gray_dim"
                         android:textSize="@dimen/_8ssp" />
                 </LinearLayout>
@@ -368,7 +591,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Details"
+                        android:text="@string/details"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold" />
@@ -376,7 +599,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View file information"
+                        android:text="@string/view_file_information"
                         android:textColor="@color/text_gray_dim"
                         android:textSize="@dimen/_8ssp" />
                 </LinearLayout>
@@ -428,7 +651,7 @@
                 android:backgroundTint="#FFF0F0"
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_4sdp"
-                android:text="⚠ Permanent Action"
+                android:text="@string/permanent_action"
                 android:textColor="#FF4D4D"
                 android:textSize="@dimen/_8ssp" />
 
@@ -437,7 +660,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:gravity="center"
-                android:text="Are you sure you want to delete?"
+                android:text="@string/are_you_sure_you_want_to_delete"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
@@ -447,7 +670,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:gravity="center"
-                android:text="You will not be able to undo this action."
+                android:text="@string/you_will_not_be_able_to_undo_this_action"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp" />
 
@@ -458,7 +681,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:backgroundTint="@color/permission_green"
                 android:paddingVertical="@dimen/_10sdp"
-                android:text="Keep It"
+                android:text="@string/keep_it"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:cornerRadius="@dimen/_20sdp" />
@@ -470,7 +693,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:paddingVertical="@dimen/_10sdp"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:textAllCaps="false"
                 android:textColor="#FF4D4D"
                 app:cornerRadius="@dimen/_20sdp"
@@ -581,7 +804,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=".jpg"
+                    android:text="@string/jpg"
                     android:textColor="@color/text_gray_dim"
                     android:textSize="@dimen/_10ssp" />
             </LinearLayout>

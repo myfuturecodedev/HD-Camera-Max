@@ -7,33 +7,22 @@
     tools:context=".ui.prelogin.SplashFragment"
     android:background="@drawable/splash_background">
 
-
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/splashProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_4sdp"
-        android:layout_marginHorizontal="@dimen/_40sdp"
-        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
         android:max="100"
-        android:progress="30"
-        android:progressTint="#00E676"
-        android:progressBackgroundTint="#33FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/tvLoadingStatus"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tvLoadingStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/loading_system_libraries"
-        android:textColor="#FFFFFF"
-        android:textSize="@dimen/_12ssp"
-        android:alpha="0.8"
-        android:fontFamily="sans-serif"
-        android:layout_marginBottom="@dimen/_60sdp"
+        android:progress="0"
+        android:indeterminate="true"
+        app:trackThickness="@dimen/_6sdp"
+        app:trackCornerRadius="@dimen/_10sdp"
+        app:trackColor="#221B3D"
+        app:indicatorColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginBottom="@dimen/_10sdp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
