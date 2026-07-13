@@ -47,81 +47,177 @@
         android:layout_marginTop="@dimen/_12sdp"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewHeaderNotch"
-        />
+        app:layout_constraintTop_toBottomOf="@id/viewHeaderNotch" />
 
-    <LinearLayout
-        android:id="@+id/ratioTabs"
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/ratioTabs"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="@dimen/_12sdp"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/tvResolutionSubtitle">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/btnRatioAll"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="@dimen/_30sdp"-->
+    <!--            android:layout_marginEnd="@dimen/_6sdp"-->
+    <!--            android:background="@drawable/bg_camera_mode_active"-->
+    <!--            android:gravity="center"-->
+    <!--            android:paddingHorizontal="@dimen/_14sdp"-->
+    <!--            android:text="@string/all"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            android:textSize="@dimen/_9ssp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/btnRatio43"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="@dimen/_30sdp"-->
+    <!--            android:layout_marginEnd="@dimen/_6sdp"-->
+    <!--            android:background="@drawable/bg_camera_resolution_filter"-->
+    <!--            android:gravity="center"-->
+    <!--            android:paddingHorizontal="@dimen/_14sdp"-->
+    <!--            android:text="4:3"-->
+    <!--            android:textColor="@color/text_dark_primary"-->
+    <!--            android:textSize="@dimen/_9ssp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/btnRatio169"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="@dimen/_30sdp"-->
+    <!--            android:background="@drawable/bg_camera_resolution_filter"-->
+    <!--            android:gravity="center"-->
+    <!--            android:paddingHorizontal="@dimen/_14sdp"-->
+    <!--            android:text="16:9"-->
+    <!--            android:textColor="@color/text_dark_primary"-->
+    <!--            android:textSize="@dimen/_9ssp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/btnRatio11"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="@dimen/_30sdp"-->
+    <!--            android:layout_marginStart="@dimen/_6sdp"-->
+    <!--            android:background="@drawable/bg_camera_resolution_filter"-->
+    <!--            android:gravity="center"-->
+    <!--            android:paddingHorizontal="@dimen/_14sdp"-->
+    <!--            android:text="1:1"-->
+    <!--            android:textColor="@color/text_dark_primary"-->
+    <!--            android:textSize="@dimen/_9ssp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/btnRatioRecommended"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="@dimen/_30sdp"-->
+    <!--            android:layout_marginStart="@dimen/_6sdp"-->
+    <!--            android:background="@drawable/bg_camera_resolution_filter"-->
+    <!--            android:gravity="center"-->
+    <!--            android:paddingHorizontal="@dimen/_14sdp"-->
+    <!--            android:text="@string/recommended"-->
+    <!--            android:textColor="@color/text_dark_primary"-->
+    <!--            android:textSize="@dimen/_9ssp"-->
+    <!--            android:textStyle="bold" />-->
+    <!--    </LinearLayout>-->
+
+
+    <HorizontalScrollView
+        android:id="@+id/ratioTab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_12sdp"
-        android:orientation="horizontal"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvResolutionSubtitle">
 
-        <TextView
-            android:id="@+id/btnRatioAll"
+        <LinearLayout
+            android:id="@+id/ratioTabs"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:background="@drawable/bg_camera_mode_active"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/_14sdp"
-            android:text="@string/all"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_2sdp">
 
-        <TextView
-            android:id="@+id/btnRatio43"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:background="@drawable/bg_camera_resolution_filter"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/_14sdp"
-            android:text="4:3"
-            android:textColor="@color/text_dark_primary"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/btnRatioAll"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:background="@drawable/bg_camera_mode_active"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_14sdp"
+                android:text="@string/all"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/btnRatio169"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/bg_camera_resolution_filter"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/_14sdp"
-            android:text="16:9"
-            android:textColor="@color/text_dark_primary"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/btnRatio43"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:background="@drawable/bg_camera_resolution_filter"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_14sdp"
+                android:text="4:3"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/btnRatio11"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_6sdp"
-            android:background="@drawable/bg_camera_resolution_filter"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/_14sdp"
-            android:text="1:1"
-            android:textColor="@color/text_dark_primary"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/btnRatio169"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:background="@drawable/bg_camera_resolution_filter"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_14sdp"
+                android:text="16:9"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/btnRatioRecommended"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_6sdp"
-            android:background="@drawable/bg_camera_resolution_filter"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/_14sdp"
-            android:text="@string/recommended"
-            android:textColor="@color/text_dark_primary"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/btnRatio11"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:background="@drawable/bg_camera_resolution_filter"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_14sdp"
+                android:text="1:1"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnRatioRecommended"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/bg_camera_resolution_filter"
+                android:ellipsize="none"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_14sdp"
+                android:singleLine="true"
+                android:text="@string/recommended"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvResolutions"
@@ -132,5 +228,5 @@
         android:overScrollMode="never"
         android:paddingBottom="@dimen/_8sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ratioTabs" />
+        app:layout_constraintTop_toBottomOf="@id/ratioTab" />
 </androidx.constraintlayout.widget.ConstraintLayout>

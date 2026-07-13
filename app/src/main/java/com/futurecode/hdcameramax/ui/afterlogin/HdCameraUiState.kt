@@ -15,7 +15,7 @@ data class HdCameraUiState(
     val selectedGridGuide: String = "None",
     val isGridSelectorVisible: Boolean = false,
     val isHdrEnabled: Boolean = false,
-    val isFaceOverlayEnabled: Boolean = true,
+    val isFaceOverlayEnabled: Boolean = false,
     val selectedFocusMode: String = "Macro Focus",
     val isFocusSelectorVisible: Boolean = false,
     val isSettingsPanelVisible: Boolean = false,

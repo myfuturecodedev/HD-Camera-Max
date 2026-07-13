@@ -31,8 +31,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            >
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/text_date"
@@ -59,13 +58,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:background="#EFECEC"
-        app:layout_constraintTop_toBottomOf="@+id/topBar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <TextView
         android:id="@+id/tvFileNameTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/bg_gallery_toggle"
         android:drawablePadding="@dimen/_8sdp"
         android:gravity="center"
@@ -74,7 +73,6 @@
         android:text="IMG_20250610_1205.jpg"
         android:textColor="@color/text_gray_dim"
         android:textSize="@dimen/_10ssp"
-        android:layout_marginTop="@dimen/_20sdp"
         app:drawableStartCompat="@drawable/ic_camera_header"
         app:drawableTint="@color/text_gray_dim"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,12 +97,12 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:background="@drawable/bg_gallery_toggle"
         android:elevation="@dimen/_8sdp"
         android:orientation="horizontal"
-        android:background="@drawable/bg_gallery_toggle"
         android:paddingVertical="@dimen/_16sdp"
-        android:layout_marginBottom="@dimen/_20sdp"
-        android:layout_marginHorizontal="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
@@ -125,11 +123,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:text="@string/share"
                 android:textColor="@color/text_gray_dim"
-                android:textSize="@dimen/_10ssp"
-                android:layout_marginTop="@dimen/_6sdp"
-                />
+                android:textSize="@dimen/_10ssp" />
         </LinearLayout>
 
         <LinearLayout
@@ -151,8 +148,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/favorite"
                 android:layout_marginTop="@dimen/_6sdp"
+                android:text="@string/favorite"
                 android:textColor="@color/permission_green"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
@@ -175,8 +172,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/delete"
                 android:layout_marginTop="@dimen/_6sdp"
+                android:text="@string/delete"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
@@ -199,8 +196,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/more"
                 android:layout_marginTop="@dimen/_6sdp"
+                android:text="@string/more"
                 android:textColor="@color/text_gray_dim"
                 android:textSize="@dimen/_10ssp" />
         </LinearLayout>
@@ -289,8 +286,7 @@
                 android:layout_height="@dimen/_36sdp"
                 android:src="@drawable/ic_heart"
                 app:layout_constraintEnd_toStartOf="@id/btnVideoLock"
-                app:layout_constraintTop_toTopOf="@id/btnVideoBack"
-                 />
+                app:layout_constraintTop_toTopOf="@id/btnVideoBack" />
 
             <TextView
                 android:id="@+id/btnVideoLock"
@@ -727,10 +723,8 @@
                 <ImageView
                     android:layout_width="@dimen/_32sdp"
                     android:layout_height="@dimen/_32sdp"
-                    android:background="@drawable/bg_circle_icon"
                     android:contentDescription="@null"
-                    android:padding="@dimen/_8sdp"
-                    android:src="@drawable/ic_edit"
+                    android:src="@drawable/ic_edit_photo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -742,11 +736,9 @@
                     android:background="@drawable/bg_circle_icon"
                     android:backgroundTint="#F5F5F5"
                     android:contentDescription="@null"
-                    android:padding="@dimen/_6sdp"
                     android:src="@drawable/ic_close"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/text_gray_dim" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -840,6 +832,40 @@
                     app:drawableTint="@color/permission_green" />
             </LinearLayout>
 
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/_20sdp"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <com.google.android.material.button.MaterialButton-->
+            <!--                    android:id="@+id/btnCancelRename"-->
+            <!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginEnd="@dimen/_8sdp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:paddingVertical="@dimen/_8sdp"-->
+            <!--                    android:text="@string/cancel"-->
+            <!--                    android:textAllCaps="false"-->
+            <!--                    android:textColor="@color/permission_green"-->
+            <!--                    app:cornerRadius="@dimen/_20sdp"-->
+            <!--                    app:strokeColor="@color/permission_green" />-->
+
+            <!--                <com.google.android.material.button.MaterialButton-->
+            <!--                    android:id="@+id/btnSaveRename"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:backgroundTint="@color/permission_green"-->
+            <!--                    android:paddingVertical="@dimen/_8sdp"-->
+            <!--                    android:text="@string/save_changes"-->
+            <!--                    android:textAllCaps="false"-->
+            <!--                    android:textColor="@color/white"-->
+            <!--                    app:cornerRadius="@dimen/_20sdp" />-->
+            <!--            </LinearLayout>-->
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -853,6 +879,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:layout_weight="1"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:maxLines="1"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="@string/cancel"
                     android:textAllCaps="false"
@@ -866,13 +895,17 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/permission_green"
+                    android:ellipsize="none"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_4sdp"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="@string/save_changes"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:cornerRadius="@dimen/_20sdp" />
             </LinearLayout>
-
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

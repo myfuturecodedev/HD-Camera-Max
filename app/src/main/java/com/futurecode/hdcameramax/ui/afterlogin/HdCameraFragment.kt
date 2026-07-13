@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
@@ -17,6 +18,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ImageCapture
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +50,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     private var activeExposureIndex = 0
     private var startVideoAfterCameraReady = false
     private var dashboardFeature: String? = null
+    private var isAspectPopupShowing = false
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -85,6 +90,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyCameraImmersiveMode()
 
         viewModel = ViewModelProvider(
             this,
@@ -108,17 +114,38 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     override fun onResume() {
         super.onResume()
+        applyCameraImmersiveMode()
         if (::viewModel.isInitialized) {
             viewModel.refreshGalleryPreview()
         }
     }
 
     override fun onDestroyView() {
+        restoreSystemBars()
         if (::cameraKit.isInitialized) {
             viewModel.cancelCaptureFlow()
             cameraKit.release()
         }
         super.onDestroyView()
+    }
+
+    private fun applyCameraImmersiveMode() {
+        val window = requireActivity().window
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            hide(WindowInsetsCompat.Type.systemBars())
+        }
+    }
+
+    private fun restoreSystemBars() {
+        val window = requireActivity().window
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(window, window.decorView)
+            .show(WindowInsetsCompat.Type.systemBars())
     }
 
     private fun checkCameraPermission() {
@@ -505,6 +532,8 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     }
 
     private fun renderInteractiveFocusSquare(x: Float, y: Float) {
+        binding.viewFaceDetectionOverlay.visibility = View.GONE
+        binding.viewFocusFrameIndicator.clearAnimation()
         binding.viewFocusFrameIndicator.x = x - binding.viewFocusFrameIndicator.width / 2f
         binding.viewFocusFrameIndicator.y = y - binding.viewFocusFrameIndicator.height / 2f
 
@@ -601,6 +630,7 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
         renderFocusModeSelectorState(state.selectedFocusMode)
         renderSettingsPanelLabels(state)
         renderStatusBadgeState(state)
+        renderTopControlState(state)
         renderZoomChips(state.zoomRatio)
         renderFilterState(state.selectedFilter)
         renderWhiteBalanceState(state.selectedWhiteBalance)
@@ -610,11 +640,40 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     private fun renderFlashIcon(flashMode: Int) {
         val icon = when (flashMode) {
-            ImageCapture.FLASH_MODE_ON -> R.drawable.ic_flash_plain
-            ImageCapture.FLASH_MODE_AUTO -> R.drawable.ic_live_effects_filter
-            else -> R.drawable.ic_flash_off
+            ImageCapture.FLASH_MODE_ON -> R.drawable.ic_flash_light
+            ImageCapture.FLASH_MODE_AUTO -> R.drawable.ic_flash_light
+            else -> R.drawable.ic_flash_light
         }
         binding.btnFlash.setImageResource(icon)
+    }
+
+    private fun renderTopControlState(state: HdCameraUiState) {
+        renderTopControlButton(
+            binding.btnRatioConfig,
+            state.isSettingsPanelVisible || state.isGridSelectorVisible || state.isFocusSelectorVisible
+        )
+        renderTopControlButton(
+            binding.btnFlash,
+            state.flashMode != ImageCapture.FLASH_MODE_OFF
+        )
+        renderTopControlButton(
+            binding.btnTimerToggle,
+            state.isTimerStripVisible || state.timerSeconds > 0
+        )
+        renderTopControlButton(
+            binding.btnSettings,
+            isAspectPopupShowing
+        )
+    }
+
+    private fun renderTopControlButton(view: View, selected: Boolean) {
+        view.setBackgroundResource(
+            if (selected) R.drawable.bg_camera_round_active_outline else R.drawable.bg_camera_round_dark
+        )
+        (view as? ImageView)?.imageTintList = ContextCompat.getColorStateList(
+            requireContext(),
+            if (selected) R.color.permission_green else R.color.white
+        )
     }
 
     private fun renderSettingsPanelLabels(state: HdCameraUiState) {
@@ -625,34 +684,41 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
     }
 
     private fun renderFeaturePanelState(state: HdCameraUiState) {
+        val isGridTileActive = state.isGridSelectorVisible
+        val isFocusTileActive = state.isFocusSelectorVisible
+        val isHdrTileActive = false
+        val isAspectTileActive = state.isSettingsPanelVisible &&
+            !state.isGridSelectorVisible &&
+            !state.isFocusSelectorVisible
+
         renderFeatureTile(
             binding.btnPanelGrid,
             listOf(binding.tvPanelGridIcon, binding.tvPanelGridLabel),
-            state.isGridEnabled || state.isGridSelectorVisible
+            isGridTileActive
         )
         renderFeatureTile(
             binding.btnPanelFace,
             listOf(binding.tvPanelFocusIcon, binding.tvPanelFocusLabel),
-            state.isFocusSelectorVisible || state.selectedFocusMode != FOCUS_AUTO
+            isFocusTileActive
         )
         renderFeatureTile(
             binding.btnPanelHdr,
             listOf(binding.tvPanelHdrLabel),
-            state.selectedResolution != null
+            isHdrTileActive
         )
         binding.tvPanelHdrIcon.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                if (state.selectedResolution != null) R.color.black else R.color.white
+                if (isHdrTileActive) R.color.permission_green else R.color.white
             )
         )
         binding.tvPanelHdrIcon.setBackgroundResource(
-            if (state.selectedResolution != null) R.drawable.bg_camera_top_chip_active else R.drawable.bg_camera_top_chip_inactive
+            if (isHdrTileActive) R.drawable.bg_camera_top_chip_active else R.drawable.bg_camera_top_chip_inactive
         )
         renderFeatureTile(
             binding.btnPanelFull,
             listOf(binding.tvPanelFullIcon, binding.tvPanelFullLabel),
-            state.isSettingsPanelVisible && !state.isGridSelectorVisible && !state.isFocusSelectorVisible
+            isAspectTileActive
         )
         renderAspectChips(state.aspectRatioLabel)
         renderTimerChips(state.timerSeconds)
@@ -729,21 +795,11 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     private fun renderFocusGuidePreview(state: HdCameraUiState) {
         val focusMode = state.selectedFocusMode
-        val showFaceFrame = state.isFaceOverlayEnabled && (focusMode == FOCUS_TRACKING || focusMode == FOCUS_MACRO)
-        val showCenterFrame = focusMode == FOCUS_CENTER
+        val showFaceFrame = state.isFocusSelectorVisible &&
+            state.isFaceOverlayEnabled &&
+            (focusMode == FOCUS_TRACKING || focusMode == FOCUS_MACRO)
 
         binding.viewFaceDetectionOverlay.visibility = if (showFaceFrame) View.VISIBLE else View.GONE
-        binding.viewFocusFrameIndicator.clearAnimation()
-        if (showCenterFrame) {
-            binding.viewFocusFrameIndicator.alpha = 1f
-            binding.viewFocusFrameIndicator.visibility = View.VISIBLE
-            binding.viewFocusFrameIndicator.x =
-                (binding.cameraViewFinder.width - binding.viewFocusFrameIndicator.width) / 2f
-            binding.viewFocusFrameIndicator.y =
-                (binding.cameraViewFinder.height - binding.viewFocusFrameIndicator.height) / 2f
-        } else if (binding.viewFocusFrameIndicator.alpha >= 1f && binding.viewFocusFrameIndicator.visibility == View.VISIBLE) {
-            binding.viewFocusFrameIndicator.visibility = View.GONE
-        }
     }
 
     private fun renderFocusModeSelectorState(selectedFocusMode: String) {
@@ -810,11 +866,13 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             if (selected) R.drawable.bg_camera_feature_tile_active else R.drawable.bg_camera_feature_tile_inactive
         )
         labels.forEach { label ->
+            val labelIndex = labels.indexOf(label)
             label.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (selected) R.color.permission_green else R.color.white
-                )
+                when {
+                    selected && labelIndex == 0 -> ContextCompat.getColor(requireContext(), R.color.permission_green)
+                    selected -> ContextCompat.getColor(requireContext(), R.color.white)
+                    else -> Color.parseColor("#D9DDE2")
+                }
             )
             label.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
         }
@@ -1139,6 +1197,8 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
 
     private fun showAspectRatioMenu() {
         val currentRatio = viewModel.uiState.value?.aspectRatioLabel ?: "4:3"
+        isAspectPopupShowing = true
+        binding.btnSettings.setBackgroundResource(R.drawable.bg_camera_round_active_outline)
         PopupMenu(requireContext(), binding.btnSettings, Gravity.NO_GRAVITY).apply {
             menu.add(0, 169, 0, "16:9")
             menu.add(0, 11, 1, "1:1")
@@ -1156,6 +1216,10 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             setOnMenuItemClickListener {
                 applyAspectLabel(it.title.toString())
                 true
+            }
+            setOnDismissListener {
+                isAspectPopupShowing = false
+                renderTopControlState(viewModel.uiState.value ?: HdCameraUiState())
             }
         }.show()
     }

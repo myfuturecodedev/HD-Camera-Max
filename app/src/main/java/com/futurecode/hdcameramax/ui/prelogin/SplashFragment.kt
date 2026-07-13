@@ -22,7 +22,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
         // API hit karenge, aur response milne par hi direct navigate karwayenge
         JsonReadUtils.fetchJsonData(requireContext()) {
             if (isAdded) {
-                navigateToNextScreen()
+                //(activity as? MainActivity)?.goToMain()
+                 navigateToNextScreen()
             }
         }
     }

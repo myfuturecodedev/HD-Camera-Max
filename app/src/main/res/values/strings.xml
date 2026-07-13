@@ -191,5 +191,17 @@
     <string name="are_you_sure_you_want_to_delete">Are you sure you want to delete?</string>
     <string name="you_will_not_be_able_to_undo_this_action">You will not be able to undo this action.</string>
     <string name="jpg">.jpg</string>
+    <string name="applying_wallpaper">Applying Wallpaper</string>
+    <string name="setting_your_wallpaper_and_preparing_your_screen">Setting your wallpaper and\npreparing your screen</string>
+    <string name="applying_settings">Applying settings</string>
+    <string name="wallify">WALLIFY</string>
+    <string name="set_wallpaper">Set Wallpaper</string>
+    <string name="choose_where_you_d_like_to_apply_this_wallpaper">Choose where you\'d like to apply this\nwallpaper</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="apply_wallpaper_to_your_home_screen">Apply wallpaper to your home screen</string>
+    <string name="lock_screen">Lock Screen</string>
+    <string name="display_wallpaper_when_device_is_locked">Display wallpaper when device is locked</string>
+    <string name="home_lock_screen"><![CDATA[Home & Lock Screen]]></string>
+    <string name="apply_wallpaper_to_both_screens">Apply wallpaper to both screens</string>
 
 </resources>

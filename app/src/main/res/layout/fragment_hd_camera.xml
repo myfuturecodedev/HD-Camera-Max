@@ -130,17 +130,30 @@
         android:layout_width="@dimen/_82sdp"
         android:layout_height="@dimen/_102sdp"
         android:background="@drawable/bg_camera_face_frame"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/llInteractiveControlDeck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBarHeaderControls"
         app:layout_constraintVertical_bias="0.38" />
 
+
+    <!--    <include-->
+    <!--        android:id="@+id/viewFaceDetectionOverlay"-->
+    <!--        layout="@layout/layout_camera_focus_box"-->
+    <!--        android:layout_width="@dimen/_82sdp"-->
+    <!--        android:layout_height="@dimen/_102sdp"-->
+    <!--        android:visibility="visible"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/llInteractiveControlDeck"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/topBarHeaderControls"-->
+    <!--        app:layout_constraintVertical_bias="0.38"/>-->
+
     <View
         android:id="@+id/viewFocusFrameIndicator"
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_width="@dimen/_78sdp"
+        android:layout_height="@dimen/_78sdp"
         android:background="@drawable/bg_camera_focus_frame"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -170,8 +183,7 @@
             android:src="@drawable/ic_camera_back_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-             />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/cameraTitleBlock"
@@ -189,8 +201,7 @@
                 android:letterSpacing="0"
                 android:text="@string/camera_title_hd_camera"
                 android:textColor="@color/permission_green"
-                android:textSize="@dimen/_12ssp"
-                 />
+                android:textSize="@dimen/_10ssp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -199,8 +210,7 @@
                 android:letterSpacing="0"
                 android:text="@string/camera_title_max"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp"
-                />
+                android:textSize="@dimen/_10ssp" />
         </LinearLayout>
 
         <HorizontalScrollView
@@ -224,65 +234,67 @@
 
                 <ImageView
                     android:id="@+id/btnRatioConfig"
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
+                    android:layout_width="@dimen/_29sdp"
+                    android:layout_height="@dimen/_29sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/settings"
                     android:src="@drawable/ic_flash_ligh" />
 
                 <ImageView
                     android:id="@+id/btnFlash"
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
+                    android:layout_width="@dimen/_29sdp"
+                    android:layout_height="@dimen/_29sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/flash"
-                    android:padding="@dimen/_10sdp"
-                    android:src="@drawable/ic_flash_plain" />
+                    android:src="@drawable/ic_flash_light" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/btnHdrToggle"-->
-<!--                    android:layout_width="@dimen/_28sdp"-->
-<!--                    android:layout_height="@dimen/_28sdp"-->
-<!--                    android:layout_marginEnd="@dimen/_5sdp"-->
-<!--                    android:background="@drawable/ic_timer"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="@string/hdr"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="@dimen/_6ssp"-->
-<!--                    -->
-<!--                    />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/btnHdrToggle"-->
+                <!--                    android:layout_width="@dimen/_28sdp"-->
+                <!--                    android:layout_height="@dimen/_28sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_5sdp"-->
+                <!--                    android:background="@drawable/ic_timer"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:text="@string/hdr"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="@dimen/_6ssp"-->
+                <!--                    -->
+                <!--                    />-->
 
                 <ImageView
                     android:id="@+id/btnTimerToggle"
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
+                    android:layout_width="@dimen/_29sdp"
+                    android:layout_height="@dimen/_29sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
+                    android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/timer"
                     android:src="@drawable/ic_timer" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/btnGridToggle"-->
-<!--                    android:layout_width="@dimen/_28sdp"-->
-<!--                    android:layout_height="@dimen/_28sdp"-->
-<!--                    android:layout_marginEnd="@dimen/_5sdp"-->
-<!--                    android:background="@drawable/bg_camera_round_dark"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="@string/grid"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="@dimen/_6ssp"-->
-<!--                    android:textStyle="bold" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/btnGridToggle"-->
+                <!--                    android:layout_width="@dimen/_28sdp"-->
+                <!--                    android:layout_height="@dimen/_28sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_5sdp"-->
+                <!--                    android:background="@drawable/bg_camera_round_dark"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:text="@string/grid"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="@dimen/_6ssp"-->
+                <!--                    android:textStyle="bold" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/btnRatioConfig"-->
-<!--                    android:layout_width="@dimen/_32sdp"-->
-<!--                    android:layout_height="@dimen/_32sdp"-->
-<!--                    android:contentDescription="@string/aspect_ratio"-->
-<!--                    android:src="@drawable/ic_more" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/btnRatioConfig"-->
+                <!--                    android:layout_width="@dimen/_32sdp"-->
+                <!--                    android:layout_height="@dimen/_32sdp"-->
+                <!--                    android:contentDescription="@string/aspect_ratio"-->
+                <!--                    android:src="@drawable/ic_more" />-->
                 <ImageView
                     android:id="@+id/btnSettings"
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
+                    android:layout_width="@dimen/_29sdp"
+                    android:layout_height="@dimen/_29sdp"
+                    android:background="@drawable/bg_camera_round_dark"
                     android:contentDescription="@string/aspect_ratio"
                     android:src="@drawable/ic_more" />
             </LinearLayout>
@@ -376,10 +388,10 @@
         android:visibility="gone"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardElevation="0dp"
-        app:strokeWidth="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBarHeaderControls">
+        app:layout_constraintTop_toBottomOf="@id/topBarHeaderControls"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -645,11 +657,11 @@
         app:cardBackgroundColor="#CC2A231B"
         app:cardCornerRadius="@dimen/_18sdp"
         app:cardElevation="@dimen/_8sdp"
-        app:strokeColor="#16FFFFFF"
-        app:strokeWidth="1dp"
         app:layout_constraintBottom_toTopOf="@id/llInteractiveControlDeck"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="#16FFFFFF"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -858,11 +870,11 @@
         app:cardBackgroundColor="#CC2A231B"
         app:cardCornerRadius="@dimen/_18sdp"
         app:cardElevation="@dimen/_8sdp"
-        app:strokeColor="#16FFFFFF"
-        app:strokeWidth="1dp"
         app:layout_constraintBottom_toTopOf="@id/llInteractiveControlDeck"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="#16FFFFFF"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -1154,8 +1166,7 @@
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:padding="@dimen/_4sdp"
-                        android:src="@drawable/ic_minus"
-                         />
+                        android:src="@drawable/ic_minus" />
 
                     <TextView
                         android:id="@+id/tvExposureVal"
@@ -1184,12 +1195,11 @@
             <LinearLayout
                 android:id="@+id/wbControlColumn"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_56sdp"
+                android:layout_height="@dimen/_46sdp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_camera_feature_tile_inactive"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/_8sdp">
+                android:paddingHorizontal="@dimen/_4sdp">
 
                 <TextView
                     android:id="@+id/tvWhiteBalanceLabel"
@@ -1214,7 +1224,9 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="@dimen/_28sdp"
-                android:background="#24FFFFFF" />
+                android:background="#24FFFFFF"
+                android:layout_marginEnd="@dimen/_4sdp"
+                />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -1228,9 +1240,9 @@
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
+                    android:background="@drawable/bg_zoom_btn_selected"
                     android:gravity="center"
                     android:text="1x"
-                    android:background="@drawable/bg_zoom_btn_selected"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold" />
@@ -1240,8 +1252,8 @@
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:gravity="center"
                     android:background="@drawable/bg_zoom_btn_unselected"
+                    android:gravity="center"
                     android:text="2x"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_9ssp" />
@@ -1250,13 +1262,15 @@
                     android:id="@+id/tvZoom100x"
                     android:layout_width="@dimen/_28sdp"
                     android:layout_height="@dimen/_28sdp"
-                    android:gravity="center"
                     android:background="@drawable/bg_zoom_btn_unselected"
+                    android:gravity="center"
                     android:text="5x"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_9ssp" />
             </LinearLayout>
         </LinearLayout>
+
+
     </LinearLayout>
 
     <HorizontalScrollView
@@ -1269,6 +1283,7 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/llInteractiveControlDeck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -1304,7 +1319,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_default_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1318,7 +1333,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:text="@string/wb_incandescent"
+                    android:text="@string/filter_default"
                     android:textColor="#D9FFFFFF"
                     android:textSize="@dimen/_9ssp" />
             </LinearLayout>
@@ -1348,7 +1363,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_foggy_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1362,7 +1377,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:text="@string/wb_fluorescent"
+                    android:text="@string/filter_foggy"
                     android:textColor="#D9FFFFFF"
                     android:textSize="@dimen/_9ssp" />
             </LinearLayout>
@@ -1392,7 +1407,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_daylight_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1436,7 +1451,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_gloam_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1479,7 +1494,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_spike_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1493,7 +1508,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:text="@string/wb_shade"
+                    android:text="@string/filter_gloam"
                     android:textColor="#D9FFFFFF"
                     android:textSize="@dimen/_9ssp" />
             </LinearLayout>
@@ -1509,6 +1524,7 @@
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/llCameraModeSelectorStrip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -1540,7 +1556,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/native_thumb" />
+                        android:src="@drawable/ic_default_filter" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -1579,7 +1595,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_foggy_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1623,7 +1639,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_daylight_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1667,7 +1683,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_spike_filter" />
 
                         <View
                             android:layout_width="match_parent"
@@ -1710,7 +1726,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/native_thumb" />
+                            android:src="@drawable/ic_gloam_filter" />
 
                         <View
                             android:layout_width="match_parent"

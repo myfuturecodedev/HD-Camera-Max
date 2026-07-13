@@ -37,6 +37,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         )[HdCameraViewModel::class.java]
 
         setupListeners()
+        observeResolutionState()
     }
 
     private fun setupListeners() {
@@ -167,12 +168,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         }
 
         fun submitFilteredResolutions(filter: String?) {
-            val filtered = when (filter) {
-                null -> state.resolutionPresets
-                "Recommended" -> state.resolutionPresets.filter { it.isRecommended }
-                else -> state.resolutionPresets.filter { it.ratioLabel == filter }
+            val latestState = viewModel.uiState.value ?: state
+            val presets = latestState.resolutionPresets.ifEmpty {
+                HdCameraRepository(requireContext().applicationContext).getResolutionPresets()
             }
-            adapter.submitResolutions(filtered, viewModel.uiState.value?.selectedResolution)
+            val filtered = when (filter) {
+                null -> presets
+                "Recommended" -> presets.filter { it.isRecommended }
+                else -> presets.filter { it.ratioLabel == filter }
+            }
+            adapter.submitResolutions(filtered, latestState.selectedResolution ?: presets.firstOrNull())
         }
 
         renderFilterSelection(dialogBinding.btnRatioAll)
@@ -205,7 +210,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     private fun applyResolutionPreset(preset: ResolutionPreset) {
         viewModel.selectResolution(preset)
-       // cameraKit.setManualResolution(preset.width, preset.height)
+        binding.tvResolutionValue.text = preset.displayString
+        // cameraKit.setManualResolution(preset.width, preset.height)
+    }
+
+    private fun observeResolutionState() {
+        viewModel.uiState.observe(viewLifecycleOwner) { state ->
+            val selectedResolution = state.selectedResolution
+                ?: state.resolutionPresets.firstOrNull()
+            binding.tvResolutionValue.text = selectedResolution?.displayString
+                ?: getString(R.string.resolution_value)
+        }
     }
     private companion object {
         const val SOURCE_SETTINGS = "settings"

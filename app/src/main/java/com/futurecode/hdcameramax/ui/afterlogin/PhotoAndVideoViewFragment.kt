@@ -1,8 +1,12 @@
 package com.futurecode.hdcameramax.ui.afterlogin
 
+import android.app.Dialog
+import android.app.WallpaperManager
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,11 +18,18 @@ import android.widget.PopupWindow
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.base.BaseFragment
+import com.futurecode.hdcameramax.databinding.DialogApplyingWallpaperBinding
+import com.futurecode.hdcameramax.databinding.DialogSetWallpaperBinding
 import com.futurecode.hdcameramax.databinding.FragmentPhotoAndVideoViewBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -193,12 +204,15 @@ class PhotoAndVideoViewFragment :
         }
         popupView.findViewById<View>(R.id.rowWallpaper).setOnClickListener {
             popupWindow.dismiss()
-            val message = if (selectedIsVideo) {
-                "Wallpaper is available for photos only"
+            if (selectedIsVideo) {
+                Toast.makeText(
+                    requireContext(),
+                    "Wallpaper is available for photos only",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                "Open the system gallery to set wallpaper"
+                showSetWallpaperDialog()
             }
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
         popupView.findViewById<View>(R.id.rowDetails).setOnClickListener {
             popupWindow.dismiss()
@@ -214,6 +228,182 @@ class PhotoAndVideoViewFragment :
 
         // Execute precise window coordinate display loops
         popupWindow.showAsDropDown(anchorView, xOffset, yOffset)
+    }
+
+    private fun showSetWallpaperDialog() {
+        val mediaUri = selectedMediaUri ?: run {
+            Toast.makeText(requireContext(), "Photo not found", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val dialogBinding = DialogSetWallpaperBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext()).apply {
+            requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            setContentView(dialogBinding.root)
+            setCancelable(true)
+            show()
+            window?.apply {
+                setBackgroundDrawableResource(android.R.color.transparent)
+                setLayout(
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
+        }
+
+        Glide.with(this)
+            .load(mediaUri)
+            .placeholder(R.drawable.native_thumb)
+            .centerCrop()
+            .into(dialogBinding.ivWallpaperPreview)
+
+        var selectedTarget = WALLPAPER_TARGET_HOME
+
+        fun renderTargetSelection(target: Int) {
+            selectedTarget = target
+            val rows = listOf(
+                WallpaperTargetViews(
+                    dialogBinding.rowHomeScreen,
+                    dialogBinding.tvHomeIcon,
+                    dialogBinding.tvHomeCheck,
+                    WALLPAPER_TARGET_HOME
+                ),
+                WallpaperTargetViews(
+                    dialogBinding.rowLockScreen,
+                    dialogBinding.tvLockIcon,
+                    dialogBinding.tvLockCheck,
+                    WALLPAPER_TARGET_LOCK
+                ),
+                WallpaperTargetViews(
+                    dialogBinding.rowHomeLockScreen,
+                    dialogBinding.tvBothIcon,
+                    dialogBinding.tvBothCheck,
+                    WALLPAPER_TARGET_BOTH
+                )
+            )
+
+            rows.forEach { item ->
+                val selected = item.target == target
+                item.row.setBackgroundResource(
+                    if (selected) R.drawable.bg_wallpaper_option_selected else R.drawable.bg_wallpaper_option_inactive
+                )
+                item.icon.setBackgroundResource(
+                    if (selected) R.drawable.bg_wallpaper_option_icon_selected else R.drawable.bg_wallpaper_option_icon_inactive
+                )
+                item.icon.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (selected) R.color.permission_green else R.color.text_gray_dim
+                    )
+                )
+                item.check.visibility = if (selected) View.VISIBLE else View.GONE
+            }
+        }
+
+        dialogBinding.rowHomeScreen.setOnClickListener {
+            renderTargetSelection(WALLPAPER_TARGET_HOME)
+        }
+        dialogBinding.rowLockScreen.setOnClickListener {
+            renderTargetSelection(WALLPAPER_TARGET_LOCK)
+        }
+        dialogBinding.rowHomeLockScreen.setOnClickListener {
+            renderTargetSelection(WALLPAPER_TARGET_BOTH)
+        }
+        dialogBinding.btnCancelWallpaper.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.btnApplyWallpaper.setOnClickListener {
+            dialog.dismiss()
+            applySelectedPhotoAsWallpaper(selectedTarget)
+        }
+
+        renderTargetSelection(WALLPAPER_TARGET_HOME)
+    }
+
+    private fun applySelectedPhotoAsWallpaper(target: Int) {
+        val mediaUri = selectedMediaUri ?: run {
+            Toast.makeText(requireContext(), "Photo not found", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val applyingDialog = showApplyingWallpaperDialog()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val progressJob = launch {
+                for (progress in 0..90) {
+                    updateWallpaperProgress(applyingDialog.binding, progress)
+                    delay(WALLPAPER_PROGRESS_STEP_MS)
+                }
+            }
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    val bitmap = requireContext().contentResolver.openInputStream(mediaUri)?.use { input ->
+                        BitmapFactory.decodeStream(input)
+                    } ?: error("Unable to open photo")
+                    val wallpaperManager =
+                        WallpaperManager.getInstance(requireContext().applicationContext)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        val flags = when (target) {
+                            WALLPAPER_TARGET_LOCK -> WallpaperManager.FLAG_LOCK
+                            WALLPAPER_TARGET_BOTH -> WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
+                            else -> WallpaperManager.FLAG_SYSTEM
+                        }
+                        wallpaperManager.setBitmap(bitmap, null, true, flags)
+                    } else {
+                        wallpaperManager.setBitmap(bitmap)
+                    }
+                }
+            }
+
+            progressJob.cancel()
+            updateWallpaperProgress(applyingDialog.binding, 100)
+            delay(WALLPAPER_DIALOG_FINISH_DELAY_MS)
+            if (!isAdded) return@launch
+
+            applyingDialog.dialog.dismiss()
+            Toast.makeText(
+                requireContext(),
+                if (result.isSuccess) "Wallpaper applied" else "Unable to set wallpaper",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun updateWallpaperProgress(
+        dialogBinding: DialogApplyingWallpaperBinding,
+        progress: Int
+    ) {
+        val normalizedProgress = progress.coerceIn(0, 100)
+        dialogBinding.progressWallpaper.progress = normalizedProgress
+        dialogBinding.tvWallpaperPercent.text = "$normalizedProgress%"
+    }
+
+    private data class WallpaperTargetViews(
+        val row: View,
+        val icon: android.widget.TextView,
+        val check: View,
+        val target: Int
+    )
+
+    private data class ApplyingWallpaperDialog(
+        val dialog: Dialog,
+        val binding: DialogApplyingWallpaperBinding
+    )
+
+    private fun showApplyingWallpaperDialog(): ApplyingWallpaperDialog {
+        val dialogBinding = DialogApplyingWallpaperBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext()).apply {
+            requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+            setContentView(dialogBinding.root)
+            setCancelable(false)
+            show()
+            window?.apply {
+                setBackgroundDrawableResource(android.R.color.transparent)
+                setLayout(
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
+        }
+        return ApplyingWallpaperDialog(dialog, dialogBinding)
     }
 
     private fun showDeleteConfirmationDialog() {
@@ -464,5 +654,10 @@ class PhotoAndVideoViewFragment :
         const val VIDEO_PROGRESS_MAX = 1000
         const val VIDEO_SEEK_STEP_MS = 10_000
         const val VIDEO_PROGRESS_INTERVAL_MS = 500L
+        const val WALLPAPER_PROGRESS_STEP_MS = 18L
+        const val WALLPAPER_DIALOG_FINISH_DELAY_MS = 350L
+        const val WALLPAPER_TARGET_HOME = 1
+        const val WALLPAPER_TARGET_LOCK = 2
+        const val WALLPAPER_TARGET_BOTH = 3
     }
 }

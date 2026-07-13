@@ -1,9 +1,12 @@
 package com.futurecode.hdcameramax.ui.afterlogin
 
 import android.Manifest
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.base.BaseFragment
+import com.futurecode.hdcameramax.databinding.DialogExitAppBinding
 import com.futurecode.hdcameramax.databinding.FragmentDashboardBinding
 import com.futurecode.hdcameramax.model.MediaItem
 
@@ -20,6 +24,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
 
     private lateinit var viewModel: DashboardViewModel
     private var pendingCameraFeature: String? = null
+    private var exitDialog: Dialog? = null
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -60,6 +65,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         }
     }
 
+    override fun onDestroyView() {
+        exitDialog?.dismiss()
+        exitDialog = null
+        super.onDestroyView()
+    }
+
     private fun setupClickListeners() {
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_settingsFragment)
@@ -82,7 +93,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         }
 
         binding.tvSeeAllTools.setOnClickListener {
-            openCamera()
+            navigateToGallery()
         }
 
         binding.tvViewAllPhotos.setOnClickListener {
@@ -200,29 +211,31 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
     }
 
     private fun showExitConfirmationDialog() {
-        val dialog = android.app.Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_exit_app)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        if (exitDialog?.isShowing == true) return
 
-        // Set dialog width to match parent with horizontal margins
-        dialog.window?.let { window ->
-            val layoutParams = window.attributes
-            layoutParams.width = android.view.ViewGroup.LayoutParams.MATCH_PARENT
-            layoutParams.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-            window.attributes = layoutParams
+        val dialogBinding = DialogExitAppBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext()).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(dialogBinding.root)
+            setCancelable(true)
+            setCanceledOnTouchOutside(true)
+            setOnDismissListener { exitDialog = null }
         }
 
-        dialog.findViewById<View>(R.id.btnDismissCross).setOnClickListener { dialog.dismiss() }
-        dialog.findViewById<View>(R.id.btnActionStay).setOnClickListener { dialog.dismiss() }
-        dialog.findViewById<View>(R.id.btnActionConfirmExit).setOnClickListener {
+        dialogBinding.btnDismissCross.setOnClickListener { dialog.dismiss() }
+        dialogBinding.btnActionStay.setOnClickListener { dialog.dismiss() }
+        dialogBinding.btnActionConfirmExit.setOnClickListener {
             dialog.dismiss()
-            requireActivity().finish() // Or perform exit logic
+            requireActivity().finishAffinity()
         }
 
+        exitDialog = dialog
         dialog.show()
+
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
     }
-
-
-
 
 }

@@ -97,6 +97,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
 
         val cleanContentCount = mixedPagerItems.count { it is AdPagerItem.Content }
         setupIndicatorsContainer(cleanContentCount)
+        updateUIForPosition(binding.viewPagerOnboarding.currentItem)
 
         binding.viewPagerOnboarding.post(initialPagerSyncRunnable)
     }
@@ -137,17 +138,13 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
 
     private fun setupIndicatorsContainer(count: Int) {
         binding.onboardingIndicators.removeAllViews()
-        val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            setMargins(8, 0, 8, 0)
-        }
 
         for (i in 0 until count) {
             val indicator = ImageView(requireContext())
-            indicator.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.dot_inactive))
-            indicator.layoutParams = params
+            indicator.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.dot_inactive)
+            )
+            indicator.layoutParams = createIndicatorLayoutParams(selected = false)
             binding.onboardingIndicators.addView(indicator)
         }
     }
@@ -158,6 +155,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
 
         val contentIndices = mixedPagerItems.indices.filter { mixedPagerItems[it] is AdPagerItem.Content }
         val visualActiveIndex = contentIndices.indexOf(currentGlobalPosition)
+        if (visualActiveIndex == -1) return
 
         for (i in 0 until childCount) {
             val imageView = binding.onboardingIndicators.getChildAt(i) as? ImageView ?: continue
@@ -166,7 +164,21 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
             } else {
                 imageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.dot_inactive))
             }
+            imageView.layoutParams = createIndicatorLayoutParams(i == visualActiveIndex)
+            imageView.requestLayout()
         }
+    }
+
+    private fun createIndicatorLayoutParams(selected: Boolean): LinearLayout.LayoutParams {
+        val width = dpToPx(if (selected) 16 else 6)
+        val height = dpToPx(6)
+        return LinearLayout.LayoutParams(width, height).apply {
+            setMargins(dpToPx(4), 0, dpToPx(4), 0)
+        }
+    }
+
+    private fun dpToPx(value: Int): Int {
+        return (value * resources.displayMetrics.density).toInt()
     }
 
     private fun setupClickListeners() {

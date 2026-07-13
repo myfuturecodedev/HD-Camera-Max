@@ -1,0 +1,59 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="280dp"
+    android:layout_gravity="center">
+
+    <!-- 1. Inner Rounded Rectangle Frame -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_focus_inner_rect" />
+
+    <!-- 2. Top-Left Corner Bracket (Horizontal & Vertical Lines) -->
+    <View
+        android:layout_width="24dp"
+        android:layout_height="6dp"
+        android:background="@drawable/bg_focus_corner" />
+    <View
+        android:layout_width="6dp"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_focus_corner" />
+
+    <!-- 3. Top-Right Corner Bracket -->
+    <View
+        android:layout_width="24dp"
+        android:layout_height="6dp"
+        android:layout_gravity="end"
+        android:background="@drawable/bg_focus_corner" />
+    <View
+        android:layout_width="6dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:background="@drawable/bg_focus_corner" />
+
+    <!-- 4. Bottom-Left Corner Bracket -->
+    <View
+        android:layout_width="24dp"
+        android:layout_height="6dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_focus_corner" />
+    <View
+        android:layout_width="6dp"
+        android:layout_height="24dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_focus_corner" />
+
+    <!-- 5. Bottom-Right Corner Bracket -->
+    <View
+        android:layout_width="24dp"
+        android:layout_height="6dp"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/bg_focus_corner" />
+    <View
+        android:layout_width="6dp"
+        android:layout_height="24dp"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/bg_focus_corner" />
+
+</FrameLayout>
