@@ -10,7 +10,7 @@
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/splashProgressBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_2sdp"
+        android:layout_height="@dimen/_1sdp"
         android:layout_marginHorizontal="@dimen/_20sdp"
         android:max="100"
         android:progress="0"

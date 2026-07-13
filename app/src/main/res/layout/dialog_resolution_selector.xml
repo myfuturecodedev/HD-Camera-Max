@@ -45,12 +45,10 @@
         android:layout_width="@dimen/_28sdp"
         android:layout_height="@dimen/_28sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:background="@drawable/bg_circle_icon"
-        android:padding="@dimen/_8sdp"
         android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewHeaderNotch"
-        app:tint="@color/text_dark_primary" />
+        />
 
     <LinearLayout
         android:id="@+id/ratioTabs"

@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_languageFragment2"
             app:destination="@id/languageFragment2" />
+        <action
+            android:id="@+id/action_settingsFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/hdCameraFragment"

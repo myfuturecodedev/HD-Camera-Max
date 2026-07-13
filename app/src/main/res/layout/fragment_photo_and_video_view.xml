@@ -287,11 +287,10 @@
                 android:id="@+id/btnVideoFavorite"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
-                android:padding="@dimen/_7sdp"
                 android:src="@drawable/ic_heart"
                 app:layout_constraintEnd_toStartOf="@id/btnVideoLock"
                 app:layout_constraintTop_toTopOf="@id/btnVideoBack"
-                app:tint="@color/white" />
+                 />
 
             <TextView
                 android:id="@+id/btnVideoLock"

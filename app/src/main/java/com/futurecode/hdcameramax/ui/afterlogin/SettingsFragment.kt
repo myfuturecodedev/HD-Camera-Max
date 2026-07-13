@@ -46,19 +46,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         }
 
         binding.btnFavorite.setOnClickListener {
-            Toast.makeText(requireContext(), "Added to favorites", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_settingsFragment_to_favouriteFragment)
         }
 
         // Section: Camera Settings
         binding.itemResolution.setOnClickListener {
-
             showResolutionSelector()
-
         }
 
         // Section: General
         binding.itemLanguage.setOnClickListener {
-            //Toast.makeText(requireContext(), "Opening Language Selection", Toast.LENGTH_SHORT).show()
             findNavController().navigate(
                 R.id.action_settingsFragment_to_languageFragment2,
                 Bundle().apply { putString("from", SOURCE_SETTINGS) }
