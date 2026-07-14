@@ -73,6 +73,8 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
         mixedPagerItems = AdEnabledPagerMapper.build(slidesData, adConfig)
         setupViewPager()
         setupClickListeners()
+        binding.btnWelcomeBackArrow.bringToFront()
+        binding.btnWelcomeBackArrow.translationZ = resources.displayMetrics.density * 8
     }
 
     private fun setupViewPager() {
@@ -195,7 +197,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
 //            }
 //        }
 
-        
         binding.btnWelcomeBackArrow.setOnClickListener {
             val currentPos = binding.viewPagerOnboarding.currentItem
             if (currentPos > 0) {

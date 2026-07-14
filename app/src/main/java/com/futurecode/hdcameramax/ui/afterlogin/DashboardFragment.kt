@@ -15,10 +15,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.DialogExitAppBinding
 import com.futurecode.hdcameramax.databinding.FragmentDashboardBinding
 import com.futurecode.hdcameramax.model.MediaItem
+import com.futurecode.hdcameramax.utils.Utils.showRewardAdDialog
 
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
 
@@ -36,6 +38,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
                 Toast.makeText(requireContext(), "Camera permission is required", Toast.LENGTH_SHORT).show()
             }
         }
+    private lateinit var nativeAdsHelper: NativeAdsHelper
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +53,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
 
         setupClickListeners()
         observeDashboard()
-
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        loadNativeAds()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -77,11 +82,24 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         }
 
         binding.btnOpenCamera.setOnClickListener {
-            openCamera()
+            this@DashboardFragment.showRewardAdDialog(onRewardEarned = {
+                // Ad khatam hote hi direct instant sound trigger
+                openCamera()
+
+            }) {
+                Toast.makeText(requireContext(), "Ad failed to display", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         binding.cvTakePhoto.setOnClickListener {
-            openCamera()
+            this@DashboardFragment.showRewardAdDialog(onRewardEarned = {
+                // Ad khatam hote hi direct instant sound trigger
+                openCamera()
+
+            }) {
+                Toast.makeText(requireContext(), "Ad failed to display", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.cvGallery.setOnClickListener {
@@ -89,7 +107,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         }
 
         binding.fabCapture.setOnClickListener {
-            openCamera()
+            this@DashboardFragment.showRewardAdDialog(onRewardEarned = {
+                // Ad khatam hote hi direct instant sound trigger
+                openCamera()
+
+            }) {
+                Toast.makeText(requireContext(), "Ad failed to display", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.tvSeeAllTools.setOnClickListener {
@@ -101,19 +125,47 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         }
 
         binding.featureHdZoom.setOnClickListener {
-            openCamera(HdCameraFragment.FEATURE_HD_ZOOM)
+            this@DashboardFragment.showRewardAdDialog(onRewardEarned = {
+                // Ad khatam hote hi direct instant sound trigger
+                openCamera(HdCameraFragment.FEATURE_HD_ZOOM)
+
+
+            }) {
+                Toast.makeText(requireContext(), "Ad failed to display", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.featurePortrait.setOnClickListener {
-            openCamera(HdCameraFragment.FEATURE_PORTRAIT)
+            this@DashboardFragment.showRewardAdDialog(onRewardEarned = {
+                // Ad khatam hote hi direct instant sound trigger
+                openCamera(HdCameraFragment.FEATURE_PORTRAIT)
+
+
+            }) {
+                Toast.makeText(requireContext(), "Ad failed to display", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.featureFilters.setOnClickListener {
-            openCamera(HdCameraFragment.FEATURE_FILTERS)
+            this@DashboardFragment.showRewardAdDialog(onRewardEarned = {
+                // Ad khatam hote hi direct instant sound trigger
+                openCamera(HdCameraFragment.FEATURE_FILTERS)
+
+
+            }) {
+                Toast.makeText(requireContext(), "Ad failed to display", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.featureBeauty.setOnClickListener {
-            openCamera(HdCameraFragment.FEATURE_BEAUTY)
+            this@DashboardFragment.showRewardAdDialog(onRewardEarned = {
+                // Ad khatam hote hi direct instant sound trigger
+                openCamera(HdCameraFragment.FEATURE_BEAUTY)
+
+            }) {
+                Toast.makeText(requireContext(), "Ad failed to display", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         listOf(
@@ -208,6 +260,19 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
 
     private fun navigateToGallery() {
         findNavController().navigate(R.id.action_dashboardFragment_to_galleryFragment)
+    }
+
+    fun loadNativeAds() {
+        activity?.let { currentActivity ->
+            if (nativeAdsHelper == null) {
+                nativeAdsHelper = NativeAdsHelper(currentActivity)
+            }
+            nativeAdsHelper?.showNativeAd(
+                nativeBannerAdView = binding.nativeAds3.frame,
+                mainLayout = binding.nativeAds3.mainLayout,
+                placeholder = binding.nativeAds3.placeholder
+            )
+        }
     }
 
     private fun showExitConfirmationDialog() {

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.futurecode.hdcameramax.BuildConfig
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.adapter.ResolutionPresetAdapter
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.DialogResolutionSelectorBinding
 import com.futurecode.hdcameramax.databinding.FragmentSettingsBinding
@@ -26,6 +27,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
 
     private lateinit var viewModel: HdCameraViewModel
+
+
+    private lateinit var nativeAdsHelper: NativeAdsHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,8 +43,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
         setupListeners()
         observeResolutionState()
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+
 
         binding.appVersion.text = "Version: ${BuildConfig.VERSION_NAME}"
+
+        loadNativeAds()
     }
 
     private fun setupListeners() {
@@ -223,6 +231,20 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
                 ?: state.resolutionPresets.firstOrNull()
             binding.tvResolutionValue.text = selectedResolution?.displayString
                 ?: getString(R.string.resolution_value)
+        }
+    }
+
+
+    fun loadNativeAds() {
+        activity?.let { currentActivity ->
+            if (nativeAdsHelper == null) {
+                nativeAdsHelper = NativeAdsHelper(currentActivity)
+            }
+            nativeAdsHelper?.showNativeAd(
+                nativeBannerAdView = binding.nativeAds3.frame,
+                mainLayout = binding.nativeAds3.mainLayout,
+                placeholder = binding.nativeAds3.placeholder
+            )
         }
     }
     private companion object {

@@ -14,8 +14,12 @@
         android:layout_marginTop="@dimen/_16sdp"
         android:background="@drawable/bg_indicator_dot"
         android:backgroundTint="#1A00E676"
+        android:clickable="true"
         android:contentDescription="Back"
+        android:elevation="@dimen/_8sdp"
+        android:focusable="true"
         android:src="@drawable/ic_back"
+        android:translationZ="@dimen/_8sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

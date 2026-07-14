@@ -25,12 +25,12 @@
         android:id="@+id/layoutIconHeader"
         android:layout_width="@dimen/_64sdp"
         android:layout_height="@dimen/_64sdp"
-        android:layout_marginTop="@dimen/_12sdp"
+        android:paddingTop="@dimen/_12sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_exist_img"
-        android:scaleType="center" />
+        android:src="@drawable/ic_exist"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tvExitTitle"

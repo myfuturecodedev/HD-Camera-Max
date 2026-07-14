@@ -4,6 +4,7 @@
     android:id="@+id/cardLanguage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layoutDirection="ltr"
     android:layout_marginHorizontal="@dimen/_16sdp"
     android:layout_marginVertical="@dimen/_6sdp"
     app:cardCornerRadius="@dimen/_12sdp"
@@ -14,12 +15,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layoutDirection="ltr"
         android:padding="@dimen/_14sdp">
 
         <TextView
             android:id="@+id/tvLanguageName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:textAlignment="viewStart"
+            android:textDirection="ltr"
             android:text="@string/english"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
@@ -27,6 +32,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ivSelection"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
         <ImageView
@@ -36,6 +42,7 @@
             android:src="@drawable/bg_circle_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

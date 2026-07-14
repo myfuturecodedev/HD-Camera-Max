@@ -217,6 +217,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvQuickTools" />
 
+
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cvGallery"
                 android:layout_width="match_parent"
@@ -419,6 +421,16 @@
                 </LinearLayout>
             </LinearLayout>
 
+
+            <include
+                android:id="@+id/native_ads_3"
+                layout="@layout/native_ads_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@+id/llFeatures"
+                />
+
             <TextView
                 android:id="@+id/tvRecentPhotos"
                 android:layout_width="wrap_content"
@@ -430,7 +442,7 @@
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llFeatures" />
+                app:layout_constraintTop_toBottomOf="@id/native_ads_3" />
 
             <TextView
                 android:id="@+id/tvViewAllPhotos"

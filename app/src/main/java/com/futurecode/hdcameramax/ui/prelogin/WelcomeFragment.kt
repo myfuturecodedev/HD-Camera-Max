@@ -11,15 +11,22 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(FragmentWelcomeBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnWelcomeBackArrow.bringToFront()
+        binding.btnWelcomeBackArrow.translationZ = resources.displayMetrics.density * 8
+
         // 1. Back button navigation callback mapping
         binding.btnWelcomeBackArrow.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            val navController = findNavController()
+            if (!navController.popBackStack()) {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
         }
 
         // 2. Action Continue Routing trigger click listener
         binding.btnWelcomeContinue.setOnClickListener {
             navigateToMainCameraDashboard()
         }
+
     }
 
     private fun navigateToMainCameraDashboard() {
@@ -32,6 +39,5 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(FragmentWelcomeBind
         // requireActivity().finish()
 
         (activity as? MainActivity)?.goToMain()
-
     }
 }
