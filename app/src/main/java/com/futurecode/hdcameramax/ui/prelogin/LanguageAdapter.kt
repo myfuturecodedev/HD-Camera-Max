@@ -11,49 +11,6 @@ import android.app.Activity
 import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.databinding.ItemNativeAdsAdapterBinding
 
-//class LanguageAdapter(
-//    private val languages: List<Language>,
-//    private val onLanguageSelected: (Language) -> Unit
-//) : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
-//
-//    class LanguageViewHolder(val binding: ItemLanguageBinding) : RecyclerView.ViewHolder(binding.root)
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageViewHolder {
-//        val binding = ItemLanguageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        return LanguageViewHolder(binding)
-//    }
-//
-//    override fun onBindViewHolder(holder: LanguageViewHolder, position: Int) {
-//        val language = languages[position]
-//        holder.binding.apply {
-//            tvLanguageName.text = if (language.isDefault) "${language.name} (default)" else language.name
-//
-//            if (language.isSelected) {
-//                cardLanguage.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.permission_green_light))
-//                cardLanguage.strokeColor = ContextCompat.getColor(root.context, R.color.permission_green)
-//                ivSelection.setImageResource(R.drawable.bg_selected_check)
-//                ivSelection.imageTintList = null
-//            } else {
-//                cardLanguage.setCardBackgroundColor(ContextCompat.getColor(root.context, R.color.white))
-//                cardLanguage.strokeColor = ContextCompat.getColor(root.context, R.color.card_border_light)
-//                ivSelection.setImageResource(R.drawable.bg_circle_icon)
-//                ivSelection.imageTintList = ContextCompat.getColorStateList(root.context, R.color.card_border_light)
-//            }
-//
-//            root.setOnClickListener {
-//                onLanguageSelected(language)
-//            }
-//        }
-//    }
-//
-//    override fun getItemCount(): Int = languages.size
-//}
-
-
-
-
-
-
 // Helper Constants to safe guard rendering layout view types
 object AdViewTypeManager {
     const val TYPE_ITEM = 0

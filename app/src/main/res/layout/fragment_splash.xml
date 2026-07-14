@@ -4,8 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.prelogin.SplashFragment"
-    android:background="@drawable/splash_background">
+    tools:context=".ui.prelogin.SplashFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash_background"
+        android:contentDescription="@null" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/splashProgressBar"

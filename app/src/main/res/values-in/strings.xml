@@ -189,4 +189,16 @@
     <string name="are_you_sure_you_want_to_delete">Apakah Anda yakin ingin menghapus?</string>
     <string name="you_will_not_be_able_to_undo_this_action">Anda tidak akan dapat membatalkan tindakan ini.</string>
     <string name="jpg">.jpg</string>
+    <string name="applying_wallpaper">Menerapkan Wallpaper</string>
+    <string name="setting_your_wallpaper_and_preparing_your_screen">Mengatur wallpaper Anda dan\nmenyiapkan layar Anda</string>
+    <string name="applying_settings">Menerapkan pengaturan</string>
+    <string name="wallify">WALLIFY</string>
+    <string name="set_wallpaper">Atur Wallpaper</string>
+    <string name="choose_where_you_d_like_to_apply_this_wallpaper">Pilih di mana Anda ingin menerapkan\nwallpaper ini</string>
+    <string name="home_screen">Layar Utama</string>
+    <string name="apply_wallpaper_to_your_home_screen">Terapkan wallpaper ke layar utama Anda</string>
+    <string name="lock_screen">Layar Kunci</string>
+    <string name="display_wallpaper_when_device_is_locked">Tampilkan wallpaper saat perangkat terkunci</string>
+    <string name="home_lock_screen"><![CDATA[Layar Utama & Kunci]]></string>
+    <string name="apply_wallpaper_to_both_screens">Terapkan wallpaper ke kedua layar</string>
 </resources>

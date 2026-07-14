@@ -1012,31 +1012,31 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
                 binding.wbIncandescentOption,
                 binding.cardWbIncandescent,
                 binding.tvWbIncandescent,
-                WB_INCANDESCENT
+                FILTER_DEFAULT
             ),
             WhiteBalanceOption(
                 binding.wbFluorescentOption,
                 binding.cardWbFluorescent,
                 binding.tvWbFluorescent,
-                WB_FLUORESCENT
+                FILTER_FOGGY
             ),
             WhiteBalanceOption(
                 binding.wbDaylightOption,
                 binding.cardWbDaylight,
                 binding.tvWbDaylight,
-                WB_DAYLIGHT
+                FILTER_DAYLIGHT
             ),
             WhiteBalanceOption(
                 binding.wbCloudyOption,
                 binding.cardWbCloudy,
                 binding.tvWbCloudy,
-                WB_CLOUDY
+                FILTER_SPIKE
             ),
             WhiteBalanceOption(
                 binding.wbShadeOption,
                 binding.cardWbShade,
                 binding.tvWbShade,
-                WB_SHADE
+                FILTER_GLOAM
             )
         )
 

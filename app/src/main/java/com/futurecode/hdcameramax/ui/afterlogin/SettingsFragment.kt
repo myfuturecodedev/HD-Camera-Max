@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.futurecode.hdcameramax.BuildConfig
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.adapter.ResolutionPresetAdapter
 import com.futurecode.hdcameramax.base.BaseFragment
@@ -38,6 +39,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
         setupListeners()
         observeResolutionState()
+
+        binding.appVersion.text = "Version: ${BuildConfig.VERSION_NAME}"
     }
 
     private fun setupListeners() {

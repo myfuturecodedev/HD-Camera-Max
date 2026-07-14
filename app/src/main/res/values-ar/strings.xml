@@ -189,4 +189,19 @@
     <string name="are_you_sure_you_want_to_delete">هل أنت متأكد أنك تريد الحذف؟</string>
     <string name="you_will_not_be_able_to_undo_this_action">لن تتمكن من التراجع عن هذا الإجراء.</string>
     <string name="jpg">.jpg</string>
+
+
+
+        <string name="applying_wallpaper">جاري تطبيق الخلفية</string>
+        <string name="setting_your_wallpaper_and_preparing_your_screen">جاري تعيين الخلفية و\nتجهيز الشاشة الخاصة بك</string>
+        <string name="applying_settings">جاري تطبيق الإعدادات</string>
+        <string name="wallify">واليفاي</string>
+        <string name="set_wallpaper">تعيين كخلفية</string>
+        <string name="choose_where_you_d_like_to_apply_this_wallpaper">اختر المكان الذي ترغب في تطبيق هذه\nالخلفية فيه</string>
+        <string name="home_screen">الشاشة الرئيسية</string>
+        <string name="apply_wallpaper_to_your_home_screen">تطبيق الخلفية على الشاشة الرئيسية</string>
+        <string name="lock_screen">شاشة القفل</string>
+        <string name="display_wallpaper_when_device_is_locked">عرض الخلفية عندما يكون الجهاز مقفلاً</string>
+        <string name="home_lock_screen"><![CDATA[الشاشة الرئيسية وشاشة القفل]]></string>
+        <string name="apply_wallpaper_to_both_screens">تطبيق الخلفية على كلتا الشاشتين</string>
 </resources>

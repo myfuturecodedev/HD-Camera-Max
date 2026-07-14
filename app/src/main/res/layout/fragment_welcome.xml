@@ -23,8 +23,8 @@
         android:id="@+id/ivWelcomeLogo"
         android:layout_width="@dimen/_115sdp"
         android:layout_height="@dimen/_115sdp"
-        android:layout_marginTop="@dimen/_24sdp"
         android:src="@drawable/ic_camera"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnWelcomeBackArrow" />

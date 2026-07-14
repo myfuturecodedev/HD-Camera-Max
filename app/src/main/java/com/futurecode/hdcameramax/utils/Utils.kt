@@ -197,39 +197,6 @@ object Utils {
 
 
 
-//    fun Fragment.showRewardAdDialog(
-//        onRewardEarned: () -> Unit,
-//        onRewardNotEarned: () -> Unit = {}
-//    ) {
-//        if (!isAdded || view == null) {
-//            onRewardNotEarned()
-//            return
-//        }
-//
-//        val dialog = BaseDialog(requireActivity(), R.style.TransparentDialog)
-//        val binding = DialogPremiumAdBinding.inflate(LayoutInflater.from(requireContext()))
-//        dialog.setCancelable(false)
-//        dialog.bind(binding) {
-//            btnYes.setOnClickListener {
-//                dialog.dismiss()
-//                RewardAdsHelper(requireActivity()).showRewardAds { rewardEarned ->
-//                    if (rewardEarned && view != null) {
-//                        onRewardEarned()
-//                    } else {
-//                        onRewardNotEarned()
-//                    }
-//                }
-//            }
-//
-//            btnNo.setOnClickListener {
-//                dialog.dismiss()
-//                onRewardNotEarned()
-//            }
-//        }
-//        dialog.show()
-//    }
-
-
     // ====================================================================
 // 👑 1. FIXED EXTENSION FUNCTION: Correctly mapping the interface anonymous layers
 // ====================================================================

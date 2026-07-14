@@ -189,4 +189,17 @@
     <string name="are_you_sure_you_want_to_delete">¿Seguro que deseas eliminar?</string>
     <string name="you_will_not_be_able_to_undo_this_action">No podrás deshacer esta acción.</string>
     <string name="jpg">.jpg</string>
+
+    <string name="applying_wallpaper">Aplicando fondo de pantalla</string>
+    <string name="setting_your_wallpaper_and_preparing_your_screen">Configurando tu fondo de pantalla y\npreparando tu pantalla</string>
+    <string name="applying_settings">Aplicando ajustes</string>
+    <string name="wallify">WALLIFY</string>
+    <string name="set_wallpaper">Establecer fondo de pantalla</string>
+    <string name="choose_where_you_d_like_to_apply_this_wallpaper">Elige dónde te gustaría aplicar este\nfondo de pantalla</string>
+    <string name="home_screen">Pantalla de inicio</string>
+    <string name="apply_wallpaper_to_your_home_screen">Aplicar fondo de pantalla a tu pantalla de inicio</string>
+    <string name="lock_screen">Pantalla de bloqueo</string>
+    <string name="display_wallpaper_when_device_is_locked">Mostrar fondo de pantalla cuando el dispositivo está bloqueado</string>
+    <string name="home_lock_screen"><![CDATA[Pantalla de inicio y de bloqueo]]></string>
+    <string name="apply_wallpaper_to_both_screens">Aplicar fondo de pantalla a ambas pantallas</string>
 </resources>

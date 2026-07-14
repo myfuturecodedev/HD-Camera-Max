@@ -189,4 +189,16 @@
     <string name="are_you_sure_you_want_to_delete">Sind Sie sicher, dass Sie löschen möchten?</string>
     <string name="you_will_not_be_able_to_undo_this_action">Sie können diese Aktion nicht rückgängig machen.</string>
     <string name="jpg">.jpg</string>
+    <string name="applying_wallpaper">Hintergrundbild wird angewendet</string>
+    <string name="setting_your_wallpaper_and_preparing_your_screen">Hintergrundbild wird festgelegt und\nBildschirm wird vorbereitet</string>
+    <string name="applying_settings">Einstellungen werden angewendet</string>
+    <string name="wallify">WALLIFY</string>
+    <string name="set_wallpaper">Hintergrundbild festlegen</string>
+    <string name="choose_where_you_d_like_to_apply_this_wallpaper">Wählen Sie aus, wo Sie dieses\nHintergrundbild anwenden möchten</string>
+    <string name="home_screen">Startbildschirm</string>
+    <string name="apply_wallpaper_to_your_home_screen">Hintergrundbild auf den Startbildschirm anwenden</string>
+    <string name="lock_screen">Sperrbildschirm</string>
+    <string name="display_wallpaper_when_device_is_locked">Hintergrundbild anzeigen, wenn das Gerät gesperrt ist</string>
+    <string name="home_lock_screen"><![CDATA[Start- & Sperrbildschirm]]></string>
+    <string name="apply_wallpaper_to_both_screens">Hintergrundbild auf beide Bildschirme anwenden</string>
 </resources>

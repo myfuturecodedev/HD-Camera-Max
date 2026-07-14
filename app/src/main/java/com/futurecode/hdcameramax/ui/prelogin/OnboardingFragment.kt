@@ -186,10 +186,32 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
             handleContinue(binding.viewPagerOnboarding.currentItem)
         }
 
+//        binding.btnWelcomeBackArrow.setOnClickListener {
+//            val currentPos = binding.viewPagerOnboarding.currentItem
+//            if (currentPos > 0) {
+//                binding.viewPagerOnboarding.currentItem = currentPos - 1
+//            } else {
+//                findNavController().navigateUp()
+//            }
+//        }
+
+        
         binding.btnWelcomeBackArrow.setOnClickListener {
             val currentPos = binding.viewPagerOnboarding.currentItem
             if (currentPos > 0) {
-                binding.viewPagerOnboarding.currentItem = currentPos - 1
+                // ✅ FIXED: Finding the previous actual content page index, skipping ad placeholders
+                var targetPrevPosition = currentPos - 1
+                while (targetPrevPosition >= 0 && mixedPagerItems.getOrNull(targetPrevPosition) !is AdPagerItem.Content) {
+                    targetPrevPosition--
+                }
+
+                // If a valid previous content page is found, navigate safely
+                if (targetPrevPosition >= 0) {
+                    binding.viewPagerOnboarding.setCurrentItem(targetPrevPosition, true)
+                } else {
+                    // Fallback if no content pages left behind
+                    findNavController().navigateUp()
+                }
             } else {
                 findNavController().navigateUp()
             }

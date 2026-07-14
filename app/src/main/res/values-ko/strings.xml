@@ -189,4 +189,16 @@
     <string name="are_you_sure_you_want_to_delete">정말로 삭제하시겠습니까?</string>
     <string name="you_will_not_be_able_to_undo_this_action">이 작업은 취소할 수 없습니다.</string>
     <string name="jpg">.jpg</string>
+    <string name="applying_wallpaper">배경화면 적용 중</string>
+    <string name="setting_your_wallpaper_and_preparing_your_screen">배경화면 설정 및\n화면 준비 중</string>
+    <string name="applying_settings">설정 적용 중</string>
+    <string name="wallify">WALLIFY</string>
+    <string name="set_wallpaper">배경화면 설정</string>
+    <string name="choose_where_you_d_like_to_apply_this_wallpaper">이 배경화면을 적용할 위치를\n선택하세요</string>
+    <string name="home_screen">홈 화면</string>
+    <string name="apply_wallpaper_to_your_home_screen">홈 화면에 배경화면 적용</string>
+    <string name="lock_screen">잠금 화면</string>
+    <string name="display_wallpaper_when_device_is_locked">기기가 잠겨 있을 때 배경화면 표시</string>
+    <string name="home_lock_screen"><![CDATA[홈 및 잠금 화면]]></string>
+    <string name="apply_wallpaper_to_both_screens">두 화면 모두에 배경화면 적용</string>
 </resources>

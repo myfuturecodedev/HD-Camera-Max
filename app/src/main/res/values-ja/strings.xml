@@ -189,4 +189,16 @@
     <string name="are_you_sure_you_want_to_delete">本当に削除しますか？</string>
     <string name="you_will_not_be_able_to_undo_this_action">このアクションは取り消せません。</string>
     <string name="jpg">.jpg</string>
+    <string name="applying_wallpaper">壁紙を適用中</string>
+    <string name="setting_your_wallpaper_and_preparing_your_screen">壁紙を設定し、\n画面を準備しています</string>
+    <string name="applying_settings">設定を適用中</string>
+    <string name="wallify">WALLIFY</string>
+    <string name="set_wallpaper">壁紙を設定</string>
+    <string name="choose_where_you_d_like_to_apply_this_wallpaper">この壁紙を適用する場所を\n選択してください</string>
+    <string name="home_screen">ホーム画面</string>
+    <string name="apply_wallpaper_to_your_home_screen">ホーム画面に壁紙を適用する</string>
+    <string name="lock_screen">ロック画面</string>
+    <string name="display_wallpaper_when_device_is_locked">端末がロックされている時に壁紙を表示する</string>
+    <string name="home_lock_screen"><![CDATA[ホーム画面とロック画面]]></string>
+    <string name="apply_wallpaper_to_both_screens">両方の画面に壁紙を適用する</string>
 </resources>
