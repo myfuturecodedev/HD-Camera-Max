@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "479868641923",
+    "project_id": "hdcameramax",
+    "storage_bucket": "hdcameramax.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479868641923:android:38870df58413fb54c731b6",
+        "android_client_info": {
+          "package_name": "com.futurecode.hdcameramax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtDqQdl1UywcxF42D3TxT4W-9ThrsXj0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

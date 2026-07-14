@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginHorizontal="@dimen/_24sdp"-->
+<!--    android:background="@drawable/bg_dialog_card"-->
+<!--    android:paddingHorizontal="@dimen/_20sdp"-->
+<!--    android:paddingTop="@dimen/_18sdp"-->
+<!--    android:paddingBottom="@dimen/_22sdp">-->
+
+<!--    <View-->
+<!--        android:id="@+id/viewWallpaperHandle"-->
+<!--        android:layout_width="@dimen/_40sdp"-->
+<!--        android:layout_height="@dimen/_4sdp"-->
+<!--        android:background="@drawable/bg_camera_sheet_notch"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/ivWallpaperPreview"-->
+<!--        android:layout_width="@dimen/_54sdp"-->
+<!--        android:layout_height="@dimen/_72sdp"-->
+<!--        android:layout_marginTop="@dimen/_18sdp"-->
+<!--        android:background="@drawable/ic_picture"-->
+<!--        android:clipToOutline="true"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/viewWallpaperHandle" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvSetWallpaperTitle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/_14sdp"-->
+<!--        android:text="Set Wallpaper"-->
+<!--        android:textColor="@color/text_dark_primary"-->
+<!--        android:textSize="@dimen/_20ssp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/ivWallpaperPreview"-->
+<!--        app:layout_constraintTop_toTopOf="@id/ivWallpaperPreview" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvSetWallpaperSubtitle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/_14sdp"-->
+<!--        android:layout_marginTop="@dimen/_6sdp"-->
+<!--        android:text="Choose where you'd like to apply this\nwallpaper"-->
+<!--        android:textColor="@color/text_gray_dim"-->
+<!--        android:textSize="@dimen/_12ssp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/ivWallpaperPreview"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tvSetWallpaperTitle" />-->
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/rowHomeScreen"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/_72sdp"-->
+<!--        android:layout_marginTop="@dimen/_24sdp"-->
+<!--        android:background="@drawable/bg_wallpaper_option_selected"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        android:paddingHorizontal="@dimen/_16sdp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/ivWallpaperPreview">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvHomeIcon"-->
+<!--            android:layout_width="@dimen/_36sdp"-->
+<!--            android:layout_height="@dimen/_36sdp"-->
+<!--            android:background="@drawable/bg_wallpaper_option_icon_selected"-->
+<!--            android:gravity="center"-->
+<!--            android:text="⌂"-->
+<!--            android:textColor="@color/permission_green"-->
+<!--            android:textSize="@dimen/_18ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvHomeTitle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_14sdp"-->
+<!--            android:text="Home Screen"-->
+<!--            android:textColor="@color/text_dark_primary"-->
+<!--            android:textSize="@dimen/_14ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/tvHomeSubtitle"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/tvHomeCheck"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvHomeIcon"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_chainStyle="packed" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvHomeSubtitle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_14sdp"-->
+<!--            android:text="Apply wallpaper to your home screen"-->
+<!--            android:textColor="@color/text_gray_dim"-->
+<!--            android:textSize="@dimen/_11ssp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/tvHomeCheck"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvHomeIcon"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tvHomeTitle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvHomeCheck"-->
+<!--            android:layout_width="@dimen/_28sdp"-->
+<!--            android:layout_height="@dimen/_28sdp"-->
+<!--            android:background="@drawable/bg_selected_check"-->
+<!--            android:gravity="center"-->
+<!--            android:text="✓"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/_14ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/rowLockScreen"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/_72sdp"-->
+<!--        android:layout_marginTop="@dimen/_10sdp"-->
+<!--        android:background="@drawable/bg_wallpaper_option_inactive"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        android:paddingHorizontal="@dimen/_16sdp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/rowHomeScreen">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvLockIcon"-->
+<!--            android:layout_width="@dimen/_36sdp"-->
+<!--            android:layout_height="@dimen/_36sdp"-->
+<!--            android:background="@drawable/bg_wallpaper_option_icon_inactive"-->
+<!--            android:gravity="center"-->
+<!--            android:text="▣"-->
+<!--            android:textColor="@color/text_gray_dim"-->
+<!--            android:textSize="@dimen/_16ssp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvLockTitle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_14sdp"-->
+<!--            android:text="Lock Screen"-->
+<!--            android:textColor="@color/text_dark_primary"-->
+<!--            android:textSize="@dimen/_14ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/tvLockSubtitle"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvLockIcon"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_chainStyle="packed" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvLockSubtitle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_14sdp"-->
+<!--            android:text="Display wallpaper when device is locked"-->
+<!--            android:textColor="@color/text_gray_dim"-->
+<!--            android:textSize="@dimen/_11ssp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvLockIcon"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tvLockTitle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvLockCheck"-->
+<!--            android:layout_width="@dimen/_28sdp"-->
+<!--            android:layout_height="@dimen/_28sdp"-->
+<!--            android:background="@drawable/bg_selected_check"-->
+<!--            android:gravity="center"-->
+<!--            android:text="✓"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/_14ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/rowHomeLockScreen"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/_72sdp"-->
+<!--        android:layout_marginTop="@dimen/_10sdp"-->
+<!--        android:background="@drawable/bg_wallpaper_option_inactive"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        android:paddingHorizontal="@dimen/_16sdp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/rowLockScreen">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvBothIcon"-->
+<!--            android:layout_width="@dimen/_36sdp"-->
+<!--            android:layout_height="@dimen/_36sdp"-->
+<!--            android:background="@drawable/bg_wallpaper_option_icon_inactive"-->
+<!--            android:gravity="center"-->
+<!--            android:text="▰"-->
+<!--            android:textColor="@color/text_gray_dim"-->
+<!--            android:textSize="@dimen/_16ssp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvBothTitle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_14sdp"-->
+<!--            android:text="Home &amp; Lock Screen"-->
+<!--            android:textColor="@color/text_dark_primary"-->
+<!--            android:textSize="@dimen/_14ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/tvBothSubtitle"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvBothIcon"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_chainStyle="packed" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvBothSubtitle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_14sdp"-->
+<!--            android:text="Apply wallpaper to both screens"-->
+<!--            android:textColor="@color/text_gray_dim"-->
+<!--            android:textSize="@dimen/_11ssp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvBothIcon"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tvBothTitle" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvBothCheck"-->
+<!--            android:layout_width="@dimen/_28sdp"-->
+<!--            android:layout_height="@dimen/_28sdp"-->
+<!--            android:background="@drawable/bg_selected_check"-->
+<!--            android:gravity="center"-->
+<!--            android:text="✓"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/_14ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btnCancelWallpaper"-->
+<!--        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/_50sdp"-->
+<!--        android:layout_marginTop="@dimen/_28sdp"-->
+<!--        android:layout_marginEnd="@dimen/_10sdp"-->
+<!--        android:text="Cancel"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/text_dark_primary"-->
+<!--        android:textSize="@dimen/_13ssp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:cornerRadius="@dimen/_14sdp"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/btnApplyWallpaper"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/rowHomeLockScreen"-->
+<!--        app:strokeColor="#E3E7EE" />-->
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btnApplyWallpaper"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/_50sdp"-->
+<!--        android:layout_marginStart="@dimen/_10sdp"-->
+<!--        android:backgroundTint="@color/permission_green"-->
+<!--        android:text="Apply Wallpaper"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="@dimen/_13ssp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:cornerRadius="@dimen/_14sdp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/btnCancelWallpaper"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/btnCancelWallpaper"-->
+<!--        app:layout_constraintTop_toTopOf="@id/btnCancelWallpaper" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/_12sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_dialog_card"
+        android:paddingHorizontal="@dimen/_20sdp"
+        android:paddingTop="@dimen/_18sdp"
+        android:paddingBottom="@dimen/_22sdp">
+
+        <View
+            android:id="@+id/viewWallpaperHandle"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_4sdp"
+            android:background="@drawable/bg_camera_sheet_notch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivWallpaperPreview"
+            android:layout_width="@dimen/_54sdp"
+            android:layout_height="@dimen/_72sdp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:background="@drawable/ic_picture"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewWallpaperHandle" />
+
+        <TextView
+            android:id="@+id/tvSetWallpaperTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:text="@string/set_wallpaper"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivWallpaperPreview"
+            app:layout_constraintTop_toTopOf="@id/ivWallpaperPreview" />
+
+        <TextView
+            android:id="@+id/tvSetWallpaperSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:text="@string/choose_where_you_d_like_to_apply_this_wallpaper"
+            android:textColor="@color/text_gray_dim"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivWallpaperPreview"
+            app:layout_constraintTop_toBottomOf="@id/tvSetWallpaperTitle" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowHomeScreen"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_72sdp"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:background="@drawable/bg_wallpaper_option_selected"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="@dimen/_16sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivWallpaperPreview">
+
+            <TextView
+                android:id="@+id/tvHomeIcon"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:background="@drawable/bg_wallpaper_option_icon_selected"
+                android:gravity="center"
+                android:textColor="@color/permission_green"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvHomeTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:text="@string/home_screen"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvHomeSubtitle"
+                app:layout_constraintEnd_toStartOf="@id/tvHomeCheck"
+                app:layout_constraintStart_toEndOf="@id/tvHomeIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvHomeSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:text="@string/apply_wallpaper_to_your_home_screen"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvHomeCheck"
+                app:layout_constraintStart_toEndOf="@id/tvHomeIcon"
+                app:layout_constraintTop_toBottomOf="@id/tvHomeTitle" />
+
+            <TextView
+                android:id="@+id/tvHomeCheck"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@drawable/bg_selected_check"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowLockScreen"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_72sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_wallpaper_option_inactive"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="@dimen/_16sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rowHomeScreen">
+
+            <TextView
+                android:id="@+id/tvLockIcon"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:background="@drawable/bg_wallpaper_option_icon_inactive"
+                android:gravity="center"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_16ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvLockTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:text="@string/lock_screen"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvLockSubtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvLockIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvLockSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:text="@string/display_wallpaper_when_device_is_locked"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvLockIcon"
+                app:layout_constraintTop_toBottomOf="@id/tvLockTitle" />
+
+            <TextView
+                android:id="@+id/tvLockCheck"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@drawable/bg_selected_check"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rowHomeLockScreen"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_72sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bg_wallpaper_option_inactive"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="@dimen/_16sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rowLockScreen">
+
+            <TextView
+                android:id="@+id/tvBothIcon"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:background="@drawable/home_lock_image"
+                android:gravity="center"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_16ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBothTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:text="@string/home_lock_screen"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvBothSubtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvBothIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvBothSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:text="@string/apply_wallpaper_to_both_screens"
+                android:textColor="@color/text_gray_dim"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvBothIcon"
+                app:layout_constraintTop_toBottomOf="@id/tvBothTitle" />
+
+            <TextView
+                android:id="@+id/tvBothCheck"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@drawable/bg_selected_check"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelWallpaper"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="@dimen/_28sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:maxLines="1"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/_14sdp"
+            app:layout_constraintEnd_toStartOf="@id/btnApplyWallpaper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rowHomeLockScreen"
+            app:strokeColor="#E3E7EE" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnApplyWallpaper"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:backgroundTint="@color/permission_green"
+            android:ellipsize="none"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/_4sdp"
+            android:text="Apply Wallpaper"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/_14sdp"
+            app:layout_constraintBottom_toBottomOf="@id/btnCancelWallpaper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnCancelWallpaper"
+            app:layout_constraintTop_toTopOf="@id/btnCancelWallpaper" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

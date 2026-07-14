@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginHorizontal="@dimen/_28sdp"-->
+<!--    android:background="@drawable/bg_dialog_card"-->
+<!--    android:paddingHorizontal="@dimen/_28sdp"-->
+<!--    android:paddingTop="@dimen/_42sdp"-->
+<!--    android:paddingBottom="@dimen/_34sdp">-->
+
+<!--    <FrameLayout-->
+<!--        android:id="@+id/wallpaperIconRing"-->
+<!--        android:layout_width="@dimen/_112sdp"-->
+<!--        android:layout_height="@dimen/_112sdp"-->
+<!--        android:background="@drawable/bg_wallpaper_icon_ring"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="@dimen/_34sdp"-->
+<!--            android:layout_height="@dimen/_34sdp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/ic_wallpaper"-->
+<!--            app:tint="@color/permission_green" />-->
+<!--    </FrameLayout>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvWallpaperTitle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/_34sdp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="Applying Wallpaper"-->
+<!--        android:textColor="@color/text_dark_primary"-->
+<!--        android:textSize="@dimen/_24ssp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/wallpaperIconRing" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvWallpaperSubtitle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/_12sdp"-->
+<!--        android:gravity="center"-->
+<!--        android:lineSpacingExtra="@dimen/_4sdp"-->
+<!--        android:text="Setting your wallpaper and\npreparing your screen"-->
+<!--        android:textColor="@color/text_gray_dim"-->
+<!--        android:textSize="@dimen/_16ssp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tvWallpaperTitle" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvWallpaperStatusIcon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/_28sdp"-->
+<!--        android:text="⌛"-->
+<!--        android:textColor="@color/permission_green"-->
+<!--        android:textSize="@dimen/_20ssp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tvWallpaperSubtitle" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvWallpaperStatus"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/_10sdp"-->
+<!--        android:text="Applying settings"-->
+<!--        android:textColor="@color/text_dark_primary"-->
+<!--        android:textSize="@dimen/_16ssp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/tvWallpaperStatusIcon"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/tvWallpaperPercent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/tvWallpaperStatusIcon"-->
+<!--        app:layout_constraintTop_toTopOf="@id/tvWallpaperStatusIcon" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvWallpaperPercent"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="0%"-->
+<!--        android:textColor="@color/permission_green"-->
+<!--        android:textSize="@dimen/_18ssp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/tvWallpaperStatus"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@id/tvWallpaperStatus" />-->
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressWallpaper"-->
+<!--        style="@android:style/Widget.ProgressBar.Horizontal"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="@dimen/_8sdp"-->
+<!--        android:layout_marginTop="@dimen/_14sdp"-->
+<!--        android:max="100"-->
+<!--        android:progress="0"-->
+<!--        android:progressDrawable="@drawable/bg_wallpaper_progress"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tvWallpaperStatus" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvWallpaperBrand"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/_28sdp"-->
+<!--        android:letterSpacing="0.12"-->
+<!--        android:text="WALLIFY"-->
+<!--        android:textColor="@color/text_gray_dim"-->
+<!--        android:textSize="@dimen/_13ssp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/progressWallpaper" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/_12sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_dialog_card"
+        android:paddingHorizontal="@dimen/_28sdp"
+        android:paddingTop="@dimen/_42sdp"
+        android:paddingBottom="@dimen/_34sdp">
+
+        <FrameLayout
+            android:id="@+id/wallpaperIconRing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/progress_section"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvWallpaperTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_34sdp"
+            android:gravity="center"
+            android:text="@string/applying_wallpaper"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="@dimen/_24ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wallpaperIconRing" />
+
+        <TextView
+            android:id="@+id/tvWallpaperSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/_4sdp"
+            android:text="@string/setting_your_wallpaper_and_preparing_your_screen"
+            android:textColor="@color/text_gray_dim"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWallpaperTitle" />
+
+        <TextView
+            android:id="@+id/tvWallpaperStatusIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_28sdp"
+            android:text="⌛"
+            android:textColor="@color/permission_green"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWallpaperSubtitle" />
+
+        <TextView
+            android:id="@+id/tvWallpaperStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="@string/applying_settings"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tvWallpaperStatusIcon"
+            app:layout_constraintEnd_toStartOf="@id/tvWallpaperPercent"
+            app:layout_constraintStart_toEndOf="@id/tvWallpaperStatusIcon"
+            app:layout_constraintTop_toTopOf="@id/tvWallpaperStatusIcon" />
+
+        <TextView
+            android:id="@+id/tvWallpaperPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textColor="@color/permission_green"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tvWallpaperStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvWallpaperStatus" />
+
+        <ProgressBar
+            android:id="@+id/progressWallpaper"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/bg_wallpaper_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWallpaperStatus" />
+
+        <TextView
+            android:id="@+id/tvWallpaperBrand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_28sdp"
+            android:letterSpacing="0.12"
+            android:text="@string/wallify"
+            android:textColor="@color/text_gray_dim"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressWallpaper" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
