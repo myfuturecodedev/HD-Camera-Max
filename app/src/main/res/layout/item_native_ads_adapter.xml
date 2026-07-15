@@ -2,38 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_16sdp"
+    android:layout_marginVertical="@dimen/_8sdp"
+    android:clipChildren="true"
+    android:clipToPadding="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="true"
+        android:clipToOutline="true"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_12sdp"
         app:cardElevation="@dimen/_4sdp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        app:strokeColor="@color/card_border_light"
+        app:strokeWidth="1dp">
 
         <RelativeLayout
             android:id="@+id/relative_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="true"
+            android:clipToOutline="true">
 
             <FrameLayout
                 android:id="@+id/frame_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/_200sdp"
                 android:visibility="visible" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/placeholder"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
-                android:scaleType="fitXY"
+                android:layout_height="@dimen/_150sdp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/native_placeholder"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
 
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

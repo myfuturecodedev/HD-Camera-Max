@@ -11,9 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.adapter.GalleryAdapter
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.FragmentGalleryBinding
 import com.futurecode.hdcameramax.model.MediaItem
+import com.futurecode.hdcameramax.utils.Utils.setAdClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,12 +35,19 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
     private var allAppMediaList = mutableListOf<MediaItem>()
     private var isVideoTabSelected = false // Status tracker matching your prompt criteria
 
+
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         favouriteRepository = FavouriteRepository(requireContext())
+        fullScreenAdsHelper= FullScreenAdsHelper(requireActivity())
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
         initRecyclerViews()
         setupTabClickListeners()
+
 
         // Background indexing trigger to scan app directory safely
         loadAppSpecificMedia()
@@ -46,8 +56,20 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
             findNavController().popBackStack()
         }
 
-        binding.btnFav.setOnClickListener {
-            findNavController().navigate(R.id.action_galleryFragment_to_favouriteFragment)
+//        binding.btnFav.setOnClickListener {
+//            findNavController().navigate(R.id.action_galleryFragment_to_favouriteFragment)
+//        }
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnFav.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                findNavController().navigate(R.id.action_galleryFragment_to_favouriteFragment)
+
+            }
         }
     }
 
@@ -72,19 +94,22 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>(FragmentGalleryBind
 
     private fun setupTabClickListeners() {
         // PICTURE TAB SELECTION ACTIONS
+//        binding.btnPicture.setOnClickListener {
+//            if (isVideoTabSelected) {
+//                isVideoTabSelected = false
+//                updateTabUIStates(isPictureSelected = true) // ✅ Active picture state
+//                filterAndRenderUiLists()
+//            }
+//        }
+
+        findNavController().navigate(R.id.action_galleryFragment_to_favouriteFragment)
+
+
+        // VIDEO TAB SELECTION ACTIONS
         binding.btnPicture.setOnClickListener {
             if (isVideoTabSelected) {
                 isVideoTabSelected = false
                 updateTabUIStates(isPictureSelected = true) // ✅ Active picture state
-                filterAndRenderUiLists()
-            }
-        }
-
-        // VIDEO TAB SELECTION ACTIONS
-        binding.btnVideo.setOnClickListener {
-            if (!isVideoTabSelected) {
-                isVideoTabSelected = true
-                updateTabUIStates(isPictureSelected = false) // 👑 FIXED: Changed from 'true' to 'false' to render video state correctly
                 filterAndRenderUiLists()
             }
         }

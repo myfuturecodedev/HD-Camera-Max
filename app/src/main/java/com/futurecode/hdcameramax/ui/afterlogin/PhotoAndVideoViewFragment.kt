@@ -22,10 +22,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.DialogApplyingWallpaperBinding
 import com.futurecode.hdcameramax.databinding.DialogSetWallpaperBinding
 import com.futurecode.hdcameramax.databinding.FragmentPhotoAndVideoViewBinding
+import com.futurecode.hdcameramax.utils.Utils.setAdClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -52,8 +55,14 @@ class PhotoAndVideoViewFragment :
         }
     }
 
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper= FullScreenAdsHelper(requireActivity())
 
         favouriteRepository = FavouriteRepository(requireContext())
         selectedMediaUri = arguments?.getString(ARG_MEDIA_URI)?.let(Uri::parse)
@@ -76,29 +85,78 @@ class PhotoAndVideoViewFragment :
     private fun setupClickListeners() {
         binding.btnBack.setOnClickListener { findNavController().navigateUp() }
 
-        binding.btnShare.setOnClickListener {
-            shareSelectedMedia()
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnShare.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                shareSelectedMedia()
+            }
         }
 
-        binding.btnFavorite.setOnClickListener {
-            val mediaUri = selectedMediaUri ?: return@setOnClickListener
-            isFavorite = favouriteRepository.toggleFavourite(mediaUri)
-            updateFavoriteUI()
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnFavorite.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                val mediaUri = selectedMediaUri ?: return@setAdClickListener
+                isFavorite = favouriteRepository.toggleFavourite(mediaUri)
+                updateFavoriteUI()
+            }
         }
 
-        binding.btnDelete.setOnClickListener { showDeleteConfirmationDialog() }
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnDelete.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                showDeleteConfirmationDialog()
+            }
+        }
 
         // FIXED PIPELINE: Trigger native anchor coordinates injection instead of a full screen window dialog
         binding.btnMore.setOnClickListener {
             showMoreOptionsPopupWindow(it) // 'it' means btnMore active anchor view reference
         }
 
+
+//        fullScreenAdsHelper?.let { helper ->
+//            binding.btnShare.setAdClickListener(
+//                activity = requireActivity(),
+//                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+//                isShowEveryTime = false
+//            ) {
+//                showMoreOptionsPopupWindow(it) // 'it' means btnMore active anchor view reference
+//
+//            }
+//        }
+
         binding.btnVideoBack.setOnClickListener { findNavController().navigateUp() }
 
-        binding.btnVideoFavorite.setOnClickListener {
-            val mediaUri = selectedMediaUri ?: return@setOnClickListener
-            isFavorite = favouriteRepository.toggleFavourite(mediaUri)
-            updateFavoriteUI()
+//        binding.btnVideoFavorite.setOnClickListener {
+//            val mediaUri = selectedMediaUri ?: return@setOnClickListener
+//            isFavorite = favouriteRepository.toggleFavourite(mediaUri)
+//            updateFavoriteUI()
+//        }
+
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnVideoFavorite.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                val mediaUri = selectedMediaUri ?: return@setAdClickListener
+                isFavorite = favouriteRepository.toggleFavourite(mediaUri)
+                updateFavoriteUI()
+            }
         }
 
         binding.btnVideoCenterPlay.setOnClickListener { toggleVideoPlayback() }

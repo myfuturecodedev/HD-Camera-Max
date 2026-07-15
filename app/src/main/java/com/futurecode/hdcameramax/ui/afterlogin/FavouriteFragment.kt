@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.FragmentFavouriteBinding
 import com.futurecode.hdcameramax.model.MediaItem
@@ -27,6 +29,9 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(FragmentFavouri
     private lateinit var lastWeekAdapter: FavouriteAdapter
     private lateinit var favouriteRepository: FavouriteRepository
 
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -34,6 +39,9 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(FragmentFavouri
         setupRecyclerViews()
         setupClickListeners()
         loadFavouriteMedia()
+
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper= FullScreenAdsHelper(requireActivity())
     }
 
     override fun onResume() {

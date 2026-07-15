@@ -27,12 +27,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.adapter.ResolutionPresetAdapter
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.DialogResolutionSelectorBinding
 import com.futurecode.hdcameramax.databinding.FragmentHdCameraBinding
 import com.futurecode.hdcameramax.model.CameraAppMode
 import com.futurecode.hdcameramax.model.ResolutionPreset
 import com.futurecode.hdcameramax.utils.CameraEngineKit
+import com.futurecode.hdcameramax.utils.Utils.setAdClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
@@ -88,8 +91,13 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             }
         }
 
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper= FullScreenAdsHelper(requireActivity())
         applyCameraImmersiveMode()
 
         viewModel = ViewModelProvider(
@@ -222,18 +230,56 @@ class HdCameraFragment : BaseFragment<FragmentHdCameraBinding>(FragmentHdCameraB
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        binding.btnRatioConfig.setOnClickListener {
-            viewModel.toggleSettingsPanel()
+//        binding.btnRatioConfig.setOnClickListener {
+//            viewModel.toggleSettingsPanel()
+//        }
+
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnRatioConfig.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                viewModel.toggleSettingsPanel()
+            }
         }
 
-        binding.btnCameraFlip.setOnClickListener {
-            cameraKit.switchLensFacing()
-            viewModel.hideSettingsPanel()
+
+//        binding.btnCameraFlip.setOnClickListener {
+//            cameraKit.switchLensFacing()
+//            viewModel.hideSettingsPanel()
+//        }
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnCameraFlip.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                cameraKit.switchLensFacing()
+                viewModel.hideSettingsPanel()
+            }
         }
 
-        binding.btnFlash.setOnClickListener {
-            val state = cameraKit.setFlashMode(viewModel.nextFlashMode())
-            viewModel.setFlashMode(state)
+
+//        binding.btnFlash.setOnClickListener {
+//            val state = cameraKit.setFlashMode(viewModel.nextFlashMode())
+//            viewModel.setFlashMode(state)
+//        }
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnFlash.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                val state = cameraKit.setFlashMode(viewModel.nextFlashMode())
+                viewModel.setFlashMode(state)
+            }
         }
 
 //        binding.btnHdrToggle.setOnClickListener {

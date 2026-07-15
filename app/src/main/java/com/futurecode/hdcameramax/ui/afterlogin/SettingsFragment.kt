@@ -17,11 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.futurecode.hdcameramax.BuildConfig
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.adapter.ResolutionPresetAdapter
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
 import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.DialogResolutionSelectorBinding
 import com.futurecode.hdcameramax.databinding.FragmentSettingsBinding
 import com.futurecode.hdcameramax.model.ResolutionPreset
+import com.futurecode.hdcameramax.utils.Utils.setAdClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
@@ -29,11 +31,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     private lateinit var viewModel: HdCameraViewModel
 
 
-    private lateinit var nativeAdsHelper: NativeAdsHelper
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        nativeAdsHelper = NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper = FullScreenAdsHelper(requireActivity())
         viewModel = ViewModelProvider(
             this,
             HdCameraViewModel.Factory(
@@ -43,7 +48,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
         setupListeners()
         observeResolutionState()
-        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        nativeAdsHelper = NativeAdsHelper(requireActivity())
 
 
         binding.appVersion.text = "Version: ${BuildConfig.VERSION_NAME}"
@@ -57,91 +62,170 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
             findNavController().navigateUp()
         }
 
-        binding.btnFavorite.setOnClickListener {
-            findNavController().navigate(R.id.action_settingsFragment_to_favouriteFragment)
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnFavorite.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                findNavController().navigate(R.id.action_settingsFragment_to_favouriteFragment)
+
+            }
         }
 
-        // Section: Camera Settings
-        binding.itemResolution.setOnClickListener {
-            showResolutionSelector()
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.itemResolution.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                showResolutionSelector()
+            }
         }
+
 
         // Section: General
-        binding.itemLanguage.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_settingsFragment_to_languageFragment2,
-                Bundle().apply { putString("from", SOURCE_SETTINGS) }
-            )
-        }
 
-        // More Options
-        binding.itemRateUs.setOnClickListener {
-            val uri = Uri.parse("market://details?id=${requireContext().packageName}")
-            val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-            try {
-                startActivity(goToMarket)
-            } catch (e: Exception) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${requireContext().packageName}")))
+        fullScreenAdsHelper?.let { helper ->
+            binding.itemLanguage.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                findNavController().navigate(
+                    R.id.action_settingsFragment_to_languageFragment2,
+                    Bundle().apply { putString("from", SOURCE_SETTINGS) }
+                )
             }
         }
 
-        binding.itemShareApp.setOnClickListener {
-            // 1. Text payload build kijiye jisme app ka Play Store dynamic link reference automatic bundled ho
-            val appPackageName = requireContext().packageName
-            val shareBodyText = "Check out HD Camera Max! Capture stunning moments with enhanced zoom and professional filters. Download now:\nhttps://play.google.com/store/apps/details?id=$appPackageName"
 
-            // 2. Instantiate core transport intent engine
-            val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                type = "text/plain" // Sets strict text data standard format definition
-                putExtra(android.content.Intent.EXTRA_SUBJECT, "HD Camera Max App Share")
-                putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText)
-            }
-
-            try {
-                // 3. Wrap inside a clean system-native chooser layout sheet safely
-                startActivity(android.content.Intent.createChooser(shareIntent, "Share App Via"))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                android.widget.Toast.makeText(
-                    requireContext(),
-                    "Unable to open sharing application right now.",
-                    android.widget.Toast.LENGTH_SHORT
-                ).show()
+        fullScreenAdsHelper?.let { helper ->
+            binding.itemRateUs.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                val uri = Uri.parse("market://details?id=${requireContext().packageName}")
+                val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+                try {
+                    startActivity(goToMarket)
+                } catch (e: Exception) {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=${requireContext().packageName}")
+                        )
+                    )
+                }
             }
         }
 
-        binding.itemPrivacy.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(prefManager.privacyPolicy ?: "")) // Replace with actual URL
-            startActivity(browserIntent)
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.itemShareApp.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                // 1. Text payload build kijiye jisme app ka Play Store dynamic link reference automatic bundled ho
+                val appPackageName = requireContext().packageName
+                val shareBodyText =
+                    "Check out HD Camera Max! Capture stunning moments with enhanced zoom and professional filters. Download now:\nhttps://play.google.com/store/apps/details?id=$appPackageName"
+
+                // 2. Instantiate core transport intent engine
+                val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                    type = "text/plain" // Sets strict text data standard format definition
+                    putExtra(android.content.Intent.EXTRA_SUBJECT, "HD Camera Max App Share")
+                    putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText)
+                }
+
+                try {
+                    // 3. Wrap inside a clean system-native chooser layout sheet safely
+                    startActivity(
+                        android.content.Intent.createChooser(
+                            shareIntent,
+                            "Share App Via"
+                        )
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    android.widget.Toast.makeText(
+                        requireContext(),
+                        "Unable to open sharing application right now.",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
 
-        binding.itemFeedback.setOnClickListener {
-            val emailIntent = android.content.Intent(android.content.Intent.ACTION_SENDTO).apply {
-                // Sets data schema uri to strictly force only mailing applications to intercept the action
-                data = android.net.Uri.parse("mailto:")
 
-                // Target recipient email address matching your publisher console guidelines
-                putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf("support@futurecode.com"))
-
-                // Automated subject formatting template to track application version streams easily
-                putExtra(android.content.Intent.EXTRA_SUBJECT, "Feedback & Suggestions: HD Camera Max")
-
-                // Core diagnostic body layout string text
-                putExtra(android.content.Intent.EXTRA_TEXT, "\n\n\n---\nDevice Details:\nModel: ${android.os.Build.MODEL}\nOS Version: Android ${android.os.Build.VERSION.RELEASE}")
-            }
-
-            try {
-                // Launches user preferred mailing client context cleanly
-                startActivity(emailIntent)
-            } catch (e: android.content.ActivityNotFoundException) {
-                // Fallback protection handler loop in case the target testing device contains no active email apps
-                android.widget.Toast.makeText(
-                    requireContext(),
-                    "No email application found on this device.",
-                    android.widget.Toast.LENGTH_SHORT
-                ).show()
+        fullScreenAdsHelper?.let { helper ->
+            binding.itemPrivacy.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                val privacyUrl = prefManager.privacyPolicy
+                if (!privacyUrl.isNullOrEmpty()) {
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(privacyUrl))
+                    startActivity(browserIntent)
+                }
             }
         }
+
+
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.itemFeedback.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                val emailIntent =
+                    android.content.Intent(android.content.Intent.ACTION_SENDTO).apply {
+                        // Sets data schema uri to strictly force only mailing applications to intercept the action
+                        data = android.net.Uri.parse("mailto:")
+
+                        // Target recipient email address matching your publisher console guidelines
+                        putExtra(
+                            android.content.Intent.EXTRA_EMAIL,
+                            arrayOf("support@futurecode.com")
+                        )
+
+                        // Automated subject formatting template to track application version streams easily
+                        putExtra(
+                            android.content.Intent.EXTRA_SUBJECT,
+                            "Feedback & Suggestions: HD Camera Max"
+                        )
+
+                        // Core diagnostic body layout string text
+                        putExtra(
+                            android.content.Intent.EXTRA_TEXT,
+                            "\n\n\n---\nDevice Details:\nModel: ${android.os.Build.MODEL}\nOS Version: Android ${android.os.Build.VERSION.RELEASE}"
+                        )
+                    }
+
+                try {
+                    // Launches user preferred mailing client context cleanly
+                    startActivity(emailIntent)
+                } catch (e: android.content.ActivityNotFoundException) {
+                    // Fallback protection handler loop in case the target testing device contains no active email apps
+                    android.widget.Toast.makeText(
+                        requireContext(),
+                        "No email application found on this device.",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+
+            }
+        }
+
+
     }
 
     private fun showResolutionSelector() {
@@ -188,7 +272,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
                 "Recommended" -> presets.filter { it.isRecommended }
                 else -> presets.filter { it.ratioLabel == filter }
             }
-            adapter.submitResolutions(filtered, latestState.selectedResolution ?: presets.firstOrNull())
+            adapter.submitResolutions(
+                filtered,
+                latestState.selectedResolution ?: presets.firstOrNull()
+            )
         }
 
         renderFilterSelection(dialogBinding.btnRatioAll)
@@ -247,6 +334,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
             )
         }
     }
+
     private companion object {
         const val SOURCE_SETTINGS = "settings"
     }

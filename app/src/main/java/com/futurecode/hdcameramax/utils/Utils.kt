@@ -139,6 +139,8 @@ object Utils {
         }
     }
 
+
+
     fun View.setAdClickListener(
         activity: Activity,
         adsHelper: FullScreenAdsHelper,
@@ -155,6 +157,7 @@ object Utils {
             })
         }
     }
+
 
     /**
      * Corrected method: Initializes PrefManager using the local context

@@ -26,6 +26,7 @@ class AdMobNative(
 
     fun loadNativeAd(
         container: FrameLayout,
+        nativeLayoutRes: Int = R.layout.item_native_ad,
         onLoaded: (() -> Unit)? = null,
         onFailed: ((LoadAdError) -> Unit)? = null
     ) {
@@ -39,7 +40,7 @@ class AdMobNative(
         val adLoader = AdLoader.Builder(context, adId)
             .forNativeAd { nativeAd ->
                 val adView = LayoutInflater.from(context)
-                    .inflate(R.layout.item_native_ad, null) as NativeAdView
+                    .inflate(nativeLayoutRes, null) as NativeAdView
                 val responseInfo = nativeAd.responseInfo
                 Log.d("ADS_CHECK", "Adapter: ${responseInfo?.mediationAdapterClassName}")
                 Log.d("ADS_CHECK", "Response ID: ${responseInfo?.responseId}")

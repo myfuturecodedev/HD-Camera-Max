@@ -29,7 +29,8 @@ class NativeAdsHelper(private val activity: Activity) {
     fun showNativeAd(
         nativeBannerAdView: FrameLayout,
         mainLayout: RelativeLayout,
-        placeholder: ShapeableImageView
+        placeholder: ShapeableImageView,
+        nativeLayoutRes: Int = R.layout.item_native_ad
     ) {
         if (!myPreferenceHelper.adsOff) {
             nativeBannerAdView.removeAllViews()
@@ -40,7 +41,7 @@ class NativeAdsHelper(private val activity: Activity) {
             Log.d("TAG_NATIVE", "network: $network")
 
             when (network) {
-                "Admob" -> showAdmobNative(nativeBannerAdView, mainLayout, placeholder)
+                "Admob" -> showAdmobNative(nativeBannerAdView, mainLayout, placeholder, nativeLayoutRes)
                 "Meta" -> showMetaNative(nativeBannerAdView, mainLayout, placeholder)
                 "Custom" -> showCustomNative(nativeBannerAdView, mainLayout, placeholder)
                 else -> hideAdmobNative(nativeBannerAdView, mainLayout, placeholder)
@@ -140,7 +141,8 @@ class NativeAdsHelper(private val activity: Activity) {
     private fun showAdmobNative(
         nativeBannerAdView: FrameLayout,
         mainLayout: RelativeLayout,
-        placeholder: ShapeableImageView
+        placeholder: ShapeableImageView,
+        nativeLayoutRes: Int
     ) {
         Log.d("TAG_NATIVE", "showAdmobNative")
 
@@ -151,6 +153,7 @@ class NativeAdsHelper(private val activity: Activity) {
 
         AdMobNative(activity, myPreferenceHelper).loadNativeAd(
             container = nativeBannerAdView,
+            nativeLayoutRes = nativeLayoutRes,
             onLoaded = {
                 nativeBannerAdView.visibility = View.VISIBLE
                 mainLayout.visibility = View.VISIBLE

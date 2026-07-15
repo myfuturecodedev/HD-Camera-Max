@@ -6,6 +6,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.futurecode.hdcameramax.R
 import com.futurecode.hdcameramax.activity.MyApplication
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.FragmentLanguageBinding
 import com.futurecode.hdcameramax.utils.PrefManager
@@ -19,9 +21,15 @@ class LanguageFragment : BaseFragment<FragmentLanguageBinding>(FragmentLanguageB
     // ✅ FIXED: Unified items collection holder to stream mixed data nodes (Languages & Ads)
     private val mixedLanguageItems = mutableListOf<Any>()
     private var from = ""
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper= FullScreenAdsHelper(requireActivity())
+
         from = arguments?.getString("from") ?: ""
 
         setupLanguages()

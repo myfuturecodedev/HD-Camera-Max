@@ -20,11 +20,15 @@ import com.futurecode.hdcameramax.ads.adpager.AdPagerItem
 import com.futurecode.hdcameramax.ads.adpager.AdPagerTimerController
 import com.futurecode.hdcameramax.ads.ads_new.NativeAdPagerController
 import com.futurecode.hdcameramax.ads.ads_new.ExistingNativeAdPageLoader
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 
 class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboardingBinding::inflate) {
 
     private lateinit var onboardingAdapter: OnboardingAdapter
     private var mixedPagerItems = listOf<AdPagerItem<OnboardingSlide>>()
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
 
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -54,6 +58,9 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(FragmentOnboa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper= FullScreenAdsHelper(requireActivity())
 
         val slidesData = listOf(
             OnboardingSlide(R.drawable.onboarding_one, "My Personal<br/><font color='#5EBC8F'>Gallery</font>", "Save, view, and manage all your\nphotos and videos easily."),

@@ -91,6 +91,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <include
+                android:id="@+id/native_ads_3"
+                layout="@layout/native_ads_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@+id/clInfoCard"
+                />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clPermissionItem"
                 android:layout_width="match_parent"
@@ -98,7 +107,7 @@
                 android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/bg_permission_card"
                 android:padding="@dimen/_12sdp"
-                app:layout_constraintTop_toBottomOf="@id/clInfoCard">
+                app:layout_constraintTop_toBottomOf="@id/native_ads_3">
 
                 <View
                     android:id="@+id/viewIconBg"

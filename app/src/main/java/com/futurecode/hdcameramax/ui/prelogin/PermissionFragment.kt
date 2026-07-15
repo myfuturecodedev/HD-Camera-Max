@@ -1,7 +1,9 @@
 package com.futurecode.hdcameramax.ui.prelogin
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,8 +11,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
+import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.FragmentPermissionBinding
+import com.futurecode.hdcameramax.utils.Utils.setAdClickListener
 
 //class PermissionFragment : BaseFragment<FragmentPermissionBinding>(FragmentPermissionBinding::inflate) {
 //
@@ -104,47 +109,64 @@ import com.futurecode.hdcameramax.databinding.FragmentPermissionBinding
 
 class PermissionFragment : BaseFragment<FragmentPermissionBinding>(FragmentPermissionBinding::inflate) {
 
+    private var shouldNavigateAfterPermissionGrant = false
+    private var isUpdatingSwitchState = false
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         val cameraGranted = permissions[Manifest.permission.CAMERA] ?: false
         val audioGranted = permissions[Manifest.permission.RECORD_AUDIO] ?: false
 
-        binding.switchPermission.isChecked = cameraGranted && audioGranted
+        updateSwitchState()
 
         if (cameraGranted && audioGranted) {
             Toast.makeText(context, "Permissions Granted Successfully", Toast.LENGTH_SHORT).show()
-            navigateToHomeDashboard()
+            if (shouldNavigateAfterPermissionGrant) {
+                navigateToHomeDashboard()
+            }
         } else {
             Toast.makeText(context, "Camera and Audio permissions are required to proceed.", Toast.LENGTH_SHORT).show()
         }
+        shouldNavigateAfterPermissionGrant = false
     }
+
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (hasPermissions()) {
-            navigateToHomeDashboard()
-            return
-        }
+        nativeAdsHelper= NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper=FullScreenAdsHelper(requireActivity())
 
         updateSwitchState()
+        loadNativeAds()
 
         binding.switchPermission.setOnCheckedChangeListener { _, isChecked ->
+            if (isUpdatingSwitchState) return@setOnCheckedChangeListener
             if (isChecked && !hasPermissions()) {
-                requestPermissions()
+                requestPermissions(navigateAfterGrant = false)
             } else if (!isChecked && hasPermissions()) {
                 updateSwitchState()
             }
         }
 
-        binding.btnContinue.setOnClickListener {
-            if (hasPermissions()) {
-                navigateToHomeDashboard()
-            } else {
-                requestPermissions()
+
+        fullScreenAdsHelper?.let { helper ->
+            binding.btnContinue.setAdClickListener(
+                activity = requireActivity(),
+                adsHelper = helper, // ✅ FIXED: Safe non-null reference inside 'let' scope
+                isShowEveryTime = false
+            ) {
+                if (hasPermissions()) {
+                    navigateToHomeDashboard()
+                } else {
+                    requestPermissions(navigateAfterGrant = true)
+                }
             }
         }
+
     }
 
     private fun hasPermissions(): Boolean {
@@ -154,10 +176,13 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(FragmentPermi
     }
 
     private fun updateSwitchState() {
+        isUpdatingSwitchState = true
         binding.switchPermission.isChecked = hasPermissions()
+        isUpdatingSwitchState = false
     }
 
-    private fun requestPermissions() {
+    private fun requestPermissions(navigateAfterGrant: Boolean) {
+        shouldNavigateAfterPermissionGrant = navigateAfterGrant
         requestPermissionLauncher.launch(
             arrayOf(
                 Manifest.permission.CAMERA,
@@ -180,13 +205,21 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(FragmentPermi
         }
     }
 
+    fun loadNativeAds() {
+        activity?.let { currentActivity ->
+            if (nativeAdsHelper == null) {
+                nativeAdsHelper = NativeAdsHelper(currentActivity)
+            }
+            nativeAdsHelper?.showNativeAd(
+                nativeBannerAdView = binding.nativeAds3.frame,
+                mainLayout = binding.nativeAds3.mainLayout,
+                placeholder = binding.nativeAds3.placeholder
+            )
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        // Handle runtime app settings background modifications seamlessly
-        if (hasPermissions()) {
-            navigateToHomeDashboard()
-        } else {
-            updateSwitchState()
-        }
+        updateSwitchState()
     }
 }

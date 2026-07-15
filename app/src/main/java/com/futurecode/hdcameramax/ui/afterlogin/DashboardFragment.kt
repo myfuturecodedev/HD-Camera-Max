@@ -15,11 +15,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.futurecode.hdcameramax.R
+import com.futurecode.hdcameramax.ads.interstitial_ad.FullScreenAdsHelper
 import com.futurecode.hdcameramax.ads.native_ad.NativeAdsHelper
 import com.futurecode.hdcameramax.base.BaseFragment
 import com.futurecode.hdcameramax.databinding.DialogExitAppBinding
 import com.futurecode.hdcameramax.databinding.FragmentDashboardBinding
 import com.futurecode.hdcameramax.model.MediaItem
+import com.futurecode.hdcameramax.notification.NotificationPermissionHelper
 import com.futurecode.hdcameramax.utils.Utils.showRewardAdDialog
 
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
@@ -27,6 +29,10 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
     private lateinit var viewModel: DashboardViewModel
     private var pendingCameraFeature: String? = null
     private var exitDialog: Dialog? = null
+
+
+    private val notificationPermissionHelper = NotificationPermissionHelper(this)
+
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -38,7 +44,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
                 Toast.makeText(requireContext(), "Camera permission is required", Toast.LENGTH_SHORT).show()
             }
         }
-    private lateinit var nativeAdsHelper: NativeAdsHelper
+    private var nativeAdsHelper: NativeAdsHelper? = null
+    private var fullScreenAdsHelper: FullScreenAdsHelper? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,6 +61,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         setupClickListeners()
         observeDashboard()
         nativeAdsHelper= NativeAdsHelper(requireActivity())
+        fullScreenAdsHelper= FullScreenAdsHelper(requireActivity())
+        notificationPermissionHelper.checkAndRequestPermission()
         loadNativeAds()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -80,6 +89,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboa
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_settingsFragment)
         }
+
 
         binding.btnOpenCamera.setOnClickListener {
             this@DashboardFragment.showRewardAdDialog(onRewardEarned = {

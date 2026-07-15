@@ -93,7 +93,8 @@ class LanguageAdapter(
             NativeAdsHelper(activity).showNativeAd(
                 binding.frameLayout,
                 binding.relativeLayout,
-                binding.placeholder
+                binding.placeholder,
+                R.layout.item_native_ad_language
             )
         }
     }
